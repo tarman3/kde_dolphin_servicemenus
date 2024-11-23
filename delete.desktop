@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Service
+MimeType=inode/directory;application/octet-stream;
+Actions=delete;
+
+[Desktop Action delete]
+Name=Secure Delete
+Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/delete.sh "$args"
