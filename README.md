@@ -1,21 +1,25 @@
 # Контекстное меню Dolphin
-### Действия (actions) и сценарии (scripts) при нажатии правой кнопкой мыши
+
+### Сценарии при нажатии правой кнопкой мыши
 
 Для решения рутинных задач с файлами и каталогами в файловом менеджере Dolphin, развиваемого в рамках среды рабочего стола KDE, присутствует возможность создавать *Сервисные меню (service menus)*.
 
-**Сервисные меню** отображаются при выборе любых файлов и/или каталогов.  
-Файлы *сценариев* хранятся в каталоге `/home/имя_пользователя/.local/share/kio/servicemenus/`  
-
+**Сервисные меню** отображаются при выборе файлов и/или каталогов.  
+Файлы *сценариев* хранятся в каталоге
+```
+/home/имя_пользователя/.local/share/kio/servicemenus/`  
+```
 
 ## Установка
 
-1. Скачайте архив, используя ссылку [Clone or download - Download ZIP](https://github.com/tarman3/dolphin_servicemenus.zip)
+1. Скачайте [архив](https://github.com/tarman3/dolphine_servicemenus/archive/refs/heads/main.zip)
 
-2. Скопируйте файлы в каталог `$HOME/.local/share/kio/servicemenus/`
+2. Распакуйте файлы в каталог `$HOME/.local/share/kio/servicemenus/`
 
 3. Сделайте файлы сценариев исполняемыми
-`chmod +x $HOME/.local/share/nemo/actions/*.sh
-`
+```
+chmod +x $HOME/.local/share/nemo/actions/*.sh
+```
 
 ## Установка дополнительных программ
 
@@ -65,6 +69,6 @@
 |**video_process**|Изменить формат, bitrate, разрешение, кодек, поворот|
 
 
-## Полензые ссылки
+## Полезные ссылки
 [Creating Dolphin service menus](https://develop.kde.org/docs/apps/dolphin/service-menus)
 [Shell scripting with KDE dialogs](https://develop.kde.org/docs/administration/kdialog)

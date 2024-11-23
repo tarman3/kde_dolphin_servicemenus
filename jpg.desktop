@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Service
-MimeType=image/jpeg;
-Actions=jpg_compress
-
-[Desktop Action jpg_compress]
-Name=JPG compress
-Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/jpg_compress.sh "${args:1}"
