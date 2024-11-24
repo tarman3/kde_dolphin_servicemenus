@@ -20,3 +20,4 @@ newName="${parameters%.*}.pdf"
 
 pdfunite $1 "$newName"
 
+kdialog --title "PDF Combine" --icon "checkbox" --passivepopup "Completed" 3
