@@ -8,7 +8,7 @@ read -r -a array <<< "$1"
 firstFile=${array[0]}
 path=${firstFile%/*}
 ext=${firstFile##*.}
-namenoext=${firstFile%.*}
+nameNoExt=${firstFile%.*}
 
 if [ $ext = "png" ] || [ $ext = "PNG" ]; then
     extForm="^png|jpg|tiff|bmp"
@@ -28,7 +28,7 @@ direction=$(echo $parameters | awk -F ',' '{print $2}')
 space=$(echo $parameters | awk -F ',' '{print $3}')
 ext=$(echo $parameters | awk -F ',' '{print $4}')
 
-newName="${namenoext}_$direction.$ext"
+newName="${nameNoExt}_$direction.$ext"
 
 numberFiles=${#array[@]}
 

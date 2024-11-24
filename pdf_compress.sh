@@ -14,10 +14,10 @@ path=${firstFile%/*}
 #     --form --item-separator="|" --separator="," --field="Language:CB" "^screen|ebook|printer|prepress"`
 
 parameters=`yad --borders=10 --width=400 --height=210 --title="Compress PDF" --list --column=Type --column=Description \
-    screen "screen-view-only quality, 72 dpi" \
-    ebook "low quality, 150 dpi" \
-    printer "high quality, 300 dpi" \
-    prepress "high quality, color preserving, 300 dpi"`
+    screen "Screen-view-only quality, 72 dpi" \
+    ebook "Low quality, 150 dpi" \
+    printer "High quality, 300 dpi" \
+    prepress "High quality, color preserving, 300 dpi"`
 
 exit_status=$?
 if [ $exit_status != 0 ]; then exit; fi
