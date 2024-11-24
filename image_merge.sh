@@ -22,7 +22,7 @@ parameters=`yad --borders=10 --width=600 --title="Merge Images" --text-align=cen
     "" "^vert|hor" "0" "$extForm"`
 
 exit_status=$?
-if [ $exit_status = 1 ]; then exit; fi
+if [ $exit_status != 0 ]; then exit; fi
 
 direction=$(echo $parameters | awk -F ',' '{print $2}')
 space=$(echo $parameters | awk -F ',' '{print $3}')

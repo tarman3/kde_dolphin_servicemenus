@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Service
 MimeType=application/pdf;
-Actions=pdf_compres;pdf_convert2image;pdf_decrypt;pdf_export_pages;
+Actions=pdf_compres;pdf_convert2image;pdf_decrypt;pdf_export_images;pdf_export_pages;
 
 [Desktop Action pdf_compres]
 Name=PDF Compress
@@ -15,7 +15,11 @@ Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/se
 Name=PDF Decrypt
 Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/pdf_decrypt.sh "${args:1}"
 
+[Desktop Action pdf_export_images]
+Name=PDF Export Images
+Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/pdf_export_images.sh "${args:1}"
+
 [Desktop Action pdf_export_pages]
-Name=PDF Export pages
-Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/ocr.sh "${args:1}"
+Name=PDF Export Pages
+Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/pdf_export_pages.sh "${args:1}"
 

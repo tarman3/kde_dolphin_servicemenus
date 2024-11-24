@@ -8,8 +8,7 @@ IFS="$old_ifs"
 firstFile=${array[0]}
 path=${firstFile%/*}
 
-parameters=`yad --borders=10 --width=500 --title="Преобразовать PDF в изображения" --text="Введите параметры" \
-    --form --item-separator="|" --separator="," \
+parameters=`yad --borders=10 --width=500 --title="Convert PDF to image" --form --item-separator="|" --separator="," \
     --field=":LBL" --field="First page:NUM" --field="Last page:NUM" --field="Amount pages:NUM" --field="All pages:CHK" \
     --field="dPI:NUM" --field="Format:CB" \
     "" "1" "1" "1" FALSE "150|50..2400|50" "^png|jpeg|tiff"`
@@ -17,8 +16,8 @@ parameters=`yad --borders=10 --width=500 --title="Преобразовать PDF
 exit_status=$?
 if [ $exit_status != 0 ]; then exit; fi
 
-firstpage=$( echo $parameters | awk -F ',' '{print $2}')
-lastpage=$( echo $parameters | awk -F ',' '{print $3}')
+firstPage=$( echo $parameters | awk -F ',' '{print $2}')
+lastPage=$( echo $parameters | awk -F ',' '{print $3}')
 quantity=$( echo $parameters | awk -F ',' '{print $4}')
 all=$( echo $parameters | awk -F ',' '{print $5}')
 dpi=$( echo $parameters | awk -F ',' '{print $6}')
@@ -33,13 +32,13 @@ for file in "${array[@]}"; do
     if [ "$all" = TRUE ]
     then pages=""
 
-    elif [ $quantity -ge 1 ] && [ $lastpage -eq 1 ]
-    then pages="-f $firstpage -l $(($firstpage+$quantity-1))"
+    elif [ $quantity -ge 1 ] && [ $lastPage -le $firstPage ]
+    then pages="-f $firstPage -l $(($firstPage+$quantity-1))"
 
-    elif [ $lastpage -gt $firstpage ]
-    then pages="-f $firstpage -l $lastpage"
+    elif [ $lastPage -gt $firstPage ]
+    then pages="-f $firstPage -l $lastPage"
 
-    else pages="-f $firstpage -l $firstpage"
+    else pages="-f $firstPage -l $firstPage"
     fi
 
     pdftocairo -$format -r $dpi $pages "$file" "${file%.*}-${dpi}dpi"

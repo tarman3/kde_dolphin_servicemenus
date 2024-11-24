@@ -13,7 +13,7 @@ parameters=`yad --borders=20 --width=500 --title="Convert Images" --text-align=c
     --field="Format:CB"  --field="Dir to save:DIR" "^jpg|png|bmp|tiff|gif|pdf" "$path"`
 
 exit_status=$?
-if [ $exit_status = 1 ]; then exit; fi
+if [ $exit_status != 0 ]; then exit; fi
 
 format=$( echo $parameters | awk -F ',' '{print $1}')
 dir=$( echo $parameters | awk -F ',' '{print $2}')

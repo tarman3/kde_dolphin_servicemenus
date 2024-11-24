@@ -14,7 +14,7 @@ parameters=`yad --borders=20 --width=500 --title="Reduce colors to 8bit" \
     "$path"    "FALSE"`
 
 exit_status=$?
-if [ $exit_status = 1 ]; then exit; fi
+if [ $exit_status != 0 ]; then exit; fi
 
 dir=$( echo $parameters | awk -F ',' '{print $1}')
 sufix=$( echo $parameters | awk -F ',' '{print $2}')

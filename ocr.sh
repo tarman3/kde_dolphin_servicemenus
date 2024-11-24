@@ -15,7 +15,7 @@ parameters=`yad --borders=10 --width=300 --title="Tesseract OCR" --text-align=ce
     --form --item-separator="|" --separator="," --field="Language:CB" "^rus+eng|rus|eng|ita|deu"`
 
 exit_status=$?
-if [ $exit_status = 1 ]; then exit; fi
+if [ $exit_status != 0 ]; then exit; fi
 
 language=$( echo $parameters | awk -F ',' '{print $1}')
 
