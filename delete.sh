@@ -1,9 +1,14 @@
 #!/bin/bash
 
+old_ifs="$IFS"
 IFS=$';'
 read -r -a array <<< "$1"
+IFS="$old_ifs"
 
-for file in ${array[@]}; do
+firstFile=${array[0]}
+path=${firstFile%/*}
+
+for file in "${array[@]}"; do
     if [ -n "$file" ]; then
         srm -rll "$file"
     fi
