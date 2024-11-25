@@ -26,33 +26,35 @@ chmod +x $HOME/.local/share/nemo/actions/*.desktop
 Для работы некоторых сенариев требуется установка дополнительных программ:
 
 ```
-sudo pacman -S bc enca ffmpeg imagemagick kdialog mediainfo qpdf tesseract-ocr tesseract-ocr-deu tesseract-ocr-ita tesseract-ocr-rus yad
+sudo pacman -S bc enca ffmpeg imagemagick kdialog mediainfo qpdf tesseract-ocr tesseract-ocr-deu tesseract-ocr-ita tesseract-ocr-rus unoconv yad
 ```
 
 ## Список сценариев
 
 |Файл|Описание|
 |---|---|
+|**delete**|Удалить средствами Secure delete|
+|**docs2pdf**|Конвертировать документов в PDF|
+|**hash**|Расчитать контрольные суммы|
 |**image_compress**|Сжать изображения|
 |**image_convert**|Конвертировать формат изображения|
 |**image_crop**|Изменить размер изображения|
 |**image_gamma**|Изменить гамму изображений|
 |**image_gray**|Сделать чёрно-белыми|
 |**image_merge**|Объединить изображения|
-|**image_resolution**|Изменить разрешение изображений|
+|**image_resize**|Изменить разрешение изображений|
 |**image_rotate**|Повернуть изображения|
+|**media_cut**|Вырезать фрагмент мультимедиа|
+|**media_process**|Изменить формат, bitrate, разрешение, кодек, поворот|
 |**ocr**|Распознать текст программой tesseract|
+|**pdf_combine**|Объединить файлы PDF|
 |**pdf_compress**|Уменьшить размер файла PDF сжатием изображений |
 |**pdf_convert2image**|Преобразовать страницы PDF в изображения|
 |**pdf_decrypt**|Снять защиту с PDF|
 |**pdf_export_image**|Извлечь изображения из PDF|
 |**pdf_export_pages**|Извлечь страницы из PDF|
-|**pdf_print**|Отправить на принтер по умолчанию документ|
-|**pdf_conmine**|Объединить файлы PDF|
-|**delete**|Удалить средствами Secure delete|
+|**pdf_print**|Отправить PDF на печать|
 |**txt_convert_encoding**|Изменить кодировку текстовых файлов при помощи enconv|
-|**video_cut**|Вырезать фрагмент мультимедиа|
-|**video_process**|Изменить формат, bitrate, разрешение, кодек, поворот|
 
 
 ## Полезные ссылки

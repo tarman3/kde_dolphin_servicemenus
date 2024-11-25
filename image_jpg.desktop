@@ -5,4 +5,4 @@ Actions=jpg_compress
 
 [Desktop Action jpg_compress]
 Name=JPG compress
-Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/image_compress_jpg.sh "${args:1}"
+Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/image_jpg_compress.sh "${args:1}"
