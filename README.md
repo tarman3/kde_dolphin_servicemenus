@@ -17,8 +17,10 @@
 2. Распакуйте файлы в каталог `$HOME/.local/share/kio/servicemenus/`
 
 3. Сделайте файлы сценариев исполняемыми
+
 ```
 chmod +x $HOME/.local/share/nemo/actions/*.sh
+chmod +x $HOME/.local/share/nemo/actions/*.desktop
 ```
 
 ## Установка дополнительных программ

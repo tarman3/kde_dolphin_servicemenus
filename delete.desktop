@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Service
-MimeType=inode/directory;application/octet-stream;
+MimeType=inode/directory;application/octet-stream
 Actions=delete;
 
 [Desktop Action delete]
