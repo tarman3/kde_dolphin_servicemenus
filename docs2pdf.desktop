@@ -2,6 +2,9 @@
 Type=Service
 MimeType=text/csv;text/html;text/plain;application/vnd.oasis.opendocument.spreadsheet;application/vnd.oasis.opendocument.graphics;application/vnd.ms-powerpoint;application/vnd.openxmlformats-officedocument.presentationml.presentation;application/vnd.oasis.opendocument.spreadsheet;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;application/vnd.oasis.opendocument.text;application/rtf;application/vnd.ms-word
 Actions=docs2pdf;
+X-KDE-Submenu=Documents Actions
+X-KDE-Priority=TopLevel
+
 
 [Desktop Action docs2pdf]
 Name=Convert documents to PDF

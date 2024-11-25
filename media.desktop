@@ -2,12 +2,13 @@
 Type=Service
 MimeType=video/*;audio/*
 Actions=media_cut;media_process
-
+X-KDE-Submenu=Media Actions
+X-KDE-Priority=TopLevel
 
 [Desktop Action media_cut]
-Name=Media Cut
+Name=Cut
 Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/media_cut.sh "${args:1}"
 
 [Desktop Action media_process]
-Name=Media Process
+Name=Process
 Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/media_process.sh "${args:1}"

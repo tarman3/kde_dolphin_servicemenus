@@ -2,6 +2,8 @@
 Type=Service
 MimeType=image/*;
 Actions=ocr
+X-KDE-Submenu=Documents Actions
+X-KDE-Priority=TopLevel
 
 [Desktop Action ocr]
 Name=OCR

@@ -10,9 +10,6 @@ IFS="$old_ifs"
 firstFile=${array[0]}
 path=${firstFile%/*}
 
-# parameters=`yad --borders=10 --width=300 --title="Compress PDF" --text-align=center \
-#     --form --item-separator="|" --separator="," --field="Language:CB" "^screen|ebook|printer|prepress"`
-
 parameters=`yad --borders=10 --width=400 --height=210 --title="Compress PDF" --list --column=Type --column=Description \
     screen "Screen-view-only quality, 72 dpi" \
     ebook "Low quality, 150 dpi" \
@@ -22,7 +19,6 @@ parameters=`yad --borders=10 --width=400 --height=210 --title="Compress PDF" --l
 exit_status=$?
 if [ $exit_status != 0 ]; then exit; fi
 
-# preset=$( echo $parameters | awk -F ',' '{print $1}')
 preset=$( echo $parameters | awk -F '|' '{print $1}')
 
 numberFiles=${#array[@]}
@@ -35,6 +31,7 @@ for file in "${array[@]}"; do
     counter=$(($counter+1))
     qdbus $dbusRef Set "" value $counter
     qdbus $dbusRef setLabelText "Completed $counter of $numberFiles"
+    if [ ! `qdbus | grep ${dbusRef% *}` ]; then exit; fi
 
 done
 

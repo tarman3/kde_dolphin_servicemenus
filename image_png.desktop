@@ -2,6 +2,9 @@
 Type=Service
 MimeType=image/png;
 Actions=png8
+X-KDE-Submenu=Images Actions
+X-KDE-Priority=TopLevel
+
 
 [Desktop Action png8]
 Name=PNG 8bit convert

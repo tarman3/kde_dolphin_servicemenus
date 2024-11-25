@@ -2,6 +2,9 @@
 Type=Service
 MimeType=image/jpeg;
 Actions=jpg_compress
+X-KDE-Submenu=Images Actions
+X-KDE-Priority=TopLevel
+
 
 [Desktop Action jpg_compress]
 Name=JPG compress

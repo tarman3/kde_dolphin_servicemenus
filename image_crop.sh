@@ -59,6 +59,8 @@ for file in "${array[@]}"; do
     counter=$(($counter+1))
     qdbus $dbusRef Set "" value $counter
     qdbus $dbusRef setLabelText "Completed $counter of $numberFiles"
+    if [ ! `qdbus | grep ${dbusRef% *}` ]; then exit; fi
+
 done
 
 qdbus $dbusRef close

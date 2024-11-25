@@ -109,10 +109,9 @@ for file in "${array[@]}"; do
 
     konsole --qwindowgeometry 100x20 --hide-menubar -qwindowtitle "Обработка файла $counter из $numberFiles- ${file##*/} длительностью $duration" -e "ffmpeg -hide_banner $optionthreads -i \"$file\" $optionthreads $cropprefix -y -b:v \"$bitrate\"k $option_rotate $optionvideocodec $optionsize $optionaudiocodec $optionFramerate $testcode -strict -2 \"${file%.*}\"$sizeprefix\"_$bitrate\"k\"$prefix.$ext\""
 
-#     ffmpeg -hide_banner $optionthreads -i "$file" $optionthreads $cropprefix -y -b:v "$bitrate"k $option_rotate $optionvideocodec $optionsize $optionaudiocodec $optionFramerate $testcode -strict -2 "${file%.*}"$sizeprefix"_$bitrate"k"$prefix.$ext"
-
     qdbus $dbusRef Set "" value $counter
     qdbus $dbusRef setLabelText "Completed $counter of $numberFiles"
+    if [ ! `qdbus | grep ${dbusRef% *}` ]; then exit; fi
 
 done
 

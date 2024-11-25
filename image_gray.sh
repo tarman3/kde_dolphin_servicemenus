@@ -22,7 +22,6 @@ numberFiles=${#array[@]}
 dbusRef=`kdialog --title "Changing colors to Gray" --progressbar "" $numberFiles`
 
 for file in "${array[@]}"; do
-
     filename="${file##*/}"
     if [ "$sufix" = TRUE ]
         then fileOut="$dir/${filename%.*}_gray.${file##*.}"
@@ -34,6 +33,8 @@ for file in "${array[@]}"; do
     counter=$(($counter+1))
     qdbus $dbusRef Set "" value $counter
     qdbus $dbusRef setLabelText "Completed $counter of $numberFiles"
+    if [ ! `qdbus | grep ${dbusRef% *}` ]; then exit; fi
+
 done
 
 qdbus $dbusRef close
