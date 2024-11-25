@@ -26,7 +26,7 @@ chmod +x $HOME/.local/share/nemo/actions/*.desktop
 ## Установка дополнительных программ
 
 1. В некоторых сенариях используются программы формирования диалогового окна **yad**, вывода уведомлений записи данных в буфер обмена **xclip**. Для их установки выполните в терминале следующую команду:  
-`sudo pacman -S yad kdialog`
+`sudo pacman -S yad kdialog bc ffmpeg enca tesseract-ocr tesseract-ocr-rus`
 
 
 2. Для работы действий и сценариев, использующих специальные программы, требуется установка этих программ, например: cuneiform, doublecommnder, enca, ffmpeg, imagemagick, mediainfo, qcad, recoll, secure-delete, tesseract, webp. Для их установки выполните в терминале следующую команду:  
