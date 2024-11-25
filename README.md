@@ -56,6 +56,6 @@ sudo pacman -S bc enca ffmpeg imagemagick kdialog mediainfo qpdf tesseract-ocr t
 
 
 ## Полезные ссылки
-[Creating Dolphin service menus](https://develop.kde.org/docs/apps/dolphin/service-menus)
-[Shell scripting with KDE dialogs](https://develop.kde.org/docs/administration/kdialog)
-[Nemo Actions - LinuxMint](https://github.com/demonlibra/nemo-actions)
+[Creating Dolphin service menus](https://develop.kde.org/docs/apps/dolphin/service-menus)  
+[Shell scripting with KDE dialogs](https://develop.kde.org/docs/administration/kdialog)  
+[Nemo Actions - LinuxMint](https://github.com/demonlibra/nemo-actions)  

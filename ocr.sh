@@ -11,20 +11,19 @@ IFS="$old_ifs"
 firstFile=${array[0]}
 path=${firstFile%/*}
 
-parameters=`yad --borders=10 --width=300 --title="Tesseract OCR" --text-align=center \
-    --form --item-separator="|" --separator="," --field="Language:CB" "^rus+eng|rus|eng|ita|deu"`
+parameters=`kdialog --checklist "Select languages:" rus "Russian" on eng "English" off ita "Italian" off deu "Deutch" off | sed -r 's/" "/+/g' | sed -r 's/[" ]//g'`
 
 exit_status=$?
 if [ $exit_status != 0 ]; then exit; fi
 
-language=$( echo $parameters | awk -F ',' '{print $1}')
+languages=$( echo $parameters | awk -F ',' '{print $1}')
 
 numberFiles=${#array[@]}
 dbusRef=`kdialog --title "OCR Tesseract" --progressbar "" $numberFiles`
 
 for file in "${array[@]}"; do
 
-    tesseract "$file" "${file%.*}-OCR_$language" -l $language
+    tesseract "$file" "${file%.*}-OCR_$languages" -l $languages
 
     counter=$(($counter+1))
     qdbus $dbusRef Set "" value $counter
