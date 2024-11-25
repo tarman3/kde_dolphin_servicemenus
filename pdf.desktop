@@ -1,13 +1,10 @@
 [Desktop Entry]
 Type=Service
 MimeType=application/pdf;
-Actions=pdf_combine;pdf_compres;pdf_convert2image;pdf_decrypt;pdf_export_images;pdf_export_pages;
+Actions=pdf_compres;pdf_convert2image;pdf_decrypt;pdf_export_images;pdf_export_pages;
 X-KDE-Submenu=Documents Actions
 X-KDE-Priority=TopLevel
 
-[Desktop Action pdf_combine]
-Name=PDF Combine
-Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/pdf_combine.sh "${args:1}"
 
 [Desktop Action pdf_compres]
 Name=PDF Compress

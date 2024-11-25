@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Service
+MimeType=application/pdf;
+Actions=pdf_combine
+X-KDE-Submenu=Documents Actions
+X-KDE-Priority=TopLevel
+X-KDE-MinNumberOfUrls=2
+
+[Desktop Action pdf_combine]
+Name=PDF Combine
+Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/pdf_combine.sh "${args:1}"

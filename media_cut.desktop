@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Service
+MimeType=video/*;audio/*
+Actions=media_cut
+X-KDE-Submenu=Media Actions
+X-KDE-Priority=TopLevel
+X-KDE-RequiredNumberOfUrls=1
+
+
+[Desktop Action media_cut]
+Name=Cut
+Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/media_cut.sh "${args:1}"

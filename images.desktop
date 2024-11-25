@@ -1,0 +1,31 @@
+[Desktop Entry]
+Type=Service
+MimeType=image/*
+Actions=images_convert;images_crop;images_gamma;images_gray;images_resize;images_rotate
+X-KDE-Submenu=Images Actions
+X-KDE-Priority=TopLevel
+
+
+[Desktop Action images_convert]
+Name=Convert
+Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/images_convert.sh "${args:1}"
+
+[Desktop Action images_crop]
+Name=Crop
+Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/images_crop.sh "${args:1}"
+
+[Desktop Action images_gamma]
+Name=Gamma
+Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/images_gamma.sh "${args:1}"
+
+[Desktop Action images_gray]
+Name=Gray
+Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/images_gray.sh "${args:1}"
+
+[Desktop Action images_resize]
+Name=Resize
+Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/images_resize.sh "${args:1}"
+
+[Desktop Action images_rotate]
+Name=Rotate
+Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/images_rotate.sh "${args:1}"
