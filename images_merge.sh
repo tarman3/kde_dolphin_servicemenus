@@ -16,29 +16,34 @@ else
     extForm="^jpg|png|tiff|bmp"
 fi
 
-parameters=`yad --borders=10 --width=600 --title="Merge Images" --text-align=center \
+parameters=`yad --borders=10 --width=400 --title="Merge Images" --text-align=center \
     --item-separator="|" --separator="," --form  \
-    --field=":LBL" --field="Direction:CB" --field="Space px" --field="Format:CB" \
-    "" "^vert|hor" "0" "$extForm"`
+    --field=":LBL" --field="Direction:CB" --field="Space between images (px)" \
+    --field="Frame:CHK" --field="Background color:CB" --field="Format:CB" \
+    \
+    "" "^vert|hor" "10" FALSE "transparent|white|black" "$extForm"`
 
 exit_status=$?
 if [ $exit_status != 0 ]; then exit; fi
 
 direction=$(echo $parameters | awk -F ',' '{print $2}')
 space=$(echo $parameters | awk -F ',' '{print $3}')
-ext=$(echo $parameters | awk -F ',' '{print $4}')
+frame=$(echo $parameters | awk -F ',' '{print $4}')
+backgroundColor=$(echo $parameters | awk -F ',' '{print $5}')
+ext=$(echo $parameters | awk -F ',' '{print $6}')
 
 newName="${nameNoExt}_$direction.$ext"
 
 numberFiles=${#array[@]}
 
-if [ $direction = "vert" ]; then
-    montage -geometry +0+$space -tile 1x$numberFiles `echo "$1"` "$newName"
-    echo VERT
+if [ $direction = "vert" ]
+    then opt1="+$space+$space"; opt2="1x${numberFiles}"
+    else opt1="+$space+$space"; opt2="${numberFiles}x1"
 fi
 
-if [ $direction = "hor" ]; then
-    montage -geometry +$space+0 -tile "$numberFiles"x1 `echo "$1"` "$newName"
+if [ "$frame" = TRUE ]
+    then montage -background $backgroundColor -geometry $opt1 -tile $opt2 `echo "$1"` "$newName"
+    else montage -background $backgroundColor -geometry $opt1 -tile $opt2 `echo "$1"` $ext: | magick - -shave $space $newName
 fi
 
 kdialog --title "Combine Images" --icon "checkbox" --passivepopup "Completed" 3
