@@ -1,12 +1,16 @@
 [Desktop Entry]
 Type=Service
 MimeType=image/*
-Actions=image_convert;image_merge;image_resize;image_rotate
+Actions=image_convert;image_crop;image_merge;image_resize;image_rotate
 
 
 [Desktop Action image_convert]
 Name=Images Convert
 Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/image_convert.sh "${args:1}"
+
+[Desktop Action image_crop]
+Name=Images Crop
+Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/image_crop.sh "${args:1}"
 
 [Desktop Action image_merge]
 Name=Images Merge

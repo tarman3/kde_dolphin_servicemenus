@@ -53,7 +53,6 @@ sudo pacman -S bc enca ffmpeg imagemagick kdialog mediainfo qpdf tesseract-ocr t
 |**pdf_decrypt**|Снять защиту с PDF|
 |**pdf_export_image**|Извлечь изображения из PDF|
 |**pdf_export_pages**|Извлечь страницы из PDF|
-|**pdf_print**|Отправить PDF на печать|
 |**txt_convert_encoding**|Изменить кодировку текстовых файлов при помощи enconv|
 
 
