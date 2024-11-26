@@ -26,7 +26,7 @@ chmod +x $HOME/.local/share/nemo/actions/*.desktop
 Для работы некоторых сенариев требуется установка дополнительных программ:
 
 ```
-sudo pacman -S bc enca ffmpeg imagemagick kdialog mediainfo qpdf tesseract-ocr tesseract-ocr-deu tesseract-ocr-ita tesseract-ocr-rus unoconv yad
+sudo pacman -S bc enca ffmpeg imagemagick kdialog mediainfo perl-lwp-protocol-https qpdf tesseract-ocr tesseract-ocr-deu tesseract-ocr-ita tesseract-ocr-rus unoconv wl-paste yad
 ```
 
 ## Список сценариев
@@ -36,14 +36,14 @@ sudo pacman -S bc enca ffmpeg imagemagick kdialog mediainfo qpdf tesseract-ocr t
 |**delete**|Удалить средствами Secure delete|
 |**docs2pdf**|Конвертировать документов в PDF|
 |**hash**|Расчитать контрольные суммы|
-|**image_compress**|Сжать изображения|
-|**image_convert**|Конвертировать формат изображения|
-|**image_crop**|Изменить размер изображения|
-|**image_gamma**|Изменить гамму изображений|
-|**image_gray**|Сделать чёрно-белыми|
-|**image_merge**|Объединить изображения|
-|**image_resize**|Изменить разрешение изображений|
-|**image_rotate**|Повернуть изображения|
+|**images_compress**|Сжать изображения|
+|**images_convert**|Конвертировать формат изображения|
+|**images_crop**|Изменить размер изображения|
+|**images_gamma**|Изменить гамму изображений|
+|**imagess_gray**|Сделать чёрно-белыми|
+|**images_merge**|Объединить изображения|
+|**images_resize**|Изменить разрешение изображений|
+|**images_rotate**|Повернуть изображения|
 |**media_cut**|Вырезать фрагмент мультимедиа|
 |**media_process**|Изменить формат, bitrate, разрешение, кодек, поворот|
 |**ocr**|Распознать текст программой tesseract|
@@ -51,10 +51,10 @@ sudo pacman -S bc enca ffmpeg imagemagick kdialog mediainfo qpdf tesseract-ocr t
 |**pdf_compress**|Уменьшить размер файла PDF сжатием изображений |
 |**pdf_convert2image**|Преобразовать страницы PDF в изображения|
 |**pdf_decrypt**|Снять защиту с PDF|
-|**pdf_export_image**|Извлечь изображения из PDF|
+|**pdf_export_images**|Извлечь изображения из PDF|
 |**pdf_export_pages**|Извлечь страницы из PDF|
-|**txt_convert_encoding**|Изменить кодировку текстовых файлов при помощи enconv|
-
+|**txt_encoding**|Изменить кодировку текстовых файлов при помощи enconv|
+|**wget**|Скачать файл по ссылке из буфера обмена в выбранный каталог|
 
 ## Полезные ссылки
 [Creating Dolphin service menus](https://develop.kde.org/docs/apps/dolphin/service-menus)  
