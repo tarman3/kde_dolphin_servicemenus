@@ -47,7 +47,7 @@ sudo pacman -S bc enca ffmpeg imagemagick kdialog mediainfo perl-lwp-protocol-ht
 |**media_cut**|Вырезать фрагмент мультимедиа|
 |**media_process**|Изменить формат, bitrate, разрешение, кодек, поворот|
 |**ocr**|Распознать текст программой tesseract|
-|**pdf_combine**|Объединить файлы PDF и изображения в PDF|
+|**pdf_combine**|Объединить PDF и изображения в PDF|
 |**pdf_compress**|Уменьшить размер файла PDF сжатием изображений |
 |**pdf_convert2image**|Преобразовать страницы PDF в изображения|
 |**pdf_decrypt**|Снять защиту с PDF|

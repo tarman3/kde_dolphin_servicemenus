@@ -24,7 +24,11 @@ dbusRef=`kdialog --title "Convert Images" --progressbar "" $numberFiles`
 
 for file in "${array[@]}"; do
     fileName="${file##*/}"
-    mogrify -format $format -path "$dir" "$fileName"
+
+    if [ -f "${file%.*}.$format" ]
+        then magick "$file" "$file.$format"
+        else magick "$file" "${file%.*}.$format"
+    fi
 
     counter=$(($counter+1))
     qdbus $dbusRef Set "" value $counter
