@@ -8,7 +8,7 @@ IFS="$old_ifs"
 firstFile=${array[0]}
 path=${firstFile%/*}
 
-parameters=`kdialog --title="Export pages from PDF" --inputbox "Pages number (1-3,5,6) or (5-z)" "1"`
+parameters=`kdialog --geometry 300x200 --title="Export pages from PDF" --inputbox "Pages number (1-3,5,6) or (5-z)" "1"`
 
 exit_status=$?
 if [ $exit_status != 0 ]; then exit; fi

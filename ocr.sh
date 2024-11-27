@@ -11,12 +11,14 @@ IFS="$old_ifs"
 firstFile=${array[0]}
 path=${firstFile%/*}
 
-parameters=`kdialog --checklist "Select languages:" rus "Russian" on eng "English" off ita "Italian" off deu "Deutch" off | sed -r 's/" "/+/g' | sed -r 's/[" ]//g'`
+parameters=`kdialog --geometry 300x200 --title="OCR - Tesseract" --checklist "Select languages:" \
+            rus "Russian" on    eng "English" off    ita "Italian" off    deu "Deutch" off`
 
 exit_status=$?
 if [ $exit_status != 0 ]; then exit; fi
 
 languages=$( echo $parameters | awk -F ',' '{print $1}')
+languages=`echo $languages | sed -r 's/" "/+/g' | sed -r 's/[" ]//g'`
 
 numberFiles=${#array[@]}
 dbusRef=`kdialog --title "OCR Tesseract" --progressbar "" $numberFiles`

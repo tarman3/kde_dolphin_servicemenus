@@ -8,7 +8,8 @@ IFS="$old_ifs"
 firstFile=${array[0]}
 path=${firstFile%/*}
 
-parameters=`kdialog --title="Change text files encoding" --radiolist "Encoding" UTF-8 UTF-8 on CP1251 CP1251 off`
+parameters=`kdialog --geometry 300 --title="Change text files encoding" --radiolist "Encoding" \
+            UTF-8 UTF-8 on    CP1251 CP1251 off`
 
 exit_status=$?
 if [ $exit_status != 0 ]; then exit; fi

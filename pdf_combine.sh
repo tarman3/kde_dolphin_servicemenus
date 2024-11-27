@@ -32,7 +32,7 @@ for file in "${array[@]}"; do
     fi
 done
 
-parameters=`kdialog --title="Combine to PDF" --inputbox "Save to" "${nameNoExt}_combine"`
+parameters=`kdialog --geometry 300x200 --title="Combine to PDF" --inputbox "Save to" "${nameNoExt}_combine"`
 
 exit_status=$?
 if [ $exit_status != 0 ]; then exit; fi
