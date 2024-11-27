@@ -10,7 +10,8 @@ path=${firstFile%/*}
 
 parameters=`yad --borders=20 --width=500 --title="Convert Images" --text-align=center \
     --item-separator="|" --separator="," --form \
-    --field="Format:CB"  --field="Dir to save:DIR" "^jpg|png|bmp|tiff|gif|pdf" "$path"`
+    --field="Format:CB" --field="Dir to save:DIR" \
+    "^jpg|png|bmp|tiff|gif|pdf" "$path"`
 
 exit_status=$?
 if [ $exit_status != 0 ]; then exit; fi
@@ -25,10 +26,7 @@ dbusRef=`kdialog --title "Convert Images" --progressbar "" $numberFiles`
 for file in "${array[@]}"; do
     fileName="${file##*/}"
 
-    if [ -f "${file%.*}.$format" ]
-        then magick "$file" "$file.$format"
-        else magick "$file" "${file%.*}.$format"
-    fi
+    magick "$file" "${file%.*}.$format"
 
     counter=$(($counter+1))
     qdbus $dbusRef Set "" value $counter
