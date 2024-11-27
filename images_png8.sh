@@ -11,7 +11,7 @@ path=${firstFile%/*}
 parameters=`yad --borders=20 --width=500 --title="Reduce colors to 8bit" \
     --text-align=center --item-separator="|" --separator="," --form \
     --field="Dir to save:DIR" --field="Add sufix to name:CHK" \
-    "$path"    "FALSE"`
+                  "$path"                       TRUE`
 
 exit_status=$?
 if [ $exit_status != 0 ]; then exit; fi

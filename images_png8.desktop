@@ -8,4 +8,4 @@ X-KDE-Priority=TopLevel
 
 [Desktop Action png8]
 Name=PNG 8bit convert
-Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/images_png_compress.sh "${args:1}"
+Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/images_png8.sh "${args:1}"
