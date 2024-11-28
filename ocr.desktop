@@ -5,6 +5,7 @@ Actions=ocr
 X-KDE-Submenu=Documents Actions
 X-KDE-Priority=TopLevel
 
+
 [Desktop Action ocr]
 Name=OCR
 Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/ocr.sh "${args:1}"
