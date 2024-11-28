@@ -24,7 +24,6 @@ numberFiles=${#array[@]}
 dbusRef=`kdialog --title "Convert Images" --progressbar "" $numberFiles`
 
 for file in "${array[@]}"; do
-    fileName="${file##*/}"
 
     magick "$file" "${file%.*}.$format"
 

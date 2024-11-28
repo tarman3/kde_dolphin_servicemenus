@@ -54,6 +54,7 @@ sudo pacman -S bc enca ffmpeg imagemagick kdialog meld perl-lwp-protocol-https q
 |**pdf_decrypt**|Снять защиту с PDF|
 |**pdf_export_images**|Извлечь изображения из PDF|
 |**pdf_export_pages**|Извлечь страницы из PDF|
+|**timestamp**|Добавить дату к имени файла|
 |**txt_encoding**|Изменить кодировку текстовых файлов при помощи enconv|
 |**wget**|Скачать файл по ссылке из буфера обмена в выбранный каталог|
 
