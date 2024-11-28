@@ -10,14 +10,12 @@ path=${firstFile%/*}
 ext=${firstFile##*.}
 
 
-duration=`mediainfo --Inform="Video;%Duration/String3%" "$firstFile"`
+duration=`ffprobe -i "$firstFile" -show_entries format=duration -v quiet -of csv="p=0" -sexagesimal`
 duration=${duration%.*}
-echo $duration
 
-parameters=`yad --borders=10 --title="Media Cut" --form --item-separator="|" --separator="," \
-    --field=":LBL" --field="Start" --field="Finish" --field="No re-encoding (fast):CHK" --field="E.g.:LBL" \
-    --field="75:LBL" --field="1:15:LBL" --field="00:01:15:LBL"\
-    "" "00:00:00" "$duration" TRUE`
+parameters=`yad --width=300 --borders=10 --title="Media Cut" --form --item-separator="|" --separator="," \
+    --field=":LBL" --field="Start" --field="Finish" --field="Re-encoding (slowly but precisely):CHK" \
+          ""         "00:00:00"       "$duration"                   TRUE`
 
 exit_status=$?
 if [ $exit_status != 0 ]; then exit; fi
@@ -32,7 +30,7 @@ if [ "$start" != "" ]; then start="-ss $start"; fi
 if [ "$finish" != "" ]; then finish="-to $finish"; fi
 options="$start $finish"
 
-if [ "$reEncoding" = TRUE ]; then
+if [ "$reEncoding" = FALSE ]; then
     encode="-vcodec copy -acodec copy"
 fi
 

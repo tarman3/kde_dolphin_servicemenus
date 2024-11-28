@@ -26,7 +26,7 @@ chmod +x $HOME/.local/share/nemo/actions/*.desktop
 Для работы некоторых сенариев требуется установка дополнительных программ:
 
 ```
-sudo pacman -S bc enca ffmpeg imagemagick kdialog mediainfo perl-lwp-protocol-https qpdf tesseract-ocr tesseract-ocr-deu tesseract-ocr-ita tesseract-ocr-rus unoconv wl-paste yad
+sudo pacman -S bc enca ffmpeg imagemagick kdialog meld perl-lwp-protocol-https qpdf tesseract-ocr tesseract-ocr-deu tesseract-ocr-ita tesseract-ocr-rus unoconv wl-paste yad
 ```
 
 ## Список сценариев
