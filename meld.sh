@@ -12,11 +12,11 @@ echo $1
 
 if [ "$ARG1" ]; then
     if [ "$ARG2" ];
-        then meld "$ARG1" "$ARG2" %U
-        else meld "$ARG1" %U
+        then meld "$ARG1" "$ARG2" "$1"
+        else meld "$ARG1" "$1"
     fi
 
 elif [ "$ARG2" ]; then
-    meld "$ARG2" $1
+    meld "$ARG2" "$1"
 fi
 

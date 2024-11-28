@@ -2,22 +2,33 @@
 Type=Service
 MimeType=inode/directory;application/octet-stream;
 Icon=org.gnome.meld
-Actions=setArg1;setArg2;c_diff;
-X-KDE-Priority=TopLevel
+Actions=setArg1;setArg2;compareLeftMiddle;compare2files;compare3files;
 X-KDE-Submenu=Compare
+X-KDE-Priority=TopLevel
+X-KDE-RequiredNumberOfUrls=1
+
 
 [Desktop Action setArg1]
 Icon=document-compareleft
-Exec=echo "%U" > /tmp/meld/arg1;
+Exec=mkdir /tmp/meld; echo "%U" > /tmp/meld/arg1;
 Name=Mark for use in left column
 
 [Desktop Action setArg2]
 Icon=document-compareleft
-Exec=echo "%U" > /tmp/meld/arg2;
+Exec=mkdir /tmp/meld; echo "%U" > /tmp/meld/arg2;
 Name=Mark for use in middle column
 
-[Desktop Action c_diff]
+[Desktop Action compare2files]
 Icon=document-compareright
-# Exec=ARG1=$(cat /tmp/meld/arg1); ARG2=$(cat /tmp/meld/arg2); if [ "$ARG1" != "" ]; then if [ "$ARG2" != "" ]; then meld "$ARG1" "$ARG2" %U; else meld "$ARG1" %U; fi; else if [ "$ARG2" != "" ]; then meld "$ARG2" %U; fi; fi;
-Exec=/home/user/.local/share/kio/servicemenus/meld.sh %u
-Name=Use in right column and compare
+Exec=ARG1=$(cat "/tmp/meld/arg1"); meld "$ARG1" %U
+Name=Compare selected with marked for left column (2 files)
+
+[Desktop Action compareLeftMiddle]
+Icon=document-compareright
+Exec=ARG1=$(cat "/tmp/meld/arg1"); ARG2=$(cat "/tmp/meld/arg2"); meld "$ARG1" "$ARG2"; echo %U
+Name=Compare marked before (2 files)
+
+[Desktop Action compare3files]
+Icon=document-compareright
+Exec=/home/user/.local/share/kio/servicemenus/meld.sh %U
+Name=Compare selected with marked for left and middle columns (3 files)

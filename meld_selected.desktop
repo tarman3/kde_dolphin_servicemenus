@@ -10,4 +10,4 @@ X-KDE-MinNumberOfUrls=2
 
 [Desktop Action compare_selected]
 Exec=meld %U
-Name=Compare only selected
+Name=Compare selected
