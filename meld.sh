@@ -1,0 +1,22 @@
+#!/bin/bash
+
+path1='/tmp/meld/arg1'
+path2='/tmp/meld/arg2'
+
+if [ -f "$path1" ]; then ARG1=$(cat "$path1"); fi
+if [ -f "$path2" ]; then ARG2=$(cat "$path2"); fi
+
+echo $ARG1
+echo $ARG2
+echo $1
+
+if [ "$ARG1" ]; then
+    if [ "$ARG2" ];
+        then meld "$ARG1" "$ARG2" %U
+        else meld "$ARG1" %U
+    fi
+
+elif [ "$ARG2" ]; then
+    meld "$ARG2" $1
+fi
+

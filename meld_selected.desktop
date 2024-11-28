@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Service
+MimeType=inode/directory;application/octet-stream;
+Icon=org.gnome.meld
+Actions=compare_selected
+X-KDE-Priority=TopLevel
+X-KDE-Submenu=Compare
+X-KDE-MinNumberOfUrls=2
+
+
+[Desktop Action compare_selected]
+Exec=meld %U
+Name=Compare only selected

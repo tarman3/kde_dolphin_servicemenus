@@ -16,12 +16,12 @@ else
     extForm="^jpg|png|tiff|bmp"
 fi
 
-parameters=`yad --borders=10 --width=400 --title="Merge Images" --text-align=center \
+parameters=`yad --borders=10 --width=400 --height=250 --title="Merge Images" --text-align=center \
     --item-separator="|" --separator="," --form  \
     --field=":LBL" --field="Direction:CB" --field="Space between images (px)" \
     --field="Frame:CHK" --field="Background color:CB" --field="Format:CB" \
     \
-    "" "^vert|hor" "10" FALSE "transparent|white|black" "$extForm"`
+    "" "^hor|vert" "10" FALSE "transparent|white|black" "$extForm"`
 
 exit_status=$?
 if [ $exit_status != 0 ]; then exit; fi

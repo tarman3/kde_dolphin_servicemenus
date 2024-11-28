@@ -1,0 +1,23 @@
+[Desktop Entry]
+Type=Service
+MimeType=inode/directory;application/octet-stream;
+Icon=org.gnome.meld
+Actions=setArg1;setArg2;c_diff;
+X-KDE-Priority=TopLevel
+X-KDE-Submenu=Compare
+
+[Desktop Action setArg1]
+Icon=document-compareleft
+Exec=echo "%U" > /tmp/meld/arg1;
+Name=Mark for use in left column
+
+[Desktop Action setArg2]
+Icon=document-compareleft
+Exec=echo "%U" > /tmp/meld/arg2;
+Name=Mark for use in middle column
+
+[Desktop Action c_diff]
+Icon=document-compareright
+# Exec=ARG1=$(cat /tmp/meld/arg1); ARG2=$(cat /tmp/meld/arg2); if [ "$ARG1" != "" ]; then if [ "$ARG2" != "" ]; then meld "$ARG1" "$ARG2" %U; else meld "$ARG1" %U; fi; else if [ "$ARG2" != "" ]; then meld "$ARG2" %U; fi; fi;
+Exec=/home/user/.local/share/kio/servicemenus/meld.sh %u
+Name=Use in right column and compare
