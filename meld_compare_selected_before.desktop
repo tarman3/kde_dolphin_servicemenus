@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Service
+MimeType=inode/directory;
+Icon=org.gnome.meld
+Actions=compareMarkedBefore;
+X-KDE-Submenu=Compare
+X-KDE-Priority=TopLevel
+X-KDE-RequiredNumberOfUrls=1
+
+
+[Desktop Action compareMarkedBefore]
+Icon=document-compareright
+Exec=ARG1=$(cat "/tmp/meld/arg1"); ARG2=$(cat "/tmp/meld/arg2"); meld "$ARG1" "$ARG2"; echo %U
+Name=Compare marked before (2 files)

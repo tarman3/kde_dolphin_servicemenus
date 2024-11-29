@@ -2,7 +2,7 @@
 Type=Service
 MimeType=inode/directory;application/octet-stream;
 Icon=org.gnome.meld
-Actions=setArg1;setArg2;compareLeftMiddle;compare2files;compare3files;
+Actions=setArg1;setArg2;compare2files;compare3files;
 X-KDE-Submenu=Compare
 X-KDE-Priority=TopLevel
 X-KDE-RequiredNumberOfUrls=1
@@ -22,11 +22,6 @@ Name=Mark for use in middle column
 Icon=document-compareright
 Exec=ARG1=$(cat "/tmp/meld/arg1"); meld "$ARG1" %U
 Name=Compare selected with marked for left column (2 files)
-
-[Desktop Action compareLeftMiddle]
-Icon=document-compareright
-Exec=ARG1=$(cat "/tmp/meld/arg1"); ARG2=$(cat "/tmp/meld/arg2"); meld "$ARG1" "$ARG2"; echo %U
-Name=Compare marked before (2 files)
 
 [Desktop Action compare3files]
 Icon=document-compareright
