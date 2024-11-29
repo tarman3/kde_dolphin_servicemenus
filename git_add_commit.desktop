@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Service
+MimeType=inode/directory;application/octet-stream
+Actions=add_commit_selected;
+X-KDE-Submenu=Git
+X-KDE-Priority=TopLevel
+
+
+[Desktop Action add_commit_selected]
+Exec=for file in %F; do args=$args';'$file; done; konsole -e ~/.local/share/kio/servicemenus/git_add_commit_selected.sh "${args:1}"
+Name=Add new commit - Selected files

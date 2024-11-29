@@ -1,8 +1,20 @@
 #!/bin/bash
 
-dir="$1"
+old_ifs="$IFS"
+IFS=$';'
+read -r -a array <<< "$1"
+IFS="$old_ifs"
 
-echo "Proccessing $dir"
+firstFile=${array[0]}
+dir=${firstFile%/*}
+
+
+echo "Proccessing with files:"
+echo '-----------------------'
+for file in "${array[@]}"; do
+    echo -e '\E[1;32m'"$file"'\e[0m'
+done
+echo
 echo
 
 cd "$dir"
@@ -24,7 +36,8 @@ if [[ -z `git --no-pager diff` ]] && [[ -z `git ls-files --others --exclude-stan
     exit 0
 fi
 
-echo "Changes"
+echo "Changes:"
+echo '--------'
 git --no-pager diff
 echo
 echo "New files"
@@ -34,8 +47,11 @@ echo
 read -p "Press ENTER to start"
 
 echo
-echo -e '\E[1;32m'"git add ."'\e[0m'
-git add .
+
+for file in "${array[@]}"; do
+    echo -e '\E[1;32m'"git add $file"'\e[0m'
+    git add $file
+done
 
 echo
 # echo -n "Input commit title: "'\e[0m'
