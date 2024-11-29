@@ -11,7 +11,7 @@ path=${firstFile%/*}
 parameters=`yad --borders=20 --width=500 --title="Convert Images" --text-align=center \
     --item-separator="|" --separator="," --form \
     --field="Format:CB" --field="Dir to save:DIR" \
-    "^jpg|png|bmp|tiff|gif|pdf" "$path"`
+    "^jpg|png|webp|bmp|tiff|gif|pdf" "$path"`
 
 exit_status=$?
 if [ $exit_status != 0 ]; then exit; fi
