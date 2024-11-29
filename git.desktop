@@ -1,7 +1,6 @@
 [Desktop Entry]
 Type=Service
 MimeType=inode/directory;
-Icon=git-cola
 Actions=add_commit;replace_last_commit
 X-KDE-Submenu=Git
 X-KDE-Priority=TopLevel

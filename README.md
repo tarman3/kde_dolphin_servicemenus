@@ -35,6 +35,8 @@ sudo pacman -S bc enca ffmpeg imagemagick kdialog meld perl-lwp-protocol-https q
 |---|---|
 |**delete**|Удалить средствами Secure delete|
 |**docs2pdf**|Конвертировать документов в PDF|
+|**git_add_commit**|Создать коммит Git|
+|**git_replace_last_commit**|Заменить последний коммит Git|
 |**hash**|Расчитать контрольные суммы|
 |**images_compress**|Сжать изображения|
 |**images_convert**|Конвертировать формат изображения|
