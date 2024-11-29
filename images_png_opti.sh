@@ -32,7 +32,7 @@ for file in "${array[@]}"; do
         else file_out="$dir/$fileName"
     fi
 
-    optipng "$file" -out "${file_out}"
+    oxipng --strip all --alpha --scale16 "$file" --out "${file_out}"
 
     counter=$(($counter+1))
     qdbus $dbusRef Set "" value $counter
