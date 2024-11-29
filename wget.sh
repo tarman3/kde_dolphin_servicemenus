@@ -44,7 +44,7 @@ if [ $sizeRemote ]; then
     echo "$link" > "$pathTmp"
 fi
 
-konsole --hide-menubar -e "wget --no-verbose -o /tmp/wget-log --show-progress --random-wait \"${user_agent}\" $continue -P \"$dir\" \"$link\""
+konsole --profile 'wget' --hide-menubar -e "wget --no-verbose -o /tmp/wget-log --show-progress --random-wait \"${user_agent}\" $continue -P \"$dir\" \"$link\""
 
 echo 2
 
