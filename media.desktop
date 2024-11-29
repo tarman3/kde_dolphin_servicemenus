@@ -8,4 +8,4 @@ X-KDE-Priority=TopLevel
 
 [Desktop Action media_process]
 Name=Process
-Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/media_process.sh "${args:1}"
+Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/media_process.sh "${args:1}"

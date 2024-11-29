@@ -6,4 +6,4 @@ Actions=hash
 
 [Desktop Action hash]
 Name=Hash Calculate
-Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/hash.sh "${args:1}"
+Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/hash.sh "${args:1}"

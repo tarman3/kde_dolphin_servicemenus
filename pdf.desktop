@@ -8,20 +8,20 @@ X-KDE-Priority=TopLevel
 
 [Desktop Action pdf_compres]
 Name=PDF Compress
-Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/pdf_compress.sh "${args:1}"
+Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/pdf_compress.sh "${args:1}"
 
 [Desktop Action pdf_convert2image]
 Name=PDF Convert to image
-Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/pdf_convert2image.sh "${args:1}"
+Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/pdf_convert2image.sh "${args:1}"
 
 [Desktop Action pdf_decrypt]
 Name=PDF Decrypt
-Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/pdf_decrypt.sh "${args:1}"
+Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/pdf_decrypt.sh "${args:1}"
 
 [Desktop Action pdf_export_images]
 Name=PDF Export Images
-Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/pdf_export_images.sh "${args:1}"
+Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/pdf_export_images.sh "${args:1}"
 
 [Desktop Action pdf_export_pages]
 Name=PDF Export Pages
-Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/pdf_export_pages.sh "${args:1}"
+Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/pdf_export_pages.sh "${args:1}"

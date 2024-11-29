@@ -8,4 +8,4 @@ X-KDE-Priority=TopLevel
 
 [Desktop Action ocr]
 Name=OCR
-Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/ocr.sh "${args:1}"
+Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/ocr.sh "${args:1}"

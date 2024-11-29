@@ -6,4 +6,4 @@ Actions=time_stamp;
 
 [Desktop Action time_stamp]
 Name=Add timestamp to name
-Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/timestamp.sh "$args"
+Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/timestamp.sh "$args"

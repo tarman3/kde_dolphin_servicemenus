@@ -25,5 +25,5 @@ Name=Compare selected with marked for left column (2 files)
 
 [Desktop Action compare3files]
 Icon=document-compareright
-Exec=/home/user/.local/share/kio/servicemenus/meld.sh %U
+Exec=~/.local/share/kio/servicemenus/meld.sh %U
 Name=Compare selected with marked for left and middle columns (3 files)

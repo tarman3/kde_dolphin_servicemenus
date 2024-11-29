@@ -9,4 +9,4 @@ X-KDE-MinNumberOfUrls=2
 
 [Desktop Action images_merge]
 Name=Merge
-Exec=for file in %F; do args=$args';'$file; done; /home/user/.local/share/kio/servicemenus/images_merge.sh "${args:1}"
+Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/images_merge.sh "${args:1}"
