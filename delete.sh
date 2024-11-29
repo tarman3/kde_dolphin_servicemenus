@@ -9,6 +9,7 @@ firstFile=${array[0]}
 path=${firstFile%/*}
 
 for file in "${array[@]}"; do
+
     if [ -n "$file" ]; then
         srm -rll "$file"
     fi

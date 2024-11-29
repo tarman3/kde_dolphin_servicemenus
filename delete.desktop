@@ -6,4 +6,4 @@ Actions=delete;
 
 [Desktop Action delete]
 Name=Secure Delete
-Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/delete.sh "$args"
+Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/delete.sh "${args:1}"
