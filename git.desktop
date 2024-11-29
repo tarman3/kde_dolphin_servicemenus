@@ -1,0 +1,17 @@
+[Desktop Entry]
+Type=Service
+MimeType=inode/directory;
+Icon=git-cola
+Actions=add_commit;replace_last_commit
+X-KDE-Submenu=Git
+X-KDE-Priority=TopLevel
+X-KDE-RequiredNumberOfUrls=1
+
+
+[Desktop Action add_commit]
+Exec=konsole -e ~/.local/share/kio/servicemenus/git_add_commit.sh %U
+Name=Add new commit
+
+[Desktop Action replace_last_commit]
+Exec=konsole -e ~/.local/share/kio/servicemenus/git_replace_last_commit.sh %U
+Name=Replace last commit
