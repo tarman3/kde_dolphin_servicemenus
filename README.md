@@ -26,7 +26,7 @@ chmod +x $HOME/.local/share/nemo/actions/*.desktop
 Для работы некоторых сенариев требуется установка дополнительных программ:
 
 ```
-sudo pacman -S bc enca ffmpeg imagemagick kdialog meld perl-lwp-protocol-https qpdf tesseract-ocr tesseract-ocr-deu tesseract-ocr-ita tesseract-ocr-rus unoconv wl-paste yad
+sudo pacman -S bc enca ffmpeg imagemagick kdialog meld perl-lwp-protocol-https qpdf tesseract-ocr tesseract-ocr-deu optipng tesseract-ocr-ita tesseract-ocr-rus unoconv wl-paste yad
 ```
 
 ## Список сценариев
@@ -44,6 +44,8 @@ sudo pacman -S bc enca ffmpeg imagemagick kdialog meld perl-lwp-protocol-https q
 |**images_gamma**|Изменить гамму изображений|
 |**imagess_gray**|Сделать чёрно-белыми|
 |**images_merge**|Объединить изображения|
+|**images_png_opti**|Оптимизировать PNG при помощи optipng|
+|**images_png8**|Преобразовать в PNG8|
 |**images_resize**|Изменить разрешение изображений|
 |**images_rotate**|Повернуть изображения|
 |**media_cut**|Вырезать фрагмент мультимедиа|
