@@ -26,7 +26,7 @@ chmod +x $HOME/.local/share/nemo/actions/*.desktop
 Для работы некоторых сенариев требуется установка дополнительных программ:
 
 ```
-sudo pacman -S bc enca ffmpeg imagemagick kdialog meld oxipng perl-lwp-protocol-https qpdf tesseract-ocr tesseract-ocr-deu tesseract-ocr-ita tesseract-ocr-rus unoconv wl-paste yad
+sudo pacman -S bc enca ffmpeg imagemagick kdialog meld oxipng perl-lwp-protocol-https pngquant qpdf tesseract-ocr tesseract-ocr-deu tesseract-ocr-ita tesseract-ocr-rus unoconv wl-paste yad
 ```
 
 ## Список сценариев
@@ -38,14 +38,13 @@ sudo pacman -S bc enca ffmpeg imagemagick kdialog meld oxipng perl-lwp-protocol-
 |**git_add_commit**|Создать коммит Git|
 |**git_replace_last_commit**|Заменить последний коммит Git|
 |**hash**|Расчитать контрольные суммы|
-|**images_compress**|Сжать изображения|
 |**images_convert**|Конвертировать формат изображения|
 |**images_crop**|Изменить размер изображения|
 |**images_gamma**|Изменить гамму изображений|
-|**imagess_gray**|Сделать чёрно-белыми|
+|**images_gray**|Сделать чёрно-белыми|
+|**images_jpg_compress**|Сжать изображения|
 |**images_merge**|Объединить изображения|
-|**images_png_opti**|Оптимизировать PNG при помощи oxipng|
-|**images_png8**|Преобразовать в PNG8|
+|**images_png_compress**|Сжать PNG|
 |**images_resize**|Изменить разрешение изображений|
 |**images_rotate**|Повернуть изображения|
 |**media_cut**|Вырезать фрагмент мультимедиа|
