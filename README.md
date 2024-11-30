@@ -48,6 +48,7 @@ sudo pacman -S bc enca ffmpeg imagemagick kdialog meld oxipng perl-lwp-protocol-
 |**images_resize**|Изменить разрешение изображений|
 |**images_rotate**|Повернуть изображения|
 |**media_cut**|Вырезать фрагмент мультимедиа|
+|**media_cut_2-2**|Отрезать 2 секунды начала и 2 секунды в конце (для роликов OBS)|
 |**media_process**|Изменить формат, bitrate, разрешение, кодек, поворот|
 |**meld**|Сравнение файлов и каталогов по содержимому|
 |**ocr**|Распознать текст программой tesseract|
