@@ -15,12 +15,10 @@ fi
 fileName="${link##*/}"
 
 sizeRemote=`HEAD -t 5 "$link" | grep '^Content-Length:' | sed s/"Content-Length: "//g`
-echo $sizeRemote
 sizeRemoteHuman=`echo $sizeRemote | perl -pe 's/(?<=\d)(?=(?:\d\d\d)+(?: |_|$))/ /g'`
-echo $size
 
 parameters=`yad --borders=20 --width=800 --title="wget - Download file" --item-separator="|" --form \
-    --field="Link:RO" --field="File name:RO" --field="Size, bytes:RO" \
+    --field="Link" --field="File name" --field="Size, bytes:RO" \
     --field="Continue downloading:CHK" --field="Custom User-Agent:CHK" --field="Dir to save:DIR" \
     \
     "$link"    "$fileName"    "$sizeRemoteHuman"    TRUE    FALSE    "$dir"`
@@ -28,28 +26,26 @@ parameters=`yad --borders=20 --width=800 --title="wget - Download file" --item-s
 exit_status=$?
 if [ $exit_status != 0 ]; then exit; fi
 
+fileName=$( echo $parameters | awk -F '|' '{print $2}')
 continue=$( echo $parameters | awk -F '|' '{print $4}')
-if [ "$continue" = TRUE ]
-    then continue="--continue"
-    else continue=""
-fi
-
 userAgent=$( echo $parameters | awk -F '|' '{print $5}')
-if [ $userAgent ]; then user_agent="--user-agent=${agent_string}"; fi
-
 dir=$( echo $parameters | awk -F '|' '{print $6}')
+
+if [ "$continue" = TRUE ]; then continue='--continue'; else continue=''; fi
 
 if [ $sizeRemote ]; then
     pathTmp="${dir}/${fileName}.wget-tmp"
     echo "$link" > "$pathTmp"
 fi
 
-konsole --profile 'wget' --hide-menubar -e "wget --no-verbose -o /tmp/wget-log --show-progress --random-wait \"${user_agent}\" $continue -P \"$dir\" \"$link\""
 
-echo 2
+if [ "$userAgent" ]
+    then konsole --profile 'wget' --hide-menubar -e "wget --no-verbose -o /tmp/wget-log --show-progress --random-wait --user-agent=\"${agent_string}\" $continue -O \"$dir/$fileName\" $link"
+    else konsole --profile 'wget' --hide-menubar -e "wget --no-verbose -o /tmp/wget-log --show-progress --random-wait $continue -O \"$dir/$fileName\" $link"
+fi
+
 
 sizeLocal=`stat -c %s "${dir}/${fileName}"`
-echo $sizeLocal
 
 if [ $sizeRemote ]; then
     if [ "$sizeLocal" = "$sizeRemote" ]; then
