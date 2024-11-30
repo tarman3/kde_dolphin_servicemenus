@@ -10,12 +10,12 @@ X-KDE-RequiredNumberOfUrls=1
 
 [Desktop Action setArg1]
 Icon=document-compareleft
-Exec=mkdir /tmp/meld; echo "%U" > /tmp/meld/arg1;
+Exec=mkdir /tmp/meld; echo %U > /tmp/meld/arg1;
 Name=Mark for use in left column
 
 [Desktop Action setArg2]
 Icon=document-compareleft
-Exec=mkdir /tmp/meld; echo "%U" > /tmp/meld/arg2;
+Exec=mkdir /tmp/meld; echo %U > /tmp/meld/arg2;
 Name=Mark for use in middle column
 
 [Desktop Action compare2files]

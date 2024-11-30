@@ -87,8 +87,8 @@ fi
 threads=$( echo $parameters | awk -F ',' '{print $12}')
 if [ $threads -gt 0 ]; then optionthreads="-threads $threads"; fi
 
-numberFiles=${#array[@]}
-dbusRef=`kdialog --title "Media Processing" --progressbar "" $numberFiles`
+# numberFiles=${#array[@]}
+# dbusRef=`kdialog --title "Media Processing" --progressbar "" $numberFiles`
 
 for file in "${array[@]}"; do
 
@@ -107,14 +107,14 @@ for file in "${array[@]}"; do
         else duration=$durationS" сек"
     fi
 
-    konsole --qwindowgeometry 100x20 --hide-menubar -qwindowtitle "Обработка файла $counter из $numberFiles- ${file##*/} длительностью $duration" -e "ffmpeg -hide_banner $optionthreads -i \"$file\" $optionthreads $cropprefix -y -b:v \"$bitrate\"k $option_rotate $optionvideocodec $optionsize $optionaudiocodec $optionFramerate $testcode -strict -2 \"${file%.*}\"$sizeprefix\"_$bitrate\"k\"$prefix.$ext\""
+    konsole --hide-menubar -qwindowtitle "Обработка файла $counter из $numberFiles- ${file##*/} длительностью $duration" -e "ffmpeg -v quiet -stats $optionthreads -i \"$file\" $optionthreads $cropprefix -y -b:v \"$bitrate\"k $option_rotate $optionvideocodec $optionsize $optionaudiocodec $optionFramerate $testcode -strict -2 \"${file%.*}\"$sizeprefix\"_$bitrate\"k\"$prefix.$ext\""
 
-    qdbus $dbusRef Set "" value $counter
-    qdbus $dbusRef setLabelText "Completed $counter of $numberFiles"
-    if [ ! `qdbus | grep ${dbusRef% *}` ]; then exit; fi
+#     qdbus $dbusRef Set "" value $counter
+#     qdbus $dbusRef setLabelText "Completed $counter of $numberFiles"
+#     if [ ! `qdbus | grep ${dbusRef% *}` ]; then exit; fi
 
 done
 
-qdbus $dbusRef close
+# qdbus $dbusRef close
 
 kdialog --title "Export images from PDF" --icon "checkbox" --passivepopup "Completed" 3

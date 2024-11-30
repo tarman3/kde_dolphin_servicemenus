@@ -8,7 +8,7 @@ X-KDE-Priority=TopLevel
 
 [Desktop Action docs2pdf]
 Name=Convert documents to PDF
-Exec=unoconv --timeout 20 --format pdf "%F"
+Exec=unoconv --timeout 20 --format pdf %F
 
 # csv     text/csv;
 # html    text/html
