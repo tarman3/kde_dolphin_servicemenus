@@ -14,10 +14,15 @@ if ! [ -d ".git" ]; then
     exit 0
 fi
 
-echo
+echo "Changes"
 git --no-pager diff
 echo
-read -p "Press ENTER to download changes"
+
+echo "New files"
+git ls-files --others --exclude-standard
+echo
+
+read -p "Press ENTER to start"
 
 echo
 echo -e '\e[1;32m'"git add ."'\e[0m'

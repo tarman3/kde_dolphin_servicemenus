@@ -16,7 +16,8 @@ if ! [ -d ".git" ]; then
 fi
 
 
-if [[ -z `git --no-pager diff` ]] && [[ -z `git ls-files --others --exclude-standard` ]]; then
+# if [[ -z `git --no-pager diff` ]] && [[ -z `git ls-files --others --exclude-standard` ]]; then
+if [[ -z `git status --porcelain` ]]; then
     echo
     echo -e '\e[1;31m'"git diff not found changes"'\e[0m'
     echo
@@ -27,6 +28,7 @@ fi
 echo "Changes"
 git --no-pager diff
 echo
+
 echo "New files"
 git ls-files --others --exclude-standard
 echo
@@ -38,8 +40,6 @@ echo -e '\E[1;32m'"git add ."'\e[0m'
 git add .
 
 echo
-# echo -n "Input commit title: "'\e[0m'
-# read commit_text
 read -p "Input commit title: " commit_text
 
 echo
