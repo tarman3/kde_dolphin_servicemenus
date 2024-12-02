@@ -1,6 +1,15 @@
 #!/bin/bash
 
-dir="$1"
+arg1="$1"
+
+if [ -f  "$arg1" ]
+    then dir=${arg1%/*}
+elif [ -d  "$arg1" ]
+    then dir="$arg1"
+else
+    kdialog --title "Downloading" --icon "error" --passivepopup "Can not get dir path" 3
+    exit
+fi
 
 agent_string="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36"
 

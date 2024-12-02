@@ -1,10 +1,10 @@
 [Desktop Entry]
 Type=Service
-MimeType=inode/directory
+MimeType=inode/directory;application/octet-stream
 Actions=wget;
 X-KDE-RequiredNumberOfUrls=1
 
 
 [Desktop Action wget]
 Name=Download link from clipboard
-Exec=~/.local/share/kio/servicemenus/wget.sh %U
+Exec=~/.local/share/kio/servicemenus/wget.sh %u
