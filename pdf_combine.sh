@@ -40,14 +40,14 @@ if [ $exit_status != 0 ]; then exit; fi
 newName="${parameters%.*}.pdf"
 
 if [ "$useTempDir" = TRUE ] || [ "$decrypt" = TRUE ]; then
-    mkdir $tempDir
+    mkdir "$tempDir"
 
     for file in "${array[@]}"; do
         fileName=${file##*/}
         nameNoExt=${fileName%.*}
         ext=${file##*.}
 
-        if [ ${ext,,} = "pdf" ]; then
+        if [ "${ext,,}" = "pdf" ]; then
             if [ "$encrypted" = TRUE ]
                 then qpdf --decrypt "$file" "$tempDir/$fileName.pdf"
                 else cp "$file" "$tempDir/$fileName"
@@ -57,8 +57,8 @@ if [ "$useTempDir" = TRUE ] || [ "$decrypt" = TRUE ]; then
         fi
     done
 
-    pdfunite $tempDir/*.pdf "$newName"
-    rm -r $tempDir
+    pdfunite "${tempDir}/*.pdf" "$newName"
+    rm -r "$tempDir"
 
     else pdfunite $1 "$newName"
 

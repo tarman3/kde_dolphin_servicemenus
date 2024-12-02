@@ -51,7 +51,7 @@ echo
 
 for file in "${array[@]}"; do
     echo -e '\E[1;32m'"git add $file"'\e[0m'
-    git add $file
+    git add "$file"
 done
 
 echo

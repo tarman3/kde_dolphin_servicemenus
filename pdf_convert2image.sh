@@ -11,7 +11,7 @@ path=${firstFile%/*}
 parameters=`yad --borders=10 --width=500 --title="Convert PDF to image" --form --item-separator="|" --separator="," \
     --field=":LBL" --field="First page:NUM" --field="Last page:NUM" --field="Amount pages:NUM" --field="All pages:CHK" \
     --field="dPI:NUM" --field="Format:CB" \
-    "" "1" "1" "1" FALSE "150|50..2400|50" "^png|jpeg|tiff"`
+    "" "1" "1" "1" FALSE "150|50..2400|50" "^png|jpeg|tiff|svg"`
 
 exit_status=$?
 if [ $exit_status != 0 ]; then exit; fi
