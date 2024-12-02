@@ -24,7 +24,8 @@ chmod +x $HOME/.local/share/nemo/actions/*.desktop
 
 ## Установка дополнительных программ
 
-Для работы некоторых сенариев требуется установка дополнительных программ:
+Для работы некоторых сенариев требуется установка дополнительных программ.
+Пример для Archlinux:
 
 ```
 sudo pacman -S bc enca ffmpeg imagemagick kdialog meld oxipng perl-lwp-protocol-https pngquant qpdf tesseract-ocr tesseract-ocr-deu tesseract-ocr-ita tesseract-ocr-rus unoconv wl-paste yad
@@ -61,9 +62,10 @@ sudo pacman -S bc enca ffmpeg imagemagick kdialog meld oxipng perl-lwp-protocol-
 |**pdf_export_pages**|Извлечь страницы из PDF|
 |**timestamp**|Добавить дату к имени файла|
 |**txt_encoding**|Изменить кодировку текстовых файлов|
-|**wget**|Скачать файл по ссылке из буфера обмена в выбранный каталог|
+|**wget**|Скачать файл по ссылке из буфера обмена|
 
 ## Полезные ссылки
-[Creating Dolphin service menus](https://develop.kde.org/docs/apps/dolphin/service-menus)  
-[Shell scripting with KDE dialogs](https://develop.kde.org/docs/administration/kdialog)  
-[Nemo Actions - LinuxMint](https://github.com/demonlibra/nemo-actions)  
+- [Creating Dolphin service menus](https://develop.kde.org/docs/apps/dolphin/service-menus)  
+- [Shell scripting with KDE dialogs](https://develop.kde.org/docs/administration/kdialog)  
+- [Yet Another Dialog](https://github.com/v1cont/yad)  
+- [Nemo Actions - LinuxMint](https://github.com/demonlibra/nemo-actions)  
