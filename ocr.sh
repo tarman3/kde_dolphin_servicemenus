@@ -12,7 +12,7 @@ firstFile=${array[0]}
 path=${firstFile%/*}
 
 parameters=`kdialog --geometry 300x200 --title="OCR - Tesseract" --checklist "Select languages:" \
-            rus "Russian" on    eng "English" off    ita "Italian" off    deu "Deutch" off`
+                deu "Deutch" off    eng "English" off    ita "Italian" off    rus "Russian" on`
 
 exit_status=$?
 if [ $exit_status != 0 ]; then exit; fi

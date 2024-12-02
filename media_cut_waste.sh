@@ -4,8 +4,8 @@ firstFile="$1"
 path=${firstFile%/*}
 ext=${firstFile##*.}
 
-cutStart=2
-cutFinish=2
+cutStart=$2
+cutFinish=$3
 
 duration=`ffprobe -i "$firstFile" -show_entries format=duration -v quiet -of csv="p=0"`
 duration=${duration%.*}
