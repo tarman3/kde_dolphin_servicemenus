@@ -65,7 +65,8 @@ git commit -m "${commit_text}"
 echo
 
 echo
-echo -e '\E[1;32m'"git push"'\e[0m'
+echo -e 'Press Enter to execute \E[1;32m'"git push"'\e[0m'
+read
 git push
 echo
 
