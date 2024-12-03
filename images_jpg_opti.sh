@@ -10,14 +10,16 @@ path=${firstFile%/*}
 
 parameters=`yad --borders=20 --width=500 --title="Compress JPG" \
     --text-align=center --item-separator="|" --separator="," --form \
-    --field="Quality:SCL" --field=" :LBL" --field="Dir to save:DIR" --field=" :LBL" --field="Add sufix to name:CHK" \
-    "85"    ""    "$path"    "FALSE"`
+    --field="Type:CB" --field="Quality:SCL" --field=" :LBL" --field="Dir to save:DIR" \
+    --field="Add sufix to name:CHK" \
+    "lossy|lossless" "85"    ""    "$path"    TRUE`
 
 exit_status=$?
 if [ $exit_status != 0 ]; then exit; fi
 
-quality=$( echo $parameters | awk -F ',' '{print $1}')
-dir=$( echo $parameters | awk -F ',' '{print $3}')
+type=$( echo $parameters | awk -F ',' '{print $1}')
+quality=$( echo $parameters | awk -F ',' '{print $2}')
+dir=$( echo $parameters | awk -F ',' '{print $4}')
 sufix=$( echo $parameters | awk -F ',' '{print $5}')
 
 
@@ -26,12 +28,20 @@ dbusRef=`kdialog --progressbar "Compress JPG" $numberFiles`
 
 for file in "${array[@]}"; do
     fileName="${file##*/}"
-    if [ "$sufix" == TRUE ]
-        then file_out="$dir/${fileName%.*}_$quality.${file##*.}"
+    if [ "$sufix" = TRUE ]; then
+        if [ "$type" = "lossless" ]
+            then file_out="$dir/${fileName%.*}_opti.${file##*.}"
+            else file_out="$dir/${fileName%.*}_$quality.${file##*.}"
+        fi
+
         else file_out="$dir/$fileName"
     fi
 
-    magick "$file" -quality $quality "${file_out}"
+    # magick "$file" -quality $quality "${file_out}"
+    if [ "$type" = "lossless" ]
+        then jpegoptim --dest="$dir" --overwrite --force "$file" --stdout > "$file_out"
+        else jpegoptim --dest="$dir" --overwrite --force --max=$quality "$file" --stdout >> "$file_out"
+    fi
 
     counter=$(($counter+1))
     qdbus $dbusRef Set "" value $counter

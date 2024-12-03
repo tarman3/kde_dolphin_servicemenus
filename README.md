@@ -44,11 +44,12 @@ sudo pacman -S bc enca ffmpeg imagemagick kdialog meld oxipng perl-lwp-protocol-
 |**images_crop**|Изменить размер изображений|
 |**images_gamma**|Изменить гамму изображений|
 |**images_gray**|Сделать изображения чёрно-белыми|
-|**images_jpg_compress**|Сжать изображения|
+|**images_jpg_opti**|Сжать изображения|
 |**images_merge**|Объединить изображения|
-|**images_png_compress**|Сжать изображения PNG|
+|**images_png_opti**|Сжать изображения PNG|
 |**images_resize**|Изменить разрешение изображений|
 |**images_rotate**|Повернуть изображения|
+|**images_webp_opti**|Сжать изображения WEBP|
 |**media_cut**|Вырезать фрагмент мультимедиа|
 |**media_cut_waste**|Отрезать начало и конец (для видео из OBS)|
 |**media_process**|Изменить формат, bitrate, разрешение, кодек, поворот|
