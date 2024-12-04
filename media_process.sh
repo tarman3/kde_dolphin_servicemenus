@@ -18,16 +18,16 @@ scale=`echo "scale=2;$width/$height" | bc`
 
 parameters=`yad --borders=10 --width=600 --title="Media processing" \
     --text="File: $name \nResolution: $width"x"$height \nScale: $scale" --form --item-separator="|" --separator="," \
-    \
     --field=:LBL --field="Format:CB" --field="Bitrate (kbit):NUM" --field="Resoltion (e.g. 800x452, only even)" \
     --field="Crop W:H:X:Y (Width : Height : X offset left corner : Y offset left corner):" \
-    --field="Codec Video:CB" --field="Codec Audio:CB" --field="Rotate:CB" --field="Short test (5 sec):CHK" \
-    --field="Mute:CHK" --field="Framerate" --field="CPU Core using:NUM" \
+    --field="Codec Video:CB" --field="Codec Audio:CB" \
+    --field="Rotate:CB" --field="Short test (5 sec):CHK" --field="Mute:CHK" --field="Framerate" \
+    --field="FadeIn" --field="FadeOut" --field="CPU Core using:NUM" \
     \
-    "" "copy|^mkv|mov|mp4|avi|gif" "4000|0..10000|500" "" \
-    "" \
-    "^copy|^h264 MPEG-4/AVC|hevc H.265|vp8|vp9|av1|vvc H.266|mpeg2video" "copy|^mp3|aac" "^No|CW|CCW" \
-    FALSE FALSE "" "0|0..12|1"`
+    ""   "copy|^mkv|mov|mp4|avi|gif"   "4000|0..10000|500"   "" \
+    ""    "^copy|^h264 MPEG-4/AVC|hevc H.265|vp8|vp9|av1|vvc H.266|mpeg2video"   "copy|^mp3|aac" \
+    "^No|CW|CCW"   FALSE   FALSE   "" \
+    0   0   "0|0..12|1"`
 
 exit_status=$?
 if [ $exit_status != 0 ]; then exit; fi
@@ -84,7 +84,11 @@ if [ "$framerate" != "" ]; then
     prefix="${prefix}_${framerate}fps"
 fi
 
-threads=$( echo $parameters | awk -F ',' '{print $12}')
+fadeInDuration=$( echo $parameters | awk -F ',' '{print $12}')
+fadeOutDuration=$( echo $parameters | awk -F ',' '{print $13}')
+
+
+threads=$( echo $parameters | awk -F ',' '{print $14}')
 if [ $threads -gt 0 ]; then optionthreads="-threads $threads"; fi
 
 # numberFiles=${#array[@]}
@@ -102,12 +106,17 @@ for file in "${array[@]}"; do
     durationM=$(($duration / 60))
     durationS=$(($duration - $durationM * 60))
 
+    if [ "$fadeInDuration" -ne 0] || [ "$fadeOutDuration" -ne 0 ]; then
+        startFadeOut=$(($duration-$fadeOutDuration))
+        fadeInOut="-vf fade=t=in:st=0:d=${fadeInDuration},fade=t=out:st=${startFadeOut}:d=${fadeOutDuration}"
+    fi
+
     if [ "$durationM" != "0" ]
         then duration=$durationM" мин "$durationS" сек"
         else duration=$durationS" сек"
     fi
 
-    konsole --hide-menubar -qwindowtitle "Обработка файла $counter из $numberFiles- ${file##*/} длительностью $duration" -e "ffmpeg -v quiet -stats $optionthreads -i \"$file\" $optionthreads $cropprefix -y -b:v \"$bitrate\"k $option_rotate $optionvideocodec $optionsize $optionaudiocodec $optionFramerate $testcode -strict -2 \"${file%.*}\"$sizeprefix\"_$bitrate\"k\"$prefix.$ext\""
+    konsole --hide-menubar -qwindowtitle "Обработка файла $counter из $numberFiles- ${file##*/} длительностью $duration" -e "ffmpeg -v quiet -stats $optionthreads -i \"$file\" $optionthreads $cropprefix -y -b:v \"$bitrate\"k $option_rotate $optionvideocodec $optionsize $optionaudiocodec $optionFramerate $testcode $fadeInOut -strict -2 \"${file%.*}\"$sizeprefix\"_$bitrate\"k\"$prefix.$ext\""
 
 #     qdbus $dbusRef Set "" value $counter
 #     qdbus $dbusRef setLabelText "Completed $counter of $numberFiles"

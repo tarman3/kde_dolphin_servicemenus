@@ -7,11 +7,17 @@ ext=${firstFile##*.}
 cutStart=$2
 cutFinish=$3
 
+fadeInDuration=1
+fadeOutDuration=1
+
 duration=`ffprobe -i "$firstFile" -show_entries format=duration -v quiet -of csv="p=0"`
 duration=${duration%.*}
 
 finishTime=$(($duration-$cutFinish))
 
-ffmpeg -v quiet -stats -i "$firstFile" -y -ss $cutStart -to $finishTime -strict -2 "${firstFile%.*}_$cutStart-$finishTime.$ext"
+startFadeOut=$(($finishTime-$cutStart-$fadeInDuration))
+fadeInOut="-vf fade=t=in:st=0:d=${fadeInDuration},fade=t=out:st=${startFadeOut}:d=${fadeOutDuration}"
+
+ffmpeg -v quiet -stats -ss $cutStart -to $finishTime -i "$firstFile" -y $fadeInOut -strict -2 "${firstFile%.*}_$cutStart-$finishTime.$ext"
 
 kdialog --title "Media Cut 2-2" --icon "checkbox" --passivepopup "Completed" 3
