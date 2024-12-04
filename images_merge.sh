@@ -19,12 +19,11 @@ fi
 parameters=`yad --borders=10 --width=400 --height=250 --title="Merge Images" --text-align=center \
     --item-separator="|" --separator="," --form  \
     --field=":LBL" --field="Direction:CB" --field="Space between images (px)" \
-    --field="Frame:CHK" --field="Background color:CB" --field="Format:CB" \
+    --field="Frame around images:CHK" --field="Background color:CB" --field="Format:CB" \
     \
-    "" "^hor|vert" "10" FALSE "transparent|white|black" "$extForm"`
+    "" "^hor|vert" 5 FALSE "transparent|white|black" "$extForm"`
 
-exit_status=$?
-if [ $exit_status != 0 ]; then exit; fi
+exit_status=$?; if [ $exit_status != 0 ]; then exit; fi
 
 direction=$(echo $parameters | awk -F ',' '{print $2}')
 space=$(echo $parameters | awk -F ',' '{print $3}')
