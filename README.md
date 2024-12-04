@@ -33,7 +33,7 @@ sudo pacman -S bc cwebp enca jpegoptim ffmpeg imagemagick kdialog meld oxipng pe
 
 ## Список сценариев
 
-|Файл|Описание|
+|Сценарий|Описание|
 |---|---|
 |**delete**|Удалить средствами Secure delete|
 |**docs2pdf**|Конвертировать документы в PDF|
