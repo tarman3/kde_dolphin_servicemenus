@@ -8,5 +8,4 @@ X-KDE-Priority=TopLevel
 
 [Desktop Action media_cut_waste]
 Name=Cut waste in start and finish (OBS)
-Exec=~/.local/share/kio/servicemenus/media_cut_waste.sh %u 2 2
-
+Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/media_cut_waste.sh "${args:1}" 2 2

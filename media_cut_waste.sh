@@ -1,8 +1,12 @@
 #!/bin/bash
 
-firstFile="$1"
+old_ifs="$IFS"
+IFS=$';'
+read -r -a array <<< "$1"
+IFS="$old_ifs"
+
+firstFile=${array[0]}
 path=${firstFile%/*}
-ext=${firstFile##*.}
 
 cutStart=$2
 cutFinish=$3
@@ -10,14 +14,30 @@ cutFinish=$3
 fadeInDuration=1
 fadeOutDuration=1
 
-duration=`ffprobe -i "$firstFile" -show_entries format=duration -v quiet -of csv="p=0"`
-duration=${duration%.*}
+numberFiles=${#array[@]}
+dbusRef=`kdialog --title "Media Cut Waste" --progressbar "1 of $numberFiles  =>  ${firstFile##*/}" $numberFiles`
 
-finishTime=$(($duration-$cutFinish))
+for file in "${array[@]}"; do
 
-startFadeOut=$(($finishTime-$cutStart-$fadeInDuration))
-fadeInOut="-vf fade=t=in:st=0:d=${fadeInDuration},fade=t=out:st=${startFadeOut}:d=${fadeOutDuration}"
+    ext=${file##*.}
 
-ffmpeg -v quiet -stats -ss $cutStart -to $finishTime -i "$firstFile" -y $fadeInOut -strict -2 "${firstFile%.*}_$cutStart-$finishTime.$ext"
+    duration=`ffprobe -i "$file" -show_entries format=duration -v quiet -of csv="p=0"`
+    duration=${duration%.*}
 
-kdialog --title "Media Cut 2-2" --icon "checkbox" --passivepopup "Completed" 3
+    finishTime=$(($duration-$cutFinish))
+
+    startFadeOut=$(($finishTime-$cutStart-$fadeInDuration))
+    fadeInOut="-vf fade=t=in:st=0:d=${fadeInDuration},fade=t=out:st=${startFadeOut}:d=${fadeOutDuration}"
+
+    ffmpeg -v quiet -stats -ss $cutStart -to $finishTime -i "$file" -y $fadeInOut -strict -2 "${file%.*}_$cutStart-$finishTime.$ext"
+
+    counter=$(($counter+1))
+    qdbus $dbusRef Set "" value $counter
+    qdbus $dbusRef setLabelText "$counter of $numberFiles  =>  ${file##*/}"
+    if [ ! `qdbus | grep ${dbusRef% *}` ]; then exit; fi
+
+done
+
+qdbus $dbusRef close
+
+kdialog --title "Media Cut Waste" --icon "checkbox" --passivepopup "Completed" 3
