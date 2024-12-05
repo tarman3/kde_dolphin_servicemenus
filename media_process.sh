@@ -11,27 +11,27 @@ name=${firstFile##*/}
 ext=${firstFile##*.}
 
 videoSize=`ffprobe -v error -i "$firstFile" -show_entries stream=width,height -of default=noprint_wrappers=1:nokey=1`
-width=`echo "$videoSize" | awk 'NR==1{print $1}'`
-height=`echo "$videoSize" | awk 'NR==2{print $1}'`
-scale=`echo "scale=2;$width/$height" | bc`
 
+if [ -n "$videoSize" ]; then
+    width=`echo "$videoSize" | awk 'NR==1{print $1}'`
+    height=`echo "$videoSize" | awk 'NR==2{print $1}'`
+    scale=`echo "scale=2;$width/$height" | bc`
+fi
 
 parameters=`yad --borders=10 --width=600 --title="Media processing" \
-    --text="File: $name \nResolution: $width"x"$height \nScale: $scale" --form --item-separator="|" --separator="," \
-    --field=:LBL --field="Format:CB" --field="Bitrate (kbit):NUM" --field="Resoltion (e.g. 800x452, only even)" \
+    --text="File: $name \nResolution: $width"x"$height \nScale: $scale" \
+    --button="Test 5 sec:2" --button="Cancel:1" --button="Ok:0" \
+    --form --item-separator="|" --separator="," --field=:LBL \
+    --field="Format:CB" --field="Bitrate (kbit):NUM" --field="Resoltion (e.g. 800x452, only even)" \
     --field="Crop W:H:X:Y (Width : Height : X offset left corner : Y offset left corner):" \
-    --field="Codec Video:CB" --field="Codec Audio:CB" \
-    --field="Rotate:CB" --field="Short test (5 sec):CHK" --field="Mute:CHK" --field="Framerate" \
-    --field="FadeIn" --field="FadeOut" --field="CPU Core using:NUM" \
-    \
+    --field="Codec Video:CB" --field="Codec Audio:CB" --field="Rotate:CB" --field="Framerate" \
+    --field="FadeIn, sec" --field="FadeOut, sec" --field="CPU Core using:NUM" \
     ""   "copy|^mkv|mov|mp4|avi|gif"   "4000|0..10000|500"   "" \
-    ""    "^copy|^h264 MPEG-4/AVC|hevc H.265|vp8|vp9|av1|vvc H.266|mpeg2video"   "copy|^mp3|aac" \
-    "^No|CW|CCW"   FALSE   FALSE   "" \
-    0   0   "0|0..12|1"`
+    ""    "^copy|^h264 MPEG-4/AVC|hevc H.265|vp8|vp9|av1|vvc H.266|mpeg2video"   "copy|^mp3|aac|mute" \
+    "^No|CW|CCW"    ""    0    0    "1|0..12|1"`
 
 exit_status=$?
-if [ $exit_status != 0 ]; then exit; fi
-
+if [ $exit_status != 0 ] && [ $exit_status != 2 ]; then exit; fi
 
 format=$( echo $parameters | awk -F ',' '{print $2}')
 if [ "$format" != "copy" ]; then ext=$format; fi
@@ -40,56 +40,51 @@ bitrate=$( echo $parameters | awk -F ',' '{print $3}')
 
 size=$( echo $parameters | awk -F ',' '{print $4}')
 if [ -n "$size" ]; then
-    optionsize="-s $size"
-    sizeprefix="_$size"
+    optionSize="-s $size"
+    sizePrefix="_$size"
 fi
 
 crop=$( echo $parameters | awk -F ',' '{print $5}')
-if [ -n "$crop" ]; then cropprefix="-filter:v crop=$crop"; fi
-
-videocodec=$( echo $parameters | awk -F ',' '{print $6}')
-if [[ "$videocodec" != "copy" ]] && [[ "$format" != "gif" ]]; then
-    optionvideocodec="-vcodec ${videocodec%% *}"
+if [ -n "$crop" ]; then
+    optionCrop="-filter:v crop=$crop"
+    prefix="${prefix}_crop"
 fi
 
-audiocodec=$( echo $parameters | awk -F ',' '{print $7}')
-if [ "$audiocodec" != "copy" ]; then
-    optionaudiocodec="-acodec $audiocodec"
+videoCodec=$( echo $parameters | awk -F ',' '{print $6}')
+if [ "$format" != "gif" ]; then optionVideoCodec="-vcodec ${videoCodec%% *}"; fi
+
+audioCodec=$( echo $parameters | awk -F ',' '{print $7}')
+if [ "$audiocodec" = "mute" ]
+    then optionAudioCodec="-an"; prefix="${prefix}_nosound"
+    else optionAudioCodec="-acodec $audioCodec"
 fi
 
 rotate=$( echo $parameters | awk -F ',' '{print $8}')
-if [[ "$rotate" = "CW" ]]; then
-    option_rotate="-vf transpose=1"
-    prefix="_CW"
+if [ "$rotate" = "CW" ]; then
+    optionRotate="-vf transpose=1"
+    prefix="${prefix}_$rotate"
 elif [ "$rotate" = "CCW" ]; then
-    option_rotate="-vf transpose=2"
-    prefix="_CCW"
+    optionRotate="-vf transpose=2"
+    prefix="${prefix}_$rotate"
 fi
 
-test=$( echo $parameters | awk -F ',' '{print $9}')
-if [ "$test" = TRUE ]; then
-    testcode="-ss 00:00:05 -to 00:00:10"
+if [ "${exit_status}" = 2 ]; then
+    optionCut="-ss 00:00:05 -to 00:00:10"
     prefix="${prefix}_5sec"
 fi
 
-nosound=$( echo $parameters | awk -F ',' '{print $10}')
-if [ "$nosound" = TRUE ]; then
-    optionaudiocodec="-an"
-    prefix="${prefix}_nosound"
-fi
-
-framerate=$( echo $parameters | awk -F ',' '{print $11}')
+framerate=$( echo $parameters | awk -F ',' '{print $9}')
 if [ "$framerate" != "" ]; then
     optionFramerate="-r $framerate"
     prefix="${prefix}_${framerate}fps"
 fi
 
-fadeInDuration=$( echo $parameters | awk -F ',' '{print $12}')
-fadeOutDuration=$( echo $parameters | awk -F ',' '{print $13}')
+fadeInDuration=$( echo $parameters | awk -F ',' '{print $10}')
+fadeOutDuration=$( echo $parameters | awk -F ',' '{print $11}')
+if [ "$fadeInDuration" != 0 ] || [ "$fadeOutDuration" != 0 ]; then prefix="${prefix}_fade"; fi
 
-
-threads=$( echo $parameters | awk -F ',' '{print $14}')
-if [ $threads -gt 0 ]; then optionthreads="-threads $threads"; fi
+threads=$( echo $parameters | awk -F ',' '{print $12}')
+if [ "$threads" != 0 ]; then optionThreads="-threads $threads"; fi
 
 # numberFiles=${#array[@]}
 # dbusRef=`kdialog --title "Media Processing" --progressbar "" $numberFiles`
@@ -106,17 +101,20 @@ for file in "${array[@]}"; do
     durationM=$(($duration / 60))
     durationS=$(($duration - $durationM * 60))
 
-    if [ "$fadeInDuration" -ne 0] || [ "$fadeOutDuration" -ne 0 ]; then
-        startFadeOut=$(($duration-$fadeOutDuration))
+    if [ "$fadeInDuration" != 0 ] || [ "$fadeOutDuration" != 0 ]; then
+        if [ -n "$optionCut" ]
+            then startFadeOut=4
+            else startFadeOut=$(($duration-$fadeOutDuration))
+        fi
         fadeInOut="-vf fade=t=in:st=0:d=${fadeInDuration},fade=t=out:st=${startFadeOut}:d=${fadeOutDuration}"
     fi
 
     if [ "$durationM" != "0" ]
-        then duration=$durationM" мин "$durationS" сек"
-        else duration=$durationS" сек"
+        then duration=$durationM" min "$durationS" sec"
+        else duration=$durationS" sec"
     fi
 
-    konsole --hide-menubar -qwindowtitle "Обработка файла $counter из $numberFiles- ${file##*/} длительностью $duration" -e "ffmpeg -v quiet -stats $optionthreads -i \"$file\" $optionthreads $cropprefix -y -b:v \"$bitrate\"k $option_rotate $optionvideocodec $optionsize $optionaudiocodec $optionFramerate $testcode $fadeInOut -strict -2 \"${file%.*}\"$sizeprefix\"_$bitrate\"k\"$prefix.$ext\""
+    konsole --hide-menubar -qwindowtitle "Processing file $counter of $numberFiles- ${file##*/} duration $duration" -e "ffmpeg -v quiet -stats $optionThreads $optionCut -i \"$file\" $optionCrop -y -b:v \"$bitrate\"k $optionRotate $optionVideoCodec $optionSize $optionAudioCodec $optionFramerate $fadeInOut -strict -2 \"${file%.*}\"$sizePrefix\"_$bitrate\"k\"$prefix.$ext\""
 
 #     qdbus $dbusRef Set "" value $counter
 #     qdbus $dbusRef setLabelText "Completed $counter of $numberFiles"
