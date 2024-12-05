@@ -28,9 +28,28 @@ reEncoding=$(echo $parameters | awk -F ',' '{print $3}')
 
 fadeInDuration=$( echo $parameters | awk -F ',' '{print $4}')
 fadeOutDuration=$( echo $parameters | awk -F ',' '{print $5}')
-if [ "$fadeInDuration" -ne 0] || [ "$fadeOutDuration" -ne 0 ]; then
-    startFadeOut=$(($cutFinishTime-$cutStart-$fadeInDuration))
-    fadeInOut="-vf fade=t=in:st=0:d=${fadeInDuration}" #,fade=t=out:st=${startFadeOut}:d=${fadeOutDuration}"
+if [ "$fadeInDuration" -ne 0 ] || [ "$fadeOutDuration" -ne 0 ]; then
+
+    old_ifs="$IFS"
+    IFS=$':'
+    read -r -a arrayF <<< "$cutFinish"
+    read -r -a arrayS <<< "$cutStart"
+    IFS="$old_ifs"
+
+    number=${#arrayS[@]}
+    if [ $number -eq 1 ]; then cutStartS=$cutStart
+    elif [ $number -eq 2 ]; then cutStartS=$(($arrayS[0]*60+$arrayS[1]))
+    elif [ $number -eq 3 ]; then cutStartS=$((${arrayS[0]}*3600+${arrayS[1]}*60+${arrayS[2]}))
+    fi
+
+    number=${#arrayF[@]}
+    if [ $number -eq 1 ]; then cutFinishS=$cutFinish
+    elif [ $number -eq 2 ]; then cutFinishS=$(($arrayF[0]*60+$arrayF[1]))
+    elif [ $number -eq 3 ]; then cutFinishS=$((${arrayF[0]}*3600+${arrayF[1]}*60+${arrayF[2]}))
+    fi
+
+    startFadeOut=$(($cutFinishS-$cutStartS-$fadeOutDuration))
+    fadeInOut="-vf fade=t=in:st=0:d=${fadeInDuration},fade=t=out:st=${startFadeOut}:d=${fadeOutDuration}"
 fi
 
 sufix="${cutStart/ /_}_${cutFinish/ /_}"
