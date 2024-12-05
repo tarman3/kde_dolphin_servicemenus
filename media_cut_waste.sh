@@ -26,8 +26,16 @@ for file in "${array[@]}"; do
 
     finishTime=$(($duration-$cutFinish))
 
-    startFadeOut=$(($finishTime-$cutStart-$fadeInDuration))
-    fadeInOut="-vf fade=t=in:st=0:d=${fadeInDuration},fade=t=out:st=${startFadeOut}:d=${fadeOutDuration}"
+    if [ "$fadeInDuration" != 0 ] && [ "$fadeInDuration" != "" ]; then
+        fadeIn="fade=t=in:st=0:d=${fadeInDuration},"
+    fi
+
+    if [ "$fadeOutDuration" != 0 ] && [ "$fadeOutDuration" != "" ]; then
+        startFadeOut=$(($finishTime-$cutStart-$fadeOutDuration))
+        fadeOut="fade=t=out:st=${startFadeOut}:d=${fadeOutDuration}"
+    fi
+
+    if [ $fadeIn ] || [ $fadeOut ]; then fadeInOut="-vf $fadeIn$fadeOut"; fi
 
     ffmpeg -v quiet -stats -ss $cutStart -to $finishTime -i "$file" -y $fadeInOut -strict -2 "${file%.*}_$cutStart-$finishTime.$ext"
 
