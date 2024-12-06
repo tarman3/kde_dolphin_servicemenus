@@ -13,14 +13,13 @@ ext=${firstFile##*.}
 duration=`ffprobe -i "$firstFile" -show_entries format=duration -v quiet -of csv="p=0" -sexagesimal`
 duration=${duration%.*}
 
-parameters=`yad --width=300 --borders=10 --title="Media Cut" --form --item-separator="|" --separator="," \
+parameters=`yad --width=300 --borders=10 --title="Media Cut" \
+    --form --item-separator="|" --separator="," \
     --field="Start" --field="Finish" --field="Re-encoding (slowly but precisely):CHK" \
     --field="FadeIn, sec" --field="FadeOut, sec" \
-    \
     "0:00:00"    "$duration"    TRUE    0    0`
 
-exit_status=$?
-if [ $exit_status != 0 ]; then exit; fi
+exit_status=$?; if [ $exit_status != 0 ]; then exit; fi
 
 cutStart=$(echo $parameters | awk -F ',' '{print $1}')
 cutFinish=$(echo $parameters | awk -F ',' '{print $2}')

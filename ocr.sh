@@ -3,10 +3,10 @@
 # https://github.com/tesseract-ocr/tesseract
 # https://tesseract-ocr.github.io/tessdoc/Data-Files-in-different-versions.html
 
-old_ifs="$IFS"
+oldIFS="$IFS"
 IFS=$';'
 read -r -a array <<< "$1"
-IFS="$old_ifs"
+IFS="$oldIFS"
 
 firstFile=${array[0]}
 path=${firstFile%/*}
@@ -14,14 +14,14 @@ path=${firstFile%/*}
 parameters=`kdialog --geometry 300x200 --title="OCR - Tesseract" --checklist "Select languages:" \
                 deu "Deutch" off    eng "English" off    ita "Italian" off    rus "Russian" on`
 
-exit_status=$?
-if [ $exit_status != 0 ]; then exit; fi
+exit_status=$?; if [ $exit_status != 0 ]; then exit; fi
 
 languages=$( echo $parameters | awk -F ',' '{print $1}')
 languages=`echo $languages | sed -r 's/" "/+/g' | sed -r 's/[" ]//g'`
 
+
 numberFiles=${#array[@]}
-dbusRef=`kdialog --title "OCR Tesseract" --progressbar "" $numberFiles`
+dbusRef=`kdialog --title "OCR Tesseract" --progressbar "1 of $numberFiles  =>  ${firstFile##*/}" $numberFiles`
 
 for file in "${array[@]}"; do
 
@@ -29,7 +29,7 @@ for file in "${array[@]}"; do
 
     counter=$(($counter+1))
     qdbus $dbusRef Set "" value $counter
-    qdbus $dbusRef setLabelText "Completed $counter of $numberFiles"
+    qdbus $dbusRef setLabelText "$counter of $numberFiles  =>  ${file##*/}"
     if [ ! `qdbus | grep ${dbusRef% *}` ]; then exit; fi
 
 done

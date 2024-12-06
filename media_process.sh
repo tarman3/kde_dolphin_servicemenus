@@ -30,8 +30,7 @@ parameters=`yad --borders=10 --width=600 --title="Media processing" \
     ""    "^copy|^h264 MPEG-4/AVC|hevc H.265|vp8|vp9|av1|vvc H.266|mpeg2video"   "copy|^mp3|aac|mute" \
     "^No|CW|CCW"    ""    0    0    "1|0..12|1"`
 
-exit_status=$?
-if [ $exit_status != 0 ] && [ $exit_status != 2 ]; then exit; fi
+exit_status=$?; if [ $exit_status != 0 ] && [ $exit_status != 2 ]; then exit; fi
 
 format=$( echo $parameters | awk -F ',' '{print $2}')
 if [ "$format" != "copy" ]; then ext=$format; fi
@@ -85,6 +84,7 @@ if [ "$fadeInDuration" != 0 ] || [ "$fadeOutDuration" != 0 ]; then prefix="${pre
 
 threads=$( echo $parameters | awk -F ',' '{print $12}')
 if [ "$threads" != 0 ]; then optionThreads="-threads $threads"; fi
+
 
 # numberFiles=${#array[@]}
 # dbusRef=`kdialog --title "Media Processing" --progressbar "" $numberFiles`

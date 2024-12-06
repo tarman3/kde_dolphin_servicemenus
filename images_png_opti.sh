@@ -2,21 +2,21 @@
 
 # https://optipng.sourceforge.net/
 
-old_ifs="$IFS"
+oldIFS="$IFS"
 IFS=$';'
 read -r -a array <<< "$1"
-IFS="$old_ifs"
+IFS="$oldIFS"
 
 firstFile=${array[0]}
 path=${firstFile%/*}
 
 parameters=`yad --borders=20 --width=500 --title="PNG Optimization" \
     --item-separator="|" --separator="," --form \
-    --field="Type:CB" --field="Remove metadata:CHK" --field="Dir to save:DIR" --field="Add sufix to name:CHK" \
+    --field="Type:CB" --field="Remove metadata:CHK" --field="Dir to save:DIR" \
+    --field="Add sufix to name:CHK" \
      "lossy|lossless"               TRUE                        "$path"                       TRUE`
 
-exit_status=$?
-if [ $exit_status != 0 ]; then exit; fi
+exit_status=$?; if [ $exit_status != 0 ]; then exit; fi
 
 type=$( echo $parameters | awk -F ',' '{print $1}')
 meta=$( echo $parameters | awk -F ',' '{print $2}')
@@ -28,10 +28,12 @@ if [ "$meta" = TRUE ]; then
     meta_quant='--strip'
 fi
 
+
 numberFiles=${#array[@]}
-dbusRef=`kdialog --title "PNG Optimization" --progressbar "" $numberFiles`
+dbusRef=`kdialog --title "PNG Optimization" --progressbar "1 of $numberFiles  =>  ${firstFile##*/}" $numberFiles`
 
 for file in "${array[@]}"; do
+
     fileName="${file##*/}"
 
     if [ "$sufix" = TRUE ]
@@ -46,7 +48,7 @@ for file in "${array[@]}"; do
 
     counter=$(($counter+1))
     qdbus $dbusRef Set "" value $counter
-    qdbus $dbusRef setLabelText "Completed $counter of $numberFiles"
+    qdbus $dbusRef setLabelText "$counter of $numberFiles  =>  ${file##*/}"
     if [ ! `qdbus | grep ${dbusRef% *}` ]; then exit; fi
 
 done

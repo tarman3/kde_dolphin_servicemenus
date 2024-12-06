@@ -1,20 +1,21 @@
 #!/bin/bash
 
-old_ifs="$IFS"
+oldIFS="$IFS"
 IFS=$';'
 read -r -a array <<< "$1"
-IFS="$old_ifs"
+IFS="$oldIFS"
 
 firstFile=${array[0]}
 path=${firstFile%/*}
 
-parameters=`kdialog --geometry 300x200 --title="Export pages from PDF" --inputbox "Pages number (1-3,5,6) or (5-z)" "1"`
+parameters=`kdialog --geometry 300x200 --title="Export pages from PDF" \
+    --inputbox "Pages number (1-3,5,6) or (5-z)" "1"`
 
-exit_status=$?
-if [ $exit_status != 0 ]; then exit; fi
+exit_status=$?; if [ $exit_status != 0 ]; then exit; fi
 
 numberFiles=${#array[@]}
-dbusRef=`kdialog --title "Export pages from PDF" --progressbar "" $numberFiles`
+dbusRef=`kdialog --title "Export pages from PDF" --progressbar "1 of $numberFiles  =>  ${firstFile##*/}" $numberFiles`
+
 
 for file in "${array[@]}"; do
 
@@ -22,7 +23,7 @@ for file in "${array[@]}"; do
 
     counter=$(($counter+1))
     qdbus $dbusRef Set "" value $counter
-    qdbus $dbusRef setLabelText "Completed $counter of $numberFiles"
+    qdbus $dbusRef setLabelText "$counter of $numberFiles  =>  ${file##*/}"
     if [ ! `qdbus | grep ${dbusRef% *}` ]; then exit; fi
 
 done

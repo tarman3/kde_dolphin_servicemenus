@@ -1,9 +1,9 @@
 #!/bin/bash
 
-old_ifs="$IFS"
+oldIFS="$IFS"
 IFS=$';'
 read -r -a array <<< "$1"
-IFS="$old_ifs"
+IFS="$oldIFS"
 
 firstFile=${array[0]}
 path=${firstFile%/*}
@@ -15,9 +15,7 @@ parameters=`yad --borders=10 --width=300 --title="Crop images" --form --item-sep
     "^NorthWest|North|NorthEast|West|Center|East|SouthWest|South|SouthEast" "800x600" "+0+0" \
     FALSE white TRUE "$path"`
 
-exit_status=$?
-if [ $exit_status != 0 ]; then exit; fi
-
+exit_status=$?; if [ $exit_status != 0 ]; then exit; fi
 
 gravity=$( echo $parameters | awk -F ',' '{print $1}')
 size=$( echo $parameters | awk -F ',' '{print $2}')
@@ -29,7 +27,7 @@ dir=$( echo $parameters | awk -F ',' '{print $7}')
 
 
 numberFiles=${#array[@]}
-dbusRef=`kdialog --title "Crop Images" --progressbar "" $numberFiles`
+dbusRef=`kdialog --title "Crop Images" --progressbar "1 of $numberFiles  =>  ${firstFile##*/}" $numberFiles`
 
 for file in "${array[@]}"; do
 
@@ -58,7 +56,7 @@ for file in "${array[@]}"; do
 
     counter=$(($counter+1))
     qdbus $dbusRef Set "" value $counter
-    qdbus $dbusRef setLabelText "Completed $counter of $numberFiles"
+    qdbus $dbusRef setLabelText "$counter of $numberFiles  =>  ${file##*/}"
     if [ ! `qdbus | grep ${dbusRef% *}` ]; then exit; fi
 
 done

@@ -1,10 +1,10 @@
 #!/bin/bash
 
 
-old_ifs="$IFS"
+oldIFS="$IFS"
 IFS=$';'
 read -r -a array <<< "$1"
-IFS="$old_ifs"
+IFS="$oldIFS"
 
 sufix=`date +%Y-%m-%d_%H-%M-%S`
 
@@ -13,11 +13,11 @@ parameters=`yad --width=300 --borders=20 --title="Add Time Stamp to file name" \
     --field="Sufix" --field="Rewrite original:CHK" \
         "_$sufix"                  TRUE`
 
-exit_status=$?
-if [ $exit_status != 0 ]; then exit; fi
+exit_status=$?; if [ $exit_status != 0 ]; then exit; fi
 
 sufix=$( echo $parameters | awk -F ',' '{print $1}')
 rewrite=$( echo $parameters | awk -F ',' '{print $2}')
+
 
 for file in "${array[@]}"; do
 

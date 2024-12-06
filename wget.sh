@@ -2,10 +2,8 @@
 
 arg1="$1"
 
-if [ -f  "$arg1" ]
-    then dir=${arg1%/*}
-elif [ -d  "$arg1" ]
-    then dir="$arg1"
+if [ -f  "$arg1" ]; then dir=${arg1%/*}
+elif [ -d  "$arg1" ]; then dir="$arg1"
 else
     kdialog --title "Downloading" --icon "error" --passivepopup "Can not get dir path" 3
     exit
@@ -26,14 +24,13 @@ fileName="${link##*/}"
 sizeRemote=`HEAD -t 5 "$link" | grep '^Content-Length:' | sed s/"Content-Length: "//g`
 sizeRemoteHuman=`echo $sizeRemote | perl -pe 's/(?<=\d)(?=(?:\d\d\d)+(?: |_|$))/ /g'`
 
-parameters=`yad --borders=20 --width=800 --title="wget - Download file" --item-separator="|" --form \
+parameters=`yad --borders=20 --width=800 --title="wget - Download file" \
+    --form --item-separator="|" \
     --field="Link" --field="File name" --field="Size, bytes:RO" \
     --field="Continue downloading:CHK" --field="Custom User-Agent:CHK" --field="Dir to save:DIR" \
-    \
     "$link"    "$fileName"    "$sizeRemoteHuman"    TRUE    FALSE    "$dir"`
 
-exit_status=$?
-if [ $exit_status != 0 ]; then exit; fi
+exit_status=$?; if [ $exit_status != 0 ]; then exit; fi
 
 fileName=$( echo $parameters | awk -F '|' '{print $2}')
 continue=$( echo $parameters | awk -F '|' '{print $4}')

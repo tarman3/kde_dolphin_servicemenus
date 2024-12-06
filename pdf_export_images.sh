@@ -1,20 +1,19 @@
 #!/bin/bash
 
-old_ifs="$IFS"
+oldIFS="$IFS"
 IFS=$';'
 read -r -a array <<< "$1"
-IFS="$old_ifs"
+IFS="$oldIFS"
 
 firstFile=${array[0]}
 path=${firstFile%/*}
 
 parameters=`yad --borders=10 --width=500 --title="Export images from PDF" \
-    --form --item-separator="|" --separator="," --field=":LBL" \
+    --form --item-separator="|" --separator="," \
     --field="First page:NUM" --field="Last page:NUM" --field="Amount pages:NUM" --field="All pages:CHK" \
-    "" "1" "1" "1" FALSE`
+                "1"                         "1"                     "1"                 FALSE`
 
-exit_status=$?
-if [ $exit_status != 0 ]; then exit; fi
+exit_status=$?; if [ $exit_status != 0 ]; then exit; fi
 
 firstPage=$(echo $parameters | awk -F ',' '{print $2}')
 lastPage=$(echo $parameters | awk -F ',' '{print $3}')
@@ -23,9 +22,10 @@ all=$(echo $parameters | awk -F ',' '{print $5}')
 
 
 numberFiles=${#array[@]}
-dbusRef=`kdialog --title "Export images from PDF" --progressbar "" $numberFiles`
+dbusRef=`kdialog --title "Export images from PDF" --progressbar "1 of $numberFiles  =>  ${firstFile##*/}" $numberFiles`
 
 for file in "${array[@]}"; do
+
     dirExport="${file%.*}_images"
     pathExport="${dirExport}/img"
 
@@ -41,12 +41,11 @@ for file in "${array[@]}"; do
     then pdfimages -all -p -f $firstPage -l $lastPage "$file" "$pathExport"
 
     else pdfimages -all -p -f $firstPage -l $firstPage "$file" "$pathExport"
-
     fi
 
     counter=$(($counter+1))
     qdbus $dbusRef Set "" value $counter
-    qdbus $dbusRef setLabelText "Completed $counter of $numberFiles"
+    qdbus $dbusRef setLabelText "$counter of $numberFiles  =>  ${file##*/}"
     if [ ! `qdbus | grep ${dbusRef% *}` ]; then exit; fi
 
 done

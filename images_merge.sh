@@ -1,26 +1,24 @@
 #!/bin/bash
 
-old_ifs="$IFS"
+oldIFS="$IFS"
 IFS=$';'
 read -r -a array <<< "$1"
-# IFS="$old_ifs"
+# IFS="$oldIFS"
 
 firstFile=${array[0]}
 path=${firstFile%/*}
 ext=${firstFile##*.}
 nameNoExt=${firstFile%.*}
 
-if [ $ext = "png" ] || [ $ext = "PNG" ]; then
-    extForm="^png|jpg|tiff|bmp"
-else
-    extForm="^jpg|png|tiff|bmp"
+if [ $ext = "png" ] || [ $ext = "PNG" ]
+    then extForm="^png|jpg|tiff|bmp"
+    else extForm="^jpg|png|tiff|bmp"
 fi
 
-parameters=`yad --borders=10 --width=400 --height=250 --title="Merge Images" --text-align=center \
+parameters=`yad --borders=10 --width=400 --height=250 --title="Merge Images" \
     --item-separator="|" --separator="," --form  \
     --field=":LBL" --field="Direction:CB" --field="Space between images (px)" \
     --field="Frame around images:CHK" --field="Background color:CB" --field="Format:CB" \
-    \
     "" "^hor|vert" 5 FALSE "transparent|white|black" "$extForm"`
 
 exit_status=$?; if [ $exit_status != 0 ]; then exit; fi

@@ -1,31 +1,31 @@
 #!/bin/bash
 
-old_ifs="$IFS"
+oldIFS="$IFS"
 IFS=$';'
 read -r -a array <<< "$1"
-IFS="$old_ifs"
+IFS="$oldIFS"
 
 firstFile=${array[0]}
 path=${firstFile%/*}
 
-parameters=`yad --borders=10 --width=500 --title="Convert PDF to image" --form --item-separator="|" --separator="," \
-    --field=":LBL" --field="First page:NUM" --field="Last page:NUM" --field="Amount pages:NUM" --field="All pages:CHK" \
+parameters=`yad --borders=10 --width=500 --title="Convert PDF to image" \
+    --form --item-separator="|" --separator="," \
+    --field="First page:NUM" --field="Last page:NUM" --field="Amount pages:NUM" --field="All pages:CHK" \
     --field="dPI:NUM" --field="Format:CB" \
-    "" "1" "1" "1" FALSE "150|50..2400|50" "^png|jpeg|tiff|svg"`
+    "1" "1" "1" FALSE "150|50..2400|50" "^png|jpeg|tiff|svg"`
 
-exit_status=$?
-if [ $exit_status != 0 ]; then exit; fi
+exit_status=$?; if [ $exit_status != 0 ]; then exit; fi
 
-firstPage=$( echo $parameters | awk -F ',' '{print $2}')
-lastPage=$( echo $parameters | awk -F ',' '{print $3}')
-quantity=$( echo $parameters | awk -F ',' '{print $4}')
-all=$( echo $parameters | awk -F ',' '{print $5}')
-dpi=$( echo $parameters | awk -F ',' '{print $6}')
-format=$( echo $parameters | awk -F ',' '{print $7}')
+firstPage=$( echo $parameters | awk -F ',' '{print $1}')
+lastPage=$( echo $parameters | awk -F ',' '{print $2}')
+quantity=$( echo $parameters | awk -F ',' '{print $3}')
+all=$( echo $parameters | awk -F ',' '{print $4}')
+dpi=$( echo $parameters | awk -F ',' '{print $5}')
+format=$( echo $parameters | awk -F ',' '{print $6}')
 
 
 numberFiles=${#array[@]}
-dbusRef=`kdialog --title "Compress PDF" --progressbar "" $numberFiles`
+dbusRef=`kdialog --title "Compress PDF" --progressbar "1 of $numberFiles  =>  ${firstFile##*/}" $numberFiles`
 
 for file in "${array[@]}"; do
 
@@ -45,7 +45,7 @@ for file in "${array[@]}"; do
 
     counter=$(($counter+1))
     qdbus $dbusRef Set "" value $counter
-    qdbus $dbusRef setLabelText "Completed $counter of $numberFiles"
+    qdbus $dbusRef setLabelText "$counter of $numberFiles  =>  ${file##*/}"
     if [ ! `qdbus | grep ${dbusRef% *}` ]; then exit; fi
 
 done

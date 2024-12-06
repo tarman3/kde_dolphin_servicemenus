@@ -1,9 +1,9 @@
 #!/bin/bash
 
-old_ifs="$IFS"
+oldIFS="$IFS"
 IFS=$';'
 read -r -a array <<< "$1"
-IFS="$old_ifs"
+IFS="$oldIFS"
 
 firstFile=${array[0]}
 path=${firstFile%/*}
@@ -12,17 +12,15 @@ parameters=`yad --borders=20 --width=500 --title="Change Gamma" --form --item-se
     --field="Gamma:NUM" --field=" :LBL" --field="Dir to save:DIR" --field="Add sufix to name:CHK" \
     "1.0|0.1..2.5|0.1|1"        ""                  "$path"                     TRUE`
 
-exit_status=$?
-if [ $exit_status != 0 ]; then exit; fi
+exit_status=$?; if [ $exit_status != 0 ]; then exit; fi
 
 gamma=$( echo $parameters | awk -F ',' '{print $1}')
-# gamma=${gamma/","/"."}
-
 dir=$( echo $parameters | awk -F ',' '{print $3}')
 sufix=$( echo $parameters | awk -F ',' '{print $4}')
 
+
 numberFiles=${#array[@]}
-dbusRef=`kdialog --title "Changing Gamma" --progressbar "" $numberFiles`
+dbusRef=`kdialog --title "Changing Gamma" --progressbar "1 of $numberFiles  =>  ${firstFile##*/}" $numberFiles`
 
 for file in "${array[@]}"; do
 
@@ -36,7 +34,7 @@ for file in "${array[@]}"; do
 
     counter=$(($counter+1))
     qdbus $dbusRef Set "" value $counter
-    qdbus $dbusRef setLabelText "Completed $counter of $numberFiles"
+    qdbus $dbusRef setLabelText "$counter of $numberFiles  =>  ${file##*/}"
     if [ ! `qdbus | grep ${dbusRef% *}` ]; then exit; fi
 
 done

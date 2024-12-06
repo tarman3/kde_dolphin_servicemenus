@@ -1,9 +1,9 @@
 #!/bin/bash
 
-old_ifs="$IFS"
+oldIFS="$IFS"
 IFS=$';'
 read -r -a array <<< "$1"
-IFS="$old_ifs"
+IFS="$oldIFS"
 
 firstFile=${array[0]}
 path=${firstFile%/*}
@@ -11,8 +11,7 @@ path=${firstFile%/*}
 parameters=`kdialog --geometry 300 --title="Change text files encoding" --radiolist "Encoding" \
             UTF-8 UTF-8 on    CP1251 CP1251 off`
 
-exit_status=$?
-if [ $exit_status != 0 ]; then exit; fi
+exit_status=$?; if [ $exit_status != 0 ]; then exit; fi
 
 encoding=$( echo $parameters | awk -F ',' '{print $1}')
 

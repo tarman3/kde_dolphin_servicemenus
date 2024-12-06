@@ -1,21 +1,19 @@
 #!/bin/bash
 
-old_ifs="$IFS"
+oldIFS="$IFS"
 IFS=$';'
 read -r -a array <<< "$1"
-IFS="$old_ifs"
+IFS="$oldIFS"
 
 firstFile=${array[0]}
 path=${firstFile%/*}
 
-parameters=`yad --borders=20 --width=500 --title="Compress JPG" \
-    --text-align=center --item-separator="|" --separator="," --form \
+parameters=`yad --borders=20 --width=500 --title="Compress JPG" --item-separator="|" --separator="," --form \
     --field="Type:CB" --field="Quality:SCL" --field=" :LBL" --field="Dir to save:DIR" \
     --field="Add sufix to name:CHK" \
     "lossy|lossless" "85"    ""    "$path"    TRUE`
 
-exit_status=$?
-if [ $exit_status != 0 ]; then exit; fi
+exit_status=$?; if [ $exit_status != 0 ]; then exit; fi
 
 type=$( echo $parameters | awk -F ',' '{print $1}')
 quality=$( echo $parameters | awk -F ',' '{print $2}')
@@ -24,9 +22,10 @@ sufix=$( echo $parameters | awk -F ',' '{print $5}')
 
 
 numberFiles=${#array[@]}
-dbusRef=`kdialog --progressbar "Compress JPG" $numberFiles`
+dbusRef=`kdialog --title "Compress JPG" --progressbar "1 of $numberFiles  =>  ${firstFile##*/}" $numberFiles`
 
 for file in "${array[@]}"; do
+
     fileName="${file##*/}"
     if [ "$sufix" = TRUE ]; then
         if [ "$type" = "lossless" ]
@@ -37,7 +36,6 @@ for file in "${array[@]}"; do
         else file_out="$dir/$fileName"
     fi
 
-    # magick "$file" -quality $quality "${file_out}"
     if [ "$type" = "lossless" ]
         then jpegoptim --dest="$dir" --overwrite --force "$file" --stdout > "$file_out"
         else jpegoptim --dest="$dir" --overwrite --force --max=$quality "$file" --stdout >> "$file_out"
@@ -45,7 +43,7 @@ for file in "${array[@]}"; do
 
     counter=$(($counter+1))
     qdbus $dbusRef Set "" value $counter
-    qdbus $dbusRef setLabelText "Completed $counter of $numberFiles"
+    qdbus $dbusRef setLabelText "$counter of $numberFiles  =>  ${file##*/}"
     if [ ! `qdbus | grep ${dbusRef% *}` ]; then exit; fi
 
 done

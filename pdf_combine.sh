@@ -3,10 +3,10 @@
 # Combine PDF and images to PDF
 # Also try to decrypt PDF
 
-old_ifs="$IFS"
+oldIFS="$IFS"
 IFS=$';'
 read -r -a array <<< "$1"
-# IFS="$old_ifs"
+# IFS="$oldIFS"
 
 firstFile=${array[0]}
 path=${firstFile%/*}
@@ -34,8 +34,7 @@ done
 
 parameters=`kdialog --geometry 300x200 --title="Combine to PDF" --inputbox "Save to" "${nameNoExt}_combine"`
 
-exit_status=$?
-if [ $exit_status != 0 ]; then exit; fi
+exit_status=$?; if [ $exit_status != 0 ]; then exit; fi
 
 newName="${parameters%.*}.pdf"
 

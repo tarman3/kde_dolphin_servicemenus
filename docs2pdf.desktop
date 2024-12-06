@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Service
-MimeType=text/csv;text/html;text/plain;application/vnd.oasis.opendocument.spreadsheet;application/vnd.oasis.opendocument.graphics;application/vnd.ms-powerpoint;application/vnd.openxmlformats-officedocument.presentationml.presentation;application/vnd.oasis.opendocument.spreadsheet;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;application/vnd.oasis.opendocument.text;application/rtf;application/vnd.ms-word
+MimeType=text/*;application/*
 Actions=docs2pdf;
 X-KDE-Submenu=Documents Actions
 X-KDE-Priority=TopLevel
@@ -9,17 +9,3 @@ X-KDE-Priority=TopLevel
 [Desktop Action docs2pdf]
 Name=Convert documents to PDF
 Exec=unoconv --timeout 20 --format pdf %F
-
-# csv     text/csv;
-# html    text/html
-# txt     text/plain
-# ods     application/vnd.oasis.opendocument.spreadsheet
-# doc     application/vnd.ms-word
-# docx    application/vnd.openxmlformats-officedocument.wordprocessingml.document
-# rtf     application/rtf
-# odt     application/vnd.oasis.opendocument.text
-# xls     application/vnd.oasis.opendocument.spreadsheet
-# xlsx    application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
-# ods     application/vnd.oasis.opendocument.spreadsheet
-# ppt     application/vnd.ms-powerpoint
-# pptx    application/vnd.openxmlformats-officedocument.presentationml.presentation

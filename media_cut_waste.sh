@@ -14,6 +14,7 @@ cutFinish=$3
 fadeInDuration=1
 fadeOutDuration=1
 
+
 numberFiles=${#array[@]}
 dbusRef=`kdialog --title "Media Cut Waste" --progressbar "1 of $numberFiles  =>  ${firstFile##*/}" $numberFiles`
 
