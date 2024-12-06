@@ -1,9 +1,9 @@
 #!/bin/bash
 
-old_ifs="$IFS"
+oldIFS="$IFS"
 IFS=$';'
 read -r -a array <<< "$1"
-IFS="$old_ifs"
+IFS="$oldIFS"
 
 firstFile=${array[0]}
 path=${firstFile%/*}
@@ -101,15 +101,22 @@ for file in "${array[@]}"; do
     durationM=$(($duration / 60))
     durationS=$(($duration - $durationM * 60))
 
-    if [ "$fadeInDuration" != 0 ] || [ "$fadeOutDuration" != 0 ]; then
-        if [ -n "$optionCut" ]
-            then startFadeOut=4
-            else startFadeOut=$(($duration-$fadeOutDuration))
-        fi
-        fadeInOut="-vf fade=t=in:st=0:d=${fadeInDuration},fade=t=out:st=${startFadeOut}:d=${fadeOutDuration}"
+    if [ -n "$optionCut" ];
+        then durationProcess=5
+        else durationProcess=$duration
     fi
 
-    if [ "$durationM" != "0" ]
+    if [ "$fadeInDuration" != 0 ] && [ "$fadeInDuration" != "" ]; then
+        fadeIn="fade=t=in:st=0:d=${fadeInDuration},"
+    fi
+    if [ "$fadeOutDuration" != 0 ] && [ "$fadeOutDuration" != "" ]; then
+        startFadeOut=$(($durationProcess-$fadeOutDuration))
+        fadeOut="fade=t=out:st=${startFadeOut}:d=${fadeOutDuration}"
+    fi
+    if [ $fadeIn ] || [ $fadeOut ]; then fadeInOut="-vf $fadeIn$fadeOut"; fi
+
+
+    if [ "$durationM" != 0 ]
         then duration=$durationM" min "$durationS" sec"
         else duration=$durationS" sec"
     fi
