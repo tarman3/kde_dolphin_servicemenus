@@ -11,8 +11,8 @@ path=${firstFile%/*}
 cutStart=$2
 cutFinish=$3
 
-fadeInDuration=1
-fadeOutDuration=1
+fadeInDuration=$4
+fadeOutDuration=$5
 
 
 numberFiles=${#array[@]}
@@ -27,18 +27,20 @@ for file in "${array[@]}"; do
 
     finishTime=$(($duration-$cutFinish))
 
-    if [ "$fadeInDuration" != 0 ] && [ "$fadeInDuration" != "" ]; then
+    if [ "$fadeInDuration" != "" ] && [ "$fadeInDuration" != 0 ]; then
         fadeIn="fade=t=in:st=0:d=${fadeInDuration},"
+        prefix='_fade'
     fi
 
-    if [ "$fadeOutDuration" != 0 ] && [ "$fadeOutDuration" != "" ]; then
+    if [ "$fadeOutDuration" != "" ] && [ "$fadeOutDuration" != 0 ]; then
         startFadeOut=$(($finishTime-$cutStart-$fadeOutDuration))
         fadeOut="fade=t=out:st=${startFadeOut}:d=${fadeOutDuration}"
+        prefix='_fade'
     fi
 
     if [ $fadeIn ] || [ $fadeOut ]; then fadeInOut="-vf $fadeIn$fadeOut"; fi
 
-    ffmpeg -v quiet -stats -ss $cutStart -to $finishTime -i "$file" -y $fadeInOut -strict -2 "${file%.*}_$cutStart-$finishTime.$ext"
+    ffmpeg -v quiet -stats -ss $cutStart -to $finishTime -i "$file" -y $fadeInOut -strict -2 "${file%.*}_$cutStart-$finishTime$prefix.$ext"
 
     counter=$(($counter+1))
     qdbus $dbusRef Set "" value $counter
