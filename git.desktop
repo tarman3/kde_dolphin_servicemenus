@@ -2,7 +2,7 @@
 Type=Service
 MimeType=inode/directory;
 Actions=add_commit_all;replace_last_commit
-X-KDE-Submenu=Git
+X-KDE-Submenu=Git Actions
 X-KDE-Priority=TopLevel
 X-KDE-RequiredNumberOfUrls=1
 

@@ -3,7 +3,7 @@ Type=Service
 MimeType=inode/directory;application/octet-stream;
 Icon=org.gnome.meld
 Actions=setArg1;setArg2;compare2files;compare3files;
-X-KDE-Submenu=Compare
+X-KDE-Submenu=Compare Actions
 X-KDE-Priority=TopLevel
 X-KDE-RequiredNumberOfUrls=1
 

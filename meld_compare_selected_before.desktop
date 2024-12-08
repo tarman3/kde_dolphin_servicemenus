@@ -3,7 +3,7 @@ Type=Service
 MimeType=inode/directory;
 Icon=org.gnome.meld
 Actions=compareMarkedBefore;
-X-KDE-Submenu=Compare
+X-KDE-Submenu=Compare Actions
 X-KDE-Priority=TopLevel
 X-KDE-RequiredNumberOfUrls=1
 

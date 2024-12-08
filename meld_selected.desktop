@@ -4,7 +4,7 @@ MimeType=inode/directory;application/octet-stream;
 Icon=org.gnome.meld
 Actions=compare_selected
 X-KDE-Priority=TopLevel
-X-KDE-Submenu=Compare
+X-KDE-Submenu=Compare Actions
 X-KDE-MinNumberOfUrls=2
 
 

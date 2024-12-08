@@ -2,7 +2,7 @@
 Type=Service
 MimeType=inode/directory;application/octet-stream
 Actions=add_commit_selected;
-X-KDE-Submenu=Git
+X-KDE-Submenu=Git Actions
 X-KDE-Priority=TopLevel
 
 

@@ -36,6 +36,7 @@ format=$( echo $parameters | awk -F ',' '{print $2}')
 if [ "$format" != "copy" ]; then ext=$format; fi
 
 bitrate=$( echo $parameters | awk -F ',' '{print $3}')
+optionBitrate="-b:v ${bitrate}k"
 
 size=$( echo $parameters | awk -F ',' '{print $4}')
 if [ -n "$size" ]; then
@@ -121,7 +122,7 @@ for file in "${array[@]}"; do
         else duration=$durationS" sec"
     fi
 
-    konsole --hide-menubar -qwindowtitle "Processing file $counter of $numberFiles- ${file##*/} duration $duration" -e "ffmpeg -v quiet -stats $optionThreads $optionCut -i \"$file\" $optionCrop -y -b:v \"$bitrate\"k $optionRotate $optionVideoCodec $optionSize $optionAudioCodec $optionFramerate $fadeInOut -strict -2 \"${file%.*}\"$sizePrefix\"_$bitrate\"k\"$prefix.$ext\""
+    konsole --hide-menubar -qwindowtitle "Processing file $counter of $numberFiles - \"${file##*/}\" duration $duration" -e "ffmpeg -y -v quiet -stats $optionThreads $optionCut -i \"$file\" $optionCrop $optionBitrate $optionRotate $optionVideoCodec $optionSize $optionAudioCodec $optionFramerate $fadeInOut -strict -2 \"${file%.*}${sizePrefix}_${bitrate}k${prefix}.${ext}\""
 
 #     qdbus $dbusRef Set "" value $counter
 #     qdbus $dbusRef setLabelText "Completed $counter of $numberFiles"
@@ -131,4 +132,4 @@ done
 
 # qdbus $dbusRef close
 
-kdialog --title "Export images from PDF" --icon "checkbox" --passivepopup "Completed" 3
+kdialog --title "Media processing" --icon "checkbox" --passivepopup "Completed" 3
