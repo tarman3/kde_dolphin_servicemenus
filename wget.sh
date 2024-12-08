@@ -1,7 +1,6 @@
 #!/bin/bash
 
 arg1="$1"
-
 if [ -f  "$arg1" ]; then dir=${arg1%/*}
 elif [ -d  "$arg1" ]; then dir="$arg1"
 else
@@ -9,11 +8,8 @@ else
     exit
 fi
 
-agent_string="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36"
-
 # link=`xclip -sel clip -o` # Get link from clipboard X11
 link=`wl-paste`             # Get link from clipboard Wayland
-
 if [[ "$link" != http* ]]; then
     kdialog --title "Downloading" --icon "error" --passivepopup "Clipboard does not contain link" 3
     exit
@@ -43,6 +39,8 @@ if [ $sizeRemote ]; then
     pathTmp="${dir}/${fileName}.wget-tmp"
     echo "$link" > "$pathTmp"
 fi
+
+agent_string="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36"
 
 
 if [ "$userAgent" ]

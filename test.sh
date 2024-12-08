@@ -4,12 +4,12 @@ echo "$@" > /tmp/test1
 echo $1 >> /tmp/test1
 echo $2 >> /tmp/test1
 
-# old_ifs="$IFS"
+# oldIFS="$IFS"
 IFS=$';'
 echo "$@" >> /tmp/test1
 
 # read -r -a array <<< "$1"
-# IFS="$old_ifs"
+# IFS="$oldIFS"
 
 # firstFile=${array[0]}
 # path=${firstFile%/*}
