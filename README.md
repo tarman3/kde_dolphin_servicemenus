@@ -65,6 +65,7 @@ sudo pacman -S bc cwebp enca jpegoptim ffmpeg imagemagick kdialog meld oxipng pe
 |**timestamp**|Добавить дату к имени файла|
 |**txt_encoding**|Изменить кодировку текстовых файлов|
 |**wget**|Скачать файл по ссылке из буфера обмена|
+|**ytdlp**|Скачать видео по ссылке из буфера обмена|
 
 ## Полезные ссылки
 - [Creating Dolphin service menus](https://develop.kde.org/docs/apps/dolphin/service-menus)  

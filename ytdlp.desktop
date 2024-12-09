@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Service
+MimeType=inode/directory;application/octet-stream
+Actions=ytdlp;
+X-KDE-RequiredNumberOfUrls=1
+
+
+[Desktop Action ytdlp]
+Name=Download video from clipboard link
+Exec=konsole --profile 'ytdlp' -e ~/.local/share/kio/servicemenus/ytdlp.sh %u

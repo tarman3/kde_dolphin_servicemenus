@@ -6,5 +6,5 @@ X-KDE-RequiredNumberOfUrls=1
 
 
 [Desktop Action wget]
-Name=Download link from clipboard
+Name=Download file from clipboard link
 Exec=~/.local/share/kio/servicemenus/wget.sh %u
