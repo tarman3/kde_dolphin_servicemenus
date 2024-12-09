@@ -35,7 +35,8 @@ sudo pacman -S bc cwebp enca jpegoptim ffmpeg imagemagick kdialog meld oxipng pe
 
 |Сценарий|Описание|
 |---|---|
-|**delete**|Удалить средствами Secure delete|
+|**delete_as_root**|Удалить c правами root|
+|**delete_secure**|Удалить средствами Secure delete|
 |**docs2pdf**|Конвертировать документы в PDF|
 |**git_add_commit**|Создать коммит Git|
 |**git_replace_last_commit**|Заменить последний коммит Git|

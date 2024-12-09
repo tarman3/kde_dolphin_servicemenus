@@ -1,9 +1,14 @@
 [Desktop Entry]
 Type=Service
 MimeType=inode/directory;application/octet-stream
-Actions=delete;
+Actions=delete_secure;deleteAsRoot
 
 
-[Desktop Action delete]
+[Desktop Action delete_secure]
 Name=Secure Delete
-Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/delete.sh "${args:1}"
+Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/delete_secure.sh "${args:1}"
+
+[Desktop Action deleteAsRoot]
+Name=Delete as Root
+Exec=for file in %F; do args=$args';'$file; done; konsole -e ~/.local/share/kio/servicemenus/delete_as_root.sh "${args:1}"
+# Exec=konsole -e "sudo rm --recursive %U"
