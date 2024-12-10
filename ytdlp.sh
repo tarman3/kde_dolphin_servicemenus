@@ -26,10 +26,15 @@ file_name2="%\(title\)s.%\(ext\)s"
 yt-dlp --get-title --get-id --get-duration --list-formats "$link"
 
 echo
-echo -e "Enter ID, e.g. 18 or 139+134 or 't' for download thumbnail"
+echo -e "Enter ID, (default 18). E.g. 139+134 or 't' for download thumbnail"
 read formats
-echo
 
+if [ "$formats" = "" ]; then
+    formats=18
+    echo $formats
+fi
+
+echo
 if [ "${formats,,}" = "t" ]
     then yt-dlp --write-thumbnail --skip-download "$link"
     else yt-dlp --console-title  --continue --format "$formats" "$link"
