@@ -10,9 +10,9 @@ path=${firstFile%/*}
 ext=${firstFile##*.}
 nameNoExt=${firstFile%.*}
 
-if [ $ext = "png" ] || [ $ext = "PNG" ]
-    then extForm="^png|jpg|tiff|bmp"
-    else extForm="^jpg|png|tiff|bmp"
+if [ "${ext,,}" = "png" ]
+    then extForm="^png|jpg|tiff|bmp|webp"
+    else extForm="^jpg|png|tiff|bmp|webp"
 fi
 
 parameters=`yad --borders=10 --width=400 --height=250 --title="Merge Images" \

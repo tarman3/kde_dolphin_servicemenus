@@ -18,7 +18,7 @@ parameters=`yad --borders=10 --width=300 --title="Crop images" --form --item-sep
 exit_status=$?; if [ $exit_status != 0 ]; then exit; fi
 
 gravity=$( echo $parameters | awk -F ',' '{print $1}')
-size=$( echo $parameters | awk -F ',' '{print $2}')
+size=$( echo $parameters | awk -F ',' '{print tolower($2)}')
 offset=$( echo $parameters | awk -F ',' '{print $3}')
 expand=$( echo $parameters | awk -F ',' '{print $4}')
 color=$( echo $parameters | awk -F ',' '{print $5}')
@@ -31,10 +31,10 @@ dbusRef=`kdialog --title "Crop Images" --progressbar "1 of $numberFiles  =>  ${f
 
 for file in "${array[@]}"; do
 
-    if [[ `echo ${size:0:1}` == "x" ]] || [[ `echo ${size:0:1}` == "X" ]]; then
+    if [ "${size:0:1}" = "x" ]; then
         width=`identify -ping -format '%w' "$file"`
         size="$width$size"
-    elif [[ `echo ${size: -1}` == "x" ]] || [[ `echo ${size: -1}` == "X" ]]; then
+    elif [ "${size: -1}" = "x" ]; then
         height=`identify -ping -format '%h' "$file"`
         size="$size$height"
     fi
