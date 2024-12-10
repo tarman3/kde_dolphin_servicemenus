@@ -23,11 +23,17 @@ fi
 file_name1="%(title)s.%(ext)s"
 file_name2="%\(title\)s.%\(ext\)s"
 
-yt-dlp -F "$link"
+yt-dlp --get-title --get-id --get-duration --list-formats "$link"
 
 echo
-echo -e "Enter ID, e.g. 18 or 139+134"
-read codes
+echo -e "Enter ID, e.g. 18 or 139+134 or 't' for download thumbnail"
+read formats
 echo
 
-yt-dlp -f "$codes" "$link"
+if [ "${formats,,}" = "t" ]
+    then yt-dlp --write-thumbnail --skip-download "$link"
+    else yt-dlp --console-title  --continue --format "$formats" "$link"
+fi
+
+echo
+read -p "Press Enter to exit"
