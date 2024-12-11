@@ -9,4 +9,5 @@ X-KDE-RequiredNumberOfUrls=1
 
 [Desktop Action media_cut]
 Name=Cut
+Icon=edit-cut
 Exec=~/.local/share/kio/servicemenus/media_cut.sh %U

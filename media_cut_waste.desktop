@@ -8,10 +8,12 @@ X-KDE-Priority=TopLevel
 
 [Desktop Action media_cut_waste]
 Name=Cut waste in start and finish (OBS)
+Icon=distribute-horizontal
 Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/media_cut_waste.sh "${args:1}" 2 2
 
 [Desktop Action media_cut_waste_fade]
 Name=Cut waste in start and finish (OBS) with FadeIn/Out
+Icon=distribute-horizontal
 Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/media_cut_waste.sh "${args:1}" 2 2 1 1
 
 #<path_to_media_cut_waste.sh> <cut_sec_from_Start> <cut_sec_from_Finish> <fadeInDuration> <fadeOutDuration>
