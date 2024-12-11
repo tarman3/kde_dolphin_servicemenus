@@ -23,7 +23,7 @@ fi
 file_name1="%(title)s.%(ext)s"
 file_name2="%\(title\)s.%\(ext\)s"
 
-yt-dlp --get-title --get-id --get-duration --list-formats "$link"
+yt-dlp --playlist-items 1 --get-title --get-id --get-duration --list-formats "$link"
 
 echo
 echo -e "Enter ID, (default 18). E.g. 139+134 or 't' for download thumbnail"
