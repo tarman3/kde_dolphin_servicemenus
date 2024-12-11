@@ -1,6 +1,7 @@
 [Desktop Entry]
 Type=Service
 MimeType=image/*
+Icon=graphics
 Actions=images_merge
 X-KDE-Submenu=Images Actions
 X-KDE-Priority=TopLevel
@@ -9,4 +10,5 @@ X-KDE-MinNumberOfUrls=2
 
 [Desktop Action images_merge]
 Name=Merge
+Icon=merge
 Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/images_merge.sh "${args:1}"

@@ -1,6 +1,7 @@
 [Desktop Entry]
 Type=Service
 MimeType=application/pdf;
+Icon=application-pdf
 Actions=pdf_compres;pdf_convert2image;pdf_decrypt;pdf_export_images;pdf_export_pages;
 X-KDE-Submenu=Documents Actions
 X-KDE-Priority=TopLevel
@@ -12,14 +13,17 @@ Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenu
 
 [Desktop Action pdf_convert2image]
 Name=PDF Convert to image
+Icon=photo
 Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/pdf_convert2image.sh "${args:1}"
 
 [Desktop Action pdf_decrypt]
 Name=PDF Decrypt
+Icon=gpg
 Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/pdf_decrypt.sh "${args:1}"
 
 [Desktop Action pdf_export_images]
 Name=PDF Export Images
+Icon=photo
 Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/pdf_export_images.sh "${args:1}"
 
 [Desktop Action pdf_export_pages]

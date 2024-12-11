@@ -1,6 +1,7 @@
 [Desktop Entry]
 Type=Service
 MimeType=image/webp;
+Icon=graphics
 Actions=webp_opti
 X-KDE-Submenu=Images Actions
 X-KDE-Priority=TopLevel

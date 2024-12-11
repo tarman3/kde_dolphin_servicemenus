@@ -6,9 +6,11 @@ Actions=delete_secure;deleteAsRoot
 
 [Desktop Action delete_secure]
 Name=Secure Delete
+Icon=edit-clear-all
 Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/delete_secure.sh "${args:1}"
 
 [Desktop Action deleteAsRoot]
 Name=Delete as Root
+Icon=edit-clear-all
 Exec=for file in %F; do args=$args';'$file; done; konsole -e ~/.local/share/kio/servicemenus/delete_as_root.sh "${args:1}"
 # Exec=konsole -e "sudo rm --recursive %U"

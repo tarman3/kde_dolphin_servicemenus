@@ -8,4 +8,5 @@ X-KDE-Priority=TopLevel
 
 [Desktop Action docs2pdf]
 Name=Convert documents to PDF
+Icon=viewpdf
 Exec=unoconv --timeout 20 --format pdf %F

@@ -1,6 +1,7 @@
 [Desktop Entry]
 Type=Service
 MimeType=image/jpeg;
+Icon=graphics
 Actions=jpg_opti
 X-KDE-Submenu=Images Actions
 X-KDE-Priority=TopLevel
@@ -8,4 +9,5 @@ X-KDE-Priority=TopLevel
 
 [Desktop Action jpg_opti]
 Name=JPG Optimization
+Icon=image-jpeg
 Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/images_jpg_opti.sh "${args:1}"

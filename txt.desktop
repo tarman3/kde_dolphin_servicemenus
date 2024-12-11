@@ -6,4 +6,5 @@ Actions=txt_encoding
 
 [Desktop Action txt_encoding]
 Name=Txt convert encoding
+Icon=text-plain
 Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/txt_encoding.sh "${args:1}"
