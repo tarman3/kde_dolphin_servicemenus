@@ -34,10 +34,15 @@ if [ "$formats" = "" ]; then
     echo $formats
 fi
 
+if [[ `echo "$link" | grep 'list'` ]]
+    then outputTemplate="%(playlist_index)s - %(title)s.%(ext)s"
+    else outputTemplate="%(title)s.%(ext)s"
+fi
+
 echo
 if [ "${formats,,}" = "t" ]
     then yt-dlp --write-thumbnail --skip-download "$link"
-    else yt-dlp --console-title  --continue --format "$formats" "$link"
+    else yt-dlp --console-title  --continue --format "$formats" "$link" --output "$outputTemplate"
 fi
 
 echo
