@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# https://imagemagick.org/script/command-line-processing.php#geometry
+
 oldIFS="$IFS"
 IFS=$';'
 read -r -a array <<< "$1"
@@ -10,18 +12,18 @@ path=${firstFile%/*}
 
 parameters=`yad --borders=20 --width=500 --title="Change images resolution" \
     --item-separator="|" --separator="," --form \
-    --field="800 - Resize to 800 px width (keep aspect ratio):LBL" \
-    --field="x600 - Resize to 600 px height (keep aspect ratio):LBL" \
-    --field="800x600 - Resize with keep aspect ratio:LBL" \
-    --field="100×50! - Resize without keep aspect ratio:LBL" \
-    --field="Resolution" --field="Add sufix to name:CHK" --field="Dir to save:DIR" \
-    "" "" "" ""   "1368"              "TRUE"                          "$path"`
+    --field="Resolution (800 or x600 or 800x600 or 50%)" --field="Keep aspect ratio:CHK" \
+    --field="Add sufix to name:CHK" --field="Dir to save:DIR" \
+    "1368"    TRUE    TRUE    "$path"`
 
 exit_status=$?; if [ $exit_status != 0 ]; then exit; fi
 
-resolution=$( echo $parameters | awk -F ',' '{print $5}')
-sufix=$( echo $parameters | awk -F ',' '{print $6}')
-dir=$( echo $parameters | awk -F ',' '{print $7}')
+resolution=$( echo $parameters | awk -F ',' '{print $1}')
+keepAspectRatio=$( echo $parameters | awk -F ',' '{print $2}')
+sufix=$( echo $parameters | awk -F ',' '{print $3}')
+dir=$( echo $parameters | awk -F ',' '{print $4}')
+
+if [ "$keepAspectRatio" = FALSE ]; then optionRatio='!'; fi
 
 
 numberFiles=${#array[@]}
@@ -35,7 +37,7 @@ for file in "${array[@]}"; do
         else file_out="$dir/$fileName"
     fi
 
-    magick "$file" -resize $resolution "$file_out"
+    magick "$file" -resize ${resolution}${optionRatio} "$file_out"
 
     counter=$(($counter+1))
     qdbus $dbusRef Set "" value $counter

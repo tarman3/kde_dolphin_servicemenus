@@ -39,7 +39,7 @@ if [ $direction = "vert" ]
 fi
 
 if [ "$frame" = TRUE ]
-    then montage -background $backgroundColor -geometry $opt1 -tile $opt2 `echo "$1"` "$newName"
+    then montage -background $backgroundColor -geometry $opt1 -tile $opt2 `echo "$1"` $ext: | montage - -background $backgroundColor -geometry $opt1 "$newName"
     else montage -background $backgroundColor -geometry $opt1 -tile $opt2 `echo "$1"` $ext: | magick - -shave $space $newName
 fi
 

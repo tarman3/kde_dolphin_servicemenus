@@ -8,7 +8,7 @@ IFS="$oldIFS"
 firstFile=${array[0]}
 
 parameters=`yad --borders=20 --width=300 --title="Hash Calculate" --item-separator="|" --separator="," \
-    --form --field="Type:CB" --field="Save hash in one file:CHK" --field="Open result in Editor:CHK" \
+    --form --field="Type:CB" --field="Save result in one file:CHK" --field="Open result in Editor:CHK" \
     "^md5|sha256|sha1|sha224|sha384|sha512" TRUE TRUE`
 
 exit_status=$?; if [ $exit_status != 0 ]; then exit; fi
