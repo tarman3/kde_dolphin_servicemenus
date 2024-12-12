@@ -11,9 +11,9 @@ path=${firstFile%/*}
 parameters=`yad --borders=10 --width=300 --title="Crop images" --form --item-separator="|" --separator="," \
     --field="Origin:CB" --field="Width and Height (WxH) or (xH) or (Wx)" --field="Offset (+X+Y)" \
     --field="Expand if original less:CHK" --field="Background color:CLR" --field="Add sufix to name:CHK" \
-    --field="Dir to save:DIR" \
+    --field="Dir to save:DIR" --field="Help:LINK" \
     "^NorthWest|North|NorthEast|West|Center|East|SouthWest|South|SouthEast" "800x600" "+0+0" \
-    FALSE white TRUE "$path"`
+    FALSE white TRUE "$path" "https://imagemagick.org/script/command-line-options.php#crop"`
 
 exit_status=$?; if [ $exit_status != 0 ]; then exit; fi
 

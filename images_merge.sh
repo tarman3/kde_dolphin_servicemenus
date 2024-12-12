@@ -17,17 +17,17 @@ fi
 
 parameters=`yad --borders=10 --width=400 --height=250 --title="Merge Images" \
     --item-separator="|" --separator="," --form  \
-    --field=":LBL" --field="Direction:CB" --field="Space between images (px)" \
-    --field="Frame around images:CHK" --field="Background color:CB" --field="Format:CB" \
-    "" "^hor|vert" 5 FALSE "transparent|white|black" "$extForm"`
+    --field="Direction:CB" --field="Space between images (px)" --field="Frame around images:CHK" \
+    --field="Background color:CB" --field="Format:CB" --field="Help:LINK" \
+    "^hor|vert" 5 FALSE "transparent|white|black" "$extForm" "https://imagemagick.org/script/montage.php"`
 
 exit_status=$?; if [ $exit_status != 0 ]; then exit; fi
 
-direction=$(echo $parameters | awk -F ',' '{print $2}')
-space=$(echo $parameters | awk -F ',' '{print $3}')
-frame=$(echo $parameters | awk -F ',' '{print $4}')
-backgroundColor=$(echo $parameters | awk -F ',' '{print $5}')
-ext=$(echo $parameters | awk -F ',' '{print $6}')
+direction=$(echo $parameters | awk -F ',' '{print $1}')
+space=$(echo $parameters | awk -F ',' '{print $2}')
+frame=$(echo $parameters | awk -F ',' '{print $3}')
+backgroundColor=$(echo $parameters | awk -F ',' '{print $4}')
+ext=$(echo $parameters | awk -F ',' '{print $5}')
 
 newName="${nameNoExt}_$direction.$ext"
 

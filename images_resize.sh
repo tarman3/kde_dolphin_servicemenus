@@ -13,8 +13,8 @@ path=${firstFile%/*}
 parameters=`yad --borders=20 --width=500 --title="Change images resolution" \
     --item-separator="|" --separator="," --form \
     --field="Resolution (800 or x600 or 800x600 or 50%)" --field="Keep aspect ratio:CHK" \
-    --field="Add sufix to name:CHK" --field="Dir to save:DIR" \
-    "1368"    TRUE    TRUE    "$path"`
+    --field="Add sufix to name:CHK" --field="Dir to save:DIR" --field="Help:LINK" \
+    "1368"    TRUE    TRUE    "$path" "https://imagemagick.org/script/command-line-processing.php#resize"`
 
 exit_status=$?; if [ $exit_status != 0 ]; then exit; fi
 
