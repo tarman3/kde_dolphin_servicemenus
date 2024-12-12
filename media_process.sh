@@ -24,11 +24,11 @@ parameters=`yad --borders=10 --width=600 --title="Media processing" \
     --form --item-separator="|" --separator="," --field=:LBL \
     --field="Format:CB" --field="Bitrate (kbit):NUM" --field="Resoltion (e.g. 800x452, only even)" \
     --field="Crop W:H:X:Y (Width : Height : X offset left corner : Y offset left corner):" \
-    --field="Codec Video:CB" --field="Codec Audio:CB" --field="Rotate:CB" --field="Framerate" \
-    --field="FadeIn, sec" --field="FadeOut, sec" --field="CPU Core using:NUM" \
+    --field="Codec Video:CB" --field="Codec Audio:CB" --field="Rotate:CB" --field="Mirror:CB" \
+    --field="Framerate" --field="FadeIn, sec" --field="FadeOut, sec" --field="CPU Core using:NUM" \
     ""   "copy|^mkv|mov|mp4|avi|gif"   "4000|0..10000|500"   "" \
     ""    "^copy|^h264 MPEG-4/AVC|hevc H.265|vp8|vp9|av1|vvc H.266|mpeg2video"   "copy|^mp3|aac|mute" \
-    "^No|CW|CCW"    ""    0    0    "1|0..12|1"`
+    "^No|CW|CCW"    "No|Horizontal|Vertical|HorVert"    ""    0    0    "1|0..12|1"`
 
 exit_status=$?; if [ $exit_status != 0 ] && [ $exit_status != 2 ]; then exit; fi
 
@@ -73,17 +73,29 @@ if [ "${exit_status}" = 2 ]; then
     prefix="${prefix}_5sec"
 fi
 
-framerate=$( echo $parameters | awk -F ',' '{print $9}')
+mirror=$( echo $parameters | awk -F ',' '{print $9}')
+if [ "$mirror" = "Horizontal" ]; then
+    optionMirror='-vf hflip'
+    prefix="${prefix}_hflip"
+elif [ "$mirror" = "Vertical" ]; then
+    optionMirror='-vf vflip'
+    prefix="${prefix}_vflip"
+elif [ "$mirror" = "HorVert" ]; then
+    optionMirror='-vf hflip,vflip'
+    prefix="${prefix}_hvflip"
+fi
+
+framerate=$( echo $parameters | awk -F ',' '{print $10}')
 if [ "$framerate" != "" ]; then
     optionFramerate="-r $framerate"
     prefix="${prefix}_${framerate}fps"
 fi
 
-fadeInDuration=$( echo $parameters | awk -F ',' '{print $10}')
-fadeOutDuration=$( echo $parameters | awk -F ',' '{print $11}')
+fadeInDuration=$( echo $parameters | awk -F ',' '{print $11}')
+fadeOutDuration=$( echo $parameters | awk -F ',' '{print $12}')
 if [ "$fadeInDuration" != 0 ] || [ "$fadeOutDuration" != 0 ]; then prefix="${prefix}_fade"; fi
 
-threads=$( echo $parameters | awk -F ',' '{print $12}')
+threads=$( echo $parameters | awk -F ',' '{print $13}')
 if [ "$threads" != 0 ]; then optionThreads="-threads $threads"; fi
 
 
@@ -122,7 +134,7 @@ for file in "${array[@]}"; do
         else duration=$durationS" sec"
     fi
 
-    konsole --hide-menubar -qwindowtitle "Processing file $counter of $numberFiles - \"${file##*/}\" duration $duration" -e "ffmpeg -y -v quiet -stats $optionThreads $optionCut -i \"$file\" $optionCrop $optionBitrate $optionRotate $optionVideoCodec $optionSize $optionAudioCodec $optionFramerate $fadeInOut -strict -2 \"${file%.*}${sizePrefix}_${bitrate}k${prefix}.${ext}\""
+    konsole --hide-menubar -qwindowtitle "Processing file $counter of $numberFiles - \"${file##*/}\" duration $duration" -e "ffmpeg -y -v quiet -stats $optionThreads $optionCut -i \"$file\" $optionCrop $optionBitrate $optionRotate $optionMirror $optionVideoCodec $optionSize $optionAudioCodec $optionFramerate $fadeInOut -strict -2 \"${file%.*}${sizePrefix}_${bitrate}k${prefix}.${ext}\""
 
 #     qdbus $dbusRef Set "" value $counter
 #     qdbus $dbusRef setLabelText "Completed $counter of $numberFiles"
