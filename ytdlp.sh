@@ -40,9 +40,12 @@ if [[ `echo "$link" | grep 'list'` ]]
 fi
 
 echo
-if [ "${formats,,}" = "t" ]
-    then yt-dlp --write-thumbnail --skip-download "$link"
-    else yt-dlp --console-title  --continue --format "$formats" "$link" --output "$outputTemplate"
+if [ "${formats,,}" = "t" ]; then
+    yt-dlp --write-thumbnail --skip-download "$link"
+elif [[ `echo "$formats" | grep '+t'` ]]; then
+    yt-dlp --console-title  --continue --write-thumbnail --format "${formats/'+t'/}" "$link" --output "$outputTemplate"
+else
+    yt-dlp --console-title  --continue --format "$formats" "$link" --output "$outputTemplate"
 fi
 
 echo
