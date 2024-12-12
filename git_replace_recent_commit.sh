@@ -10,7 +10,7 @@ if ! [ -d ".git" ]; then
     echo
     echo -e '\e[1;31m'"Not found $dir/.git"'\e[0m'
     echo
-    read -p "Press ENTER to exit"
+    read -p "Press ENTER to exit "
     exit 0
 fi
 
@@ -22,7 +22,7 @@ echo "New files"
 git ls-files --others --exclude-standard
 echo
 
-read -p "Press ENTER to start"
+read -p "Press ENTER to start "
 
 echo
 echo -e '\e[1;32m'"git add ."'\e[0m'
@@ -39,4 +39,4 @@ git push --force
 echo
 
 echo
-read -p "Press ENTER to exit"
+read -p "Press ENTER to exit "
