@@ -18,17 +18,19 @@ if [ -n "$videoSize" ]; then
     scale=`echo "scale=2;$width/$height" | bc`
 fi
 
-parameters=`yad --borders=10 --width=600 --title="Media processing" \
+parameters=`yad --borders=10 --width=800 --title="Media processing" \
     --text="File: $name \nResolution: $width"x"$height \nScale: $scale" \
     --button="Test 5 sec:2" --button="Cancel:1" --button="Ok:0" \
     --form --item-separator="|" --separator="," --field=:LBL \
     --field="Format:CB" --field="Bitrate (kbit):NUM" --field="Resoltion (e.g. 800x452, only even)" \
-    --field="Crop W:H:X:Y (Width : Height : X offset left corner : Y offset left corner):" \
+    --field="Crop W:H:X:Y (Width : Height : X offset : Y offset):" \
     --field="Codec Video:CB" --field="Codec Audio:CB" --field="Rotate:CB" --field="Mirror:CB" \
     --field="Framerate" --field="FadeIn, sec" --field="FadeOut, sec" --field="CPU Core using:NUM" \
+    --field="Advanced filters -vf" --field="Filters Help:LINK" \
     ""   "copy|^mkv|mov|mp4|avi|gif"   "4000|0..10000|500"   "" \
     ""    "^copy|^h264 MPEG-4/AVC|hevc H.265|vp8|vp9|av1|vvc H.266|mpeg2video"   "copy|^mp3|aac|mute" \
-    "^No|CW|CCW"    "No|Horizontal|Vertical|HorVert"    ""    0    0    "1|0..12|1"`
+    "^No|CW|CCW"    "No|Horizontal|Vertical|HorVert"    ""    0    0    "1|0..12|1" \
+    ""    "https://ffmpeg.org/ffmpeg-filters.html"`
 
 exit_status=$?; if [ $exit_status != 0 ] && [ $exit_status != 2 ]; then exit; fi
 
@@ -98,6 +100,8 @@ if [ "$fadeInDuration" != 0 ] || [ "$fadeOutDuration" != 0 ]; then prefix="${pre
 threads=$( echo $parameters | awk -F ',' '{print $13}')
 if [ "$threads" != 0 ]; then optionThreads="-threads $threads"; fi
 
+advancedFilters=$( echo $parameters | awk -F ',' '{print $14}')
+if [ "$advancedFilters" != "" ]; then optionAdvanced="-vf $advancedFilters"; fi
 
 # numberFiles=${#array[@]}
 # dbusRef=`kdialog --title "Media Processing" --progressbar "" $numberFiles`
@@ -134,7 +138,7 @@ for file in "${array[@]}"; do
         else duration=$durationS" sec"
     fi
 
-    konsole --hide-menubar -qwindowtitle "Processing file $counter of $numberFiles - \"${file##*/}\" duration $duration" -e "ffmpeg -y -v quiet -stats $optionThreads $optionCut -i \"$file\" $optionCrop $optionBitrate $optionRotate $optionMirror $optionVideoCodec $optionSize $optionAudioCodec $optionFramerate $fadeInOut -strict -2 \"${file%.*}${sizePrefix}_${bitrate}k${prefix}.${ext}\""
+    konsole --hide-menubar -qwindowtitle "Processing file $counter of $numberFiles - \"${file##*/}\" duration $duration" -e "ffmpeg -y -v quiet -stats $optionThreads $optionCut -i \"$file\" $optionCrop $optionBitrate $optionRotate $optionMirror $optionVideoCodec $optionSize $optionAudioCodec $optionFramerate $fadeInOut $optionAdvanced -strict -2 \"${file%.*}${sizePrefix}_${bitrate}k${prefix}.${ext}\""
 
 #     qdbus $dbusRef Set "" value $counter
 #     qdbus $dbusRef setLabelText "Completed $counter of $numberFiles"
