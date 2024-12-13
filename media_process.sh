@@ -23,13 +23,13 @@ parameters=`yad --borders=10 --width=800 --title="Media processing" \
     --button="Test 5 sec:2" --button="Cancel:1" --button="Ok:0" \
     --form --item-separator="|" --separator="," --field=:LBL \
     --field="Format:CB" --field="Bitrate (kbit):NUM" --field="Resoltion (e.g. 800x452, only even)" \
-    --field="Crop W:H:X:Y (Width : Height : X offset : Y offset):" \
+    --field="Crop W:H:X:Y, eg. 800:600:10:10:" \
     --field="Codec Video:CB" --field="Codec Audio:CB" --field="Rotate:CB" --field="Mirror:CB" \
     --field="Framerate" --field="FadeIn, sec" --field="FadeOut, sec" --field="CPU Core using:NUM" \
     --field="Advanced filters -vf" --field="Filters Help:LINK" \
     ""   "copy|^mkv|mov|mp4|avi|gif"   "4000|0..10000|500"   "" \
     ""    "^copy|^h264 MPEG-4/AVC|hevc H.265|vp8|vp9|av1|vvc H.266|mpeg2video"   "copy|^mp3|aac|mute" \
-    "^No|CW|CCW"    "No|Horizontal|Vertical|HorVert"    ""    0    0    "1|0..12|1" \
+    "^No|CW|CCW"    "No|Horizontally|Vertically|HorVert"    ""    0    0    "1|0..12|1" \
     ""    "https://ffmpeg.org/ffmpeg-filters.html"`
 
 exit_status=$?; if [ $exit_status != 0 ] && [ $exit_status != 2 ]; then exit; fi
@@ -48,8 +48,8 @@ fi
 
 crop=$( echo $parameters | awk -F ',' '{print $5}')
 if [ -n "$crop" ]; then
-    optionCrop="-filter:v crop=$crop"
-    prefix="${prefix}_crop"
+    filters="${filters}, crop=$crop"
+    sufix="${sufix}_crop"
 fi
 
 videoCodec=$( echo $parameters | awk -F ',' '{print $6}')
@@ -57,54 +57,55 @@ if [ "$format" != "gif" ]; then optionVideoCodec="-vcodec ${videoCodec%% *}"; fi
 
 audioCodec=$( echo $parameters | awk -F ',' '{print $7}')
 if [ "$audiocodec" = "mute" ]
-    then optionAudioCodec="-an"; prefix="${prefix}_nosound"
+    then optionAudioCodec="-an"; sufix="${sufix}_nosound"
     else optionAudioCodec="-acodec $audioCodec"
 fi
 
 rotate=$( echo $parameters | awk -F ',' '{print $8}')
 if [ "$rotate" = "CW" ]; then
-    optionRotate="-vf transpose=1"
-    prefix="${prefix}_$rotate"
+    filters="${filters}, transpose=1"
+    sufix="${sufix}_$rotate"
 elif [ "$rotate" = "CCW" ]; then
-    optionRotate="-vf transpose=2"
-    prefix="${prefix}_$rotate"
+    filters="${filters}, transpose=2"
+    sufix="${sufix}_$rotate"
 fi
 
 if [ "${exit_status}" = 2 ]; then
     optionCut="-ss 00:00:05 -to 00:00:10"
-    prefix="${prefix}_5sec"
+    sufix="${sufix}_5sec"
 fi
 
 mirror=$( echo $parameters | awk -F ',' '{print $9}')
-if [ "$mirror" = "Horizontal" ]; then
-    optionMirror='-vf hflip'
-    prefix="${prefix}_hflip"
-elif [ "$mirror" = "Vertical" ]; then
-    optionMirror='-vf vflip'
-    prefix="${prefix}_vflip"
+if [ "$mirror" = "Horizontally" ]; then
+    filters="${filters}, hflip"
+    sufix="${sufix}_hflip"
+elif [ "$mirror" = "Vertically" ]; then
+    filters="${filters}, vflip"
+    sufix="${sufix}_vflip"
 elif [ "$mirror" = "HorVert" ]; then
-    optionMirror='-vf hflip,vflip'
-    prefix="${prefix}_hvflip"
+    filters="${filters}, hflip,vflip"
+    sufix="${sufix}_hvflip"
 fi
 
 framerate=$( echo $parameters | awk -F ',' '{print $10}')
 if [ "$framerate" != "" ]; then
     optionFramerate="-r $framerate"
-    prefix="${prefix}_${framerate}fps"
+    sufix="${sufix}_${framerate}fps"
 fi
 
 fadeInDuration=$( echo $parameters | awk -F ',' '{print $11}')
+if [ "$fadeInDuration" != "" ] && [ "$fadeInDuration" != 0 ]; then sufix="${sufix}_fadeIn"; fi
+
 fadeOutDuration=$( echo $parameters | awk -F ',' '{print $12}')
-if [ "$fadeInDuration" != 0 ] || [ "$fadeOutDuration" != 0 ]; then prefix="${prefix}_fade"; fi
+if [ "$fadeOutDuration" != "" ] && [ "$fadeOutDuration" != 0 ]; then sufix="${sufix}_fadeOut"; fi
+
 
 threads=$( echo $parameters | awk -F ',' '{print $13}')
 if [ "$threads" != 0 ]; then optionThreads="-threads $threads"; fi
 
 advancedFilters=$( echo $parameters | awk -F ',' '{print $14}')
-if [ "$advancedFilters" != "" ]; then optionAdvanced="-vf $advancedFilters"; fi
+if [ "$advancedFilters" != "" ]; then filters="${filters}, $advancedFilters"; fi
 
-# numberFiles=${#array[@]}
-# dbusRef=`kdialog --title "Media Processing" --progressbar "" $numberFiles`
 
 for file in "${array[@]}"; do
 
@@ -123,26 +124,25 @@ for file in "${array[@]}"; do
         else durationProcess=$duration
     fi
 
-    if [ "$fadeInDuration" != 0 ] && [ "$fadeInDuration" != "" ]; then
-        fadeIn="fade=t=in:st=0:d=${fadeInDuration},"
+    if [ "$fadeInDuration" != "" ] && [ "$fadeInDuration" != 0 ]; then
+        fadeIn="fade=t=in:st=0:d=${fadeInDuration}"
+        filters="${filters}, $fadeIn"
     fi
-    if [ "$fadeOutDuration" != 0 ] && [ "$fadeOutDuration" != "" ]; then
+
+    if [ "$fadeOutDuration" != "" ] && [ "$fadeOutDuration" != 0 ]; then
         startFadeOut=$(($durationProcess-$fadeOutDuration))
         fadeOut="fade=t=out:st=${startFadeOut}:d=${fadeOutDuration}"
+        filters="${filters}, $fadeOut"
     fi
-    if [ $fadeIn ] || [ $fadeOut ]; then fadeInOut="-vf $fadeIn$fadeOut"; fi
-
 
     if [ "$durationM" != 0 ]
         then duration=$durationM" min "$durationS" sec"
         else duration=$durationS" sec"
     fi
 
-    konsole --hide-menubar -qwindowtitle "Processing file $counter of $numberFiles - \"${file##*/}\" duration $duration" -e "ffmpeg -y -v quiet -stats $optionThreads $optionCut -i \"$file\" $optionCrop $optionBitrate $optionRotate $optionMirror $optionVideoCodec $optionSize $optionAudioCodec $optionFramerate $fadeInOut $optionAdvanced -strict -2 \"${file%.*}${sizePrefix}_${bitrate}k${prefix}.${ext}\""
+    if [ "$filters" != "" ]; then filters="-vf \"${filters:2}\""; fi
 
-#     qdbus $dbusRef Set "" value $counter
-#     qdbus $dbusRef setLabelText "Completed $counter of $numberFiles"
-#     if [ ! `qdbus | grep ${dbusRef% *}` ]; then exit; fi
+        konsole --hide-menubar -qwindowtitle "Processing file $counter of $numberFiles - \"${file##*/}\" duration $duration" -e "ffmpeg -y -v error -stats $optionThreads $optionCut -i \"$file\" $optionBitrate  $optionVideoCodec $optionSize $optionAudioCodec $optionFramerate $filters -strict -2 \"${file%.*}${sizePrefix}_${bitrate}k${sufix}.${ext}\""
 
 done
 

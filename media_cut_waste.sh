@@ -28,19 +28,20 @@ for file in "${array[@]}"; do
     finishTime=$(($duration-$cutFinish))
 
     if [ "$fadeInDuration" != "" ] && [ "$fadeInDuration" != 0 ]; then
-        fadeIn="fade=t=in:st=0:d=${fadeInDuration},"
-        prefix='_fade'
+        filters="${filters},fade=t=in:st=0:d=${fadeInDuration}"
+        sufix="${sufix}_fadeIn"
     fi
 
     if [ "$fadeOutDuration" != "" ] && [ "$fadeOutDuration" != 0 ]; then
         startFadeOut=$(($finishTime-$cutStart-$fadeOutDuration))
-        fadeOut="fade=t=out:st=${startFadeOut}:d=${fadeOutDuration}"
-        prefix='_fade'
+        filters="${filters},fade=t=out:st=${startFadeOut}:d=${fadeOutDuration}"
+        sufix="${sufix}_fadeOut"
     fi
 
-    if [ $fadeIn ] || [ $fadeOut ]; then fadeInOut="-vf $fadeIn$fadeOut"; fi
+    if [ "$filters" != "" ]; then filters="-vf ${filters:1}"; fi
 
-    ffmpeg -v quiet -stats -ss $cutStart -to $finishTime -i "$file" -y $fadeInOut -strict -2 "${file%.*}_$cutStart-$finishTime$prefix.$ext"
+    ffmpeg -y -v error -stats -ss $cutStart -to $finishTime -i "$file" $filters -strict -2 "${file%.*}_$cutStart-$finishTime$sufix.$ext"
+
 
     counter=$(($counter+1))
     qdbus $dbusRef Set "" value $counter

@@ -27,6 +27,8 @@ reEncoding=$(echo $parameters | awk -F ',' '{print $3}')
 fadeInDuration=$( echo $parameters | awk -F ',' '{print $4}')
 fadeOutDuration=$( echo $parameters | awk -F ',' '{print $5}')
 
+sufix="${cutStart/ /_}_${cutFinish/ /_}"
+
 if [ "$fadeInDuration" != "" ] || [ "$fadeOutDuration" != "" ]; then
 
     old_ifs="$IFS"
@@ -48,28 +50,28 @@ if [ "$fadeInDuration" != "" ] || [ "$fadeOutDuration" != "" ]; then
     fi
 
     if [ "$fadeInDuration" != "" ] && [ "$fadeInDuration" != 0 ]; then
-        fadeIn="fade=t=in:st=0:d=${fadeInDuration},"
+        filters="${filters},fade=t=in:st=0:d=${fadeInDuration}"
+        sufix="${sufix}_fadeIn"
     fi
 
     if [ "$fadeOutDuration" != "" ] && [ "$fadeOutDuration" != 0 ]; then
         startFadeOut=$(($cutFinishS-$cutStartS-$fadeOutDuration))
-        fadeOut="fade=t=out:st=${startFadeOut}:d=${fadeOutDuration}"
+        filters="${filters},fade=t=out:st=${startFadeOut}:d=${fadeOutDuration}"
+        sufix="${sufix}_fadeOut"
     fi
 
-    if [ $fadeIn ] || [ $fadeOut ]; then fadeInOut="-vf $fadeIn$fadeOut"; fi
+    if [ "$filters" != "" ]; then filters="-vf ${filters:1}"; fi
 
 fi
 
-sufix="${cutStart/ /_}_${cutFinish/ /_}"
 
 if [ "$cutStart" != "" ]; then start="-ss $cutStart"; fi
 if [ "$cutFinish" != "" ]; then finish="-to $cutFinish"; fi
-options="$start $finish"
 
-if [ "$reEncoding" = FALSE ] && [ -z "$fadeInOut" ]; then encode="-vcodec copy -acodec copy"; fi
+if [ "$reEncoding" = FALSE ] && [ -z "$filters" ]; then encode="-vcodec copy -acodec copy"; fi
 
 
-ffmpeg -v quiet -stats $start $finish -i "$firstFile" -y $encode $fadeInOut -strict -2 "${firstFile%.*}_$sufix.$ext"
+ffmpeg -y -v error -stats $start $finish -i "$firstFile" $encode $filters -strict -2 "${firstFile%.*}_$sufix.$ext"
 
 
 kdialog --title "Media Cut" --icon "checkbox" --passivepopup "Completed" 3
