@@ -34,18 +34,23 @@ if [ "$formats" = "" ]; then
     echo $formats
 fi
 
-if [[ `echo "$link" | grep 'list'` ]]
-    then outputTemplate="%(playlist_index)s - %(title)s.%(ext)s"
-    else outputTemplate="%(title)s.%(ext)s"
+if [[ `echo "$link" | grep 'list'` ]]; then
+    outputTemplate="%(playlist_index)s - %(title)s.%(ext)s"
+    echo
+    read -p "Input playlist items [START]:[STOP][:STEP] (1:3,7,-5::2): " playlistItems
+else
+    outputTemplate="%(title)s.%(ext)s"
 fi
+
+if [ "$playlistItems" != "" ]; then playlistItems="--playlist-items $playlistItems"; fi
 
 echo
 if [ "${formats,,}" = "t" ]; then
     yt-dlp --write-thumbnail --skip-download "$link"
 elif [[ `echo "$formats" | grep '+t'` ]]; then
-    yt-dlp --console-title  --continue --write-thumbnail --format "${formats/'+t'/}" "$link" --output "$outputTemplate"
+    yt-dlp --console-title  --continue --write-thumbnail $playlistItems --format "${formats/'+t'/}" "$link" --output "$outputTemplate"
 else
-    yt-dlp --console-title  --continue --format "$formats" "$link" --output "$outputTemplate"
+    yt-dlp --console-title  --continue $playlistItems --format "$formats" "$link" --output "$outputTemplate"
 fi
 
 echo
