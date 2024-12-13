@@ -3,9 +3,7 @@
 arg1="$1"
 if [ -f  "$arg1" ]; then dir=${arg1%/*}
 elif [ -d  "$arg1" ]; then dir="$arg1"
-else
-    kdialog --title "yt-dlp" --icon "error" --passivepopup "Can not get dir path" 3
-    exit
+else dir="$HOME"
 fi
 
 cd "$dir"
@@ -16,17 +14,23 @@ link=${link%%&*}
 echo "$link"
 echo
 if [[ "$link" != http* ]]; then
-    kdialog --title "Downloading" --icon "error" --passivepopup "Clipboard does not contain link" 3
+    kdialog --title "yt-dlp" --icon "error" --passivepopup "Clipboard does not contain link" 3
     exit
 fi
 
 file_name1="%(title)s.%(ext)s"
 file_name2="%\(title\)s.%\(ext\)s"
 
-yt-dlp --playlist-items 1 --get-title --get-id --get-duration --list-formats "$link"
+if [[ `echo "$link" | grep 'list'` ]]
+    then yt-dlp --playlist-items -1 --print '' --print '%(playlist_title)s' --print '%(playlist_count)s' \
+    --print '' --print '%(title)s' --print '%(duration_string)s' --list-formats "$link"
+
+    else yt-dlp --playlist-items -1 --print '' --print '%(title)s' --print '%(duration_string)s' \
+    --list-formats "$link"
+fi
 
 echo
-echo -e "Enter ID, (default 18). E.g. 139+134 or 't' for download thumbnail"
+echo -e "Enter ID (default 18). E.g. 139+134 or 't' for download thumbnail"
 read formats
 
 if [ "$formats" = "" ]; then

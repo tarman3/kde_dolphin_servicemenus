@@ -6,6 +6,6 @@ X-KDE-RequiredNumberOfUrls=1
 
 
 [Desktop Action ytdlp]
-Name=Download video from clipboard link
+Name=Download Video from clipboard link
 Icon=video
 Exec=konsole --profile 'ytdlp' -e ~/.local/share/kio/servicemenus/ytdlp.sh %u
