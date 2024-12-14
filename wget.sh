@@ -1,5 +1,13 @@
 #!/bin/bash
 
+utilities=('yad' 'wget')
+for utility in ${utilities[@]}; do
+    if ! command -v "$utility" 2>&1 >/dev/null; then
+        kdialog --title "$utility" --icon "error" --passivepopup "Not found" 3
+        exit 1
+    fi
+done
+
 arg1="$1"
 if [ -f  "$arg1" ]; then dir=${arg1%/*}
 elif [ -d  "$arg1" ]; then dir="$arg1"

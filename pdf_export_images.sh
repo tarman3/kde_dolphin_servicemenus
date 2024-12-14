@@ -1,5 +1,13 @@
 #!/bin/bash
 
+utilities=('yad' 'pdfimages')
+for utility in ${utilities[@]}; do
+    if ! command -v "$utility" 2>&1 >/dev/null; then
+        kdialog --title "$utility" --icon "error" --passivepopup "Not found" 3
+        exit 1
+    fi
+done
+
 oldIFS="$IFS"
 IFS=$';'
 read -r -a array <<< "$1"

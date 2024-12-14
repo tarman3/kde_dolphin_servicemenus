@@ -1,5 +1,13 @@
 #!/bin/bash
 
+utilities=('yad' 'ffmpeg')
+for utility in ${utilities[@]}; do
+    if ! command -v "$utility" 2>&1 >/dev/null; then
+        kdialog --title "$utility" --icon "error" --passivepopup "Not found" 3
+        exit 1
+    fi
+done
+
 oldIFS="$IFS"
 IFS=$';'
 read -r -a array <<< "$1"
@@ -142,10 +150,8 @@ for file in "${array[@]}"; do
 
     if [ "$filters" != "" ]; then filters="-vf \"${filters:2}\""; fi
 
-        konsole --hide-menubar -qwindowtitle "Processing file $counter of $numberFiles - \"${file##*/}\" duration $duration" -e "ffmpeg -y -v error -stats $optionThreads $optionCut -i \"$file\" $optionBitrate  $optionVideoCodec $optionSize $optionAudioCodec $optionFramerate $filters -strict -2 \"${file%.*}${sizePrefix}_${bitrate}k${sufix}.${ext}\""
+    konsole --hide-menubar -qwindowtitle "Processing file $counter of $numberFiles - \"${file##*/}\" duration $duration" -e "ffmpeg -y -v error -stats $optionThreads $optionCut -i \"$file\" $optionBitrate  $optionVideoCodec $optionSize $optionAudioCodec $optionFramerate $filters -strict -2 \"${file%.*}${sizePrefix}_${bitrate}k${sufix}.${ext}\""
 
 done
-
-# qdbus $dbusRef close
 
 kdialog --title "Media processing" --icon "checkbox" --passivepopup "Completed" 3
