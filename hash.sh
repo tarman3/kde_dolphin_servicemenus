@@ -9,13 +9,20 @@ firstFile=${array[0]}
 
 parameters=`yad --borders=20 --width=300 --title="Hash Calculate" --item-separator="|" --separator="," \
     --form --field="Type:CB" --field="Save result in one file:CHK" --field="Open result in Editor:CHK" \
-    "^md5|sha256|sha1|sha224|sha384|sha512" TRUE TRUE`
+    --field="Save to /tmp:CHK"    "^md5|sha256|sha1|sha224|sha384|sha512"    TRUE    TRUE    TRUE`
 
 exit_status=$?; if [ $exit_status != 0 ]; then exit; fi
 
 hashType=$( echo $parameters | awk -F ',' '{print $1}')
 merge=$( echo $parameters | awk -F ',' '{print $2}')
 open=$( echo $parameters | awk -F ',' '{print $3}')
+tmp=$( echo $parameters | awk -F ',' '{print $4}')
+
+if [ "$tmp" = TRUE ]
+    then dir="/tmp"
+    else dir="${firstFile%/*}"
+fi
+
 
 numberFiles=${#array[@]}
 dbusRef=`kdialog --title "Hash calculate" --progressbar "1 of $numberFiles  =>  ${firstFile##*/}" $numberFiles`
@@ -24,14 +31,15 @@ for file in "${array[@]}"; do
 
     hash=$($hashType"sum" "$file" | awk '{print $1}')
 
-    if [ "$merge" = TRUE ]
-        then echo -e "$hashType    $hash    $file" >> "$firstFile.$hashType"
-        else echo -e "$file\n$hashType\n$hash" > "$file.$hashType"
+    if [ "$merge" = TRUE ]; then
+        path="${dir}/${firstFile##*/}.$hashType"
+        echo -e "$hashType    $hash    $file" >> "$path"
+    else
+        path="${dir}/${file##*/}.$hashType"
+        echo -e "$file\n$hashType\n$hash" > "$path"
     fi
 
-    if [ "$merge" = TRUE ] && [ "$open" = TRUE ]; then xdg-open "$firstFile.$hashType"
-    elif [ "$merge" = FALSE ] && [ "$open" = TRUE ]; then xdg-open "$file.$hashType"
-    fi
+    if [ "$open" = TRUE ]; then xdg-open "$path"; fi
 
     counter=$(($counter+1))
     qdbus $dbusRef Set "" value $counter
