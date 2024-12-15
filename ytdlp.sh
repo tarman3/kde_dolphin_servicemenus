@@ -14,12 +14,13 @@ elif [ -d  "$arg1" ]; then dir="$arg1"
 else dir="$HOME"
 fi
 
+echo "Save to: $dir"
 cd "$dir"
 
 # link=`xclip -sel clip -o` # Get link from clipboard X11
 link=`wl-paste`             # Get link from clipboard Wayland
 link=${link%%&*}
-echo "$link"
+echo "Link:    $link"
 echo
 if [[ "$link" != http* ]]; then
     kdialog --title "yt-dlp" --icon "error" --passivepopup "Clipboard does not contain link" 3
