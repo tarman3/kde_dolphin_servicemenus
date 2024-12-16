@@ -11,13 +11,23 @@ done
 arg1="$1"
 if [ -f  "$arg1" ]; then dir=${arg1%/*}
 elif [ -d  "$arg1" ]; then dir="$arg1"
-else
-    kdialog --title "Downloading" --icon "error" --passivepopup "Can not get dir path" 3
-    exit
+else dir="$HOME"
 fi
 
-# link=`xclip -sel clip -o` # Get link from clipboard X11
-link=`wl-paste`             # Get link from clipboard Wayland
+echo "Save to: $dir"
+echo
+
+arg2="$2"
+if [ "$arg2" != "" ]; then
+    link="$arg2"
+else
+    # link=`xclip -sel clip -o` # Get link from clipboard X11
+    link=`wl-paste`             # Get link from clipboard Wayland
+fi
+
+link=${link%%&*}
+echo "Link:    $link"
+echo
 if [[ "$link" != http* ]]; then
     kdialog --title "Downloading" --icon "error" --passivepopup "Clipboard does not contain link" 3
     exit
