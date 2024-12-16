@@ -17,8 +17,14 @@ fi
 echo "Save to: $dir"
 cd "$dir"
 
-# link=`xclip -sel clip -o` # Get link from clipboard X11
-link=`wl-paste`             # Get link from clipboard Wayland
+arg2="$2"
+if [ "$arg2" != "" ]; then
+    link="$arg2"
+else
+    # link=`xclip -sel clip -o` # Get link from clipboard X11
+    link=`wl-paste`             # Get link from clipboard Wayland
+fi
+
 link=${link%%&*}
 echo "Link:    $link"
 echo
