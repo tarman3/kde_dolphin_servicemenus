@@ -12,6 +12,6 @@ Icon=configure
 Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/media_process.sh "${args:1}"
 
 [Desktop Action media_extract_audio]
-Name=Extract audio
-Icon=configure
-Exec=for file in %F; do ffmpeg -i "$file" -vn -acodec copy "${file%.*}.aac"; done; kdialog --title "Extract audio" --icon "checkbox" --passivepopup "Completed" 3
+Name=Extract Audio
+Icon=audio-ac3
+Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/media_extract_audio.sh "${args:1}"
