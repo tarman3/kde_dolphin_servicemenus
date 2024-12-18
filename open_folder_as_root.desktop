@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Service
+MimeType=inode/directory;application/octet-stream
+Actions=open_as_root
+X-KDE-RequiredNumberOfUrls=1
+
+
+[Desktop Action open_as_root]
+Name=Open folder in Dolphin as Root
+Icon=user-identity
+Exec=pkexec env WAYLAND_DISPLAY="$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY" XDG_RUNTIME_DIR=/run/user/0 dolphin %d

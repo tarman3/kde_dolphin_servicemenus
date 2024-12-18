@@ -56,6 +56,7 @@ sudo pacman -S bc cwebp enca jpegoptim ffmpeg imagemagick kdialog meld oxipng pe
 |**media_process**|Изменить формат, bitrate, разрешение, кодек, поворот|
 |**meld**|Сравнить файлы/каталоги по содержимому|
 |**ocr**|Распознать текст программой tesseract|
+|**open_folder_as_root**|Открыть в файловом менеджере Doplhin от имени root|
 |**pdf_combine**|Объединить PDF/изображения в PDF|
 |**pdf_compress**|Сжать PDF|
 |**pdf_convert2image**|Преобразовать страницы PDF в изображения|
@@ -72,3 +73,5 @@ sudo pacman -S bc cwebp enca jpegoptim ffmpeg imagemagick kdialog meld oxipng pe
 - [Shell scripting with KDE dialogs](https://develop.kde.org/docs/administration/kdialog)  
 - [Yet Another Dialog](https://github.com/v1cont/yad)  
 - [Nemo Actions - LinuxMint](https://github.com/demonlibra/nemo-actions)  
+- [Exec key](https://specifications.freedesktop.org/desktop-entry-spec/latest/exec-variables.html)
+- [Recognized desktop entry keys](https://specifications.freedesktop.org/desktop-entry-spec/latest/recognized-keys.html)

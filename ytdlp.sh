@@ -45,7 +45,7 @@ if [[ `echo "$link" | grep 'list'` ]]
 fi
 
 echo
-echo -e "Enter ID (default 18). E.g. 139+134 or 't' for download thumbnail"
+echo -e "Enter ID (18 or 139+134 or 18+t for download thumbnail), default 18:"
 read formats
 
 if [ "$formats" = "" ]; then
