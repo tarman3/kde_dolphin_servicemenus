@@ -53,6 +53,7 @@ sudo pacman -S bc cwebp enca jpegoptim ffmpeg imagemagick kdialog meld oxipng pe
 |**images_webp_opti**|Сжать изображения WEBP|
 |**media_cut**|Вырезать фрагмент мультимедиа|
 |**media_cut_waste**|Отрезать начало и конец (для видео из OBS)|
+|**media_extract_audio**|Экспортировать звуковую дорожку|
 |**media_process**|Изменить формат, bitrate, разрешение, кодек, поворот|
 |**meld**|Сравнить файлы/каталоги по содержимому|
 |**ocr**|Распознать текст программой tesseract|

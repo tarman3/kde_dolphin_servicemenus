@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Service
 MimeType=video/*;audio/*
-Actions=media_process
+Actions=media_process;media_extract_audio
 X-KDE-Submenu=Media Actions
 X-KDE-Priority=TopLevel
 
@@ -10,3 +10,8 @@ X-KDE-Priority=TopLevel
 Name=Processing
 Icon=configure
 Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/media_process.sh "${args:1}"
+
+[Desktop Action media_extract_audio]
+Name=Extract audio
+Icon=configure
+Exec=for file in %F; do ffmpeg -i "$file" -vn -acodec copy "${file%.*}.aac"; done; kdialog --title "Extract audio" --icon "checkbox" --passivepopup "Completed" 3
