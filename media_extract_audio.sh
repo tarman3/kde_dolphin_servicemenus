@@ -1,5 +1,7 @@
 #!/bin/bash
 
+audioFormat='aac'
+
 oldIFS="$IFS"
 IFS=$';'
 read -r -a array <<< "$1"
@@ -11,7 +13,10 @@ dbusRef=`kdialog --title "Extract Audio" --progressbar "1 of $numberFiles  =>  $
 
 for file in "${array[@]}"; do
 
-    ffmpeg -i "$file" -vn -acodec copy "${file%.*}.aac"
+    amontAudioTracks=`ffprobe -v error -select_streams a -show_entries stream=index -of csv=p=0 "$file" | wc -w`
+    if [ "$amontAudioTracks" -ge 1 ]; then
+        ffmpeg -v error -i "$file" -vn -acodec copy "${file%.*}.${audioFormat}"
+    fi
 
     counter=$(($counter+1))
     qdbus $dbusRef Set "" value $counter
