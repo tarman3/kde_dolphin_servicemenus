@@ -36,7 +36,7 @@ parameters=`yad --borders=10 --width=800 --title="Media processing" \
     --field="Framerate" --field="FadeIn, sec" --field="FadeOut, sec" --field="CPU Core using:NUM" \
     --field="Advanced filters -vf" --field="Filters Help:LINK" \
     ""   "copy|^mkv|mov|mp4|avi|gif"   "4000|0..10000|500"   "" \
-    ""    "^copy|^h264 MPEG-4/AVC|hevc H.265|vp8|vp9|av1|vvc H.266|mpeg2video"   "copy|^mp3|aac|mute" \
+    ""    "^copy|^h264 MPEG-4/AVC|hevc H.265|vp8|vp9|av1|vvc H.266|mpeg2video"   "copy|^aac|mp3|mute" \
     "^No|CW|CCW"    "No|Horizontally|Vertically|HorVert"    ""    0    0    "1|0..12|1" \
     ""    "https://ffmpeg.org/ffmpeg-filters.html"`
 
@@ -64,7 +64,7 @@ videoCodec=$( echo $parameters | awk -F ',' '{print $6}')
 if [ "$format" != "gif" ]; then optionVideoCodec="-vcodec ${videoCodec%% *}"; fi
 
 audioCodec=$( echo $parameters | awk -F ',' '{print $7}')
-if [ "$audiocodec" = "mute" ]
+if [ "$audioCodec" = "mute" ]
     then optionAudioCodec="-an"; sufix="${sufix}_nosound"
     else optionAudioCodec="-acodec $audioCodec"
 fi
