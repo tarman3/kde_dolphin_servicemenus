@@ -15,12 +15,16 @@ read -r -a array <<< "$1"
 
 firstFile=${array[0]}
 path=${firstFile%/*}
-ext=${firstFile##*.}
 nameNoExt=${firstFile%.*}
 
+for file in "${array[@]}"; do
+    ext=${file##*.}
+    if [ "${ext,,}" = 'jpg' ]; then break; fi
+done
+
 if [ "${ext,,}" = "png" ]
-    then extForm="^png|jpg|tiff|bmp|webp"
-    else extForm="^jpg|png|tiff|bmp|webp"
+    then extForm="^png|jpg|webp|tiff|bmp"
+    else extForm="^jpg|png|webp|tiff|bmp"
 fi
 
 parameters=`yad --borders=10 --width=400 --height=250 --title="Merge Images" \
