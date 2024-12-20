@@ -5,6 +5,6 @@ Actions=backup;
 
 
 [Desktop Action backup]
-Name=Backup
+Name=Backup and add date/time to name
 Icon=backup
 Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/backup.sh "${args:1}"

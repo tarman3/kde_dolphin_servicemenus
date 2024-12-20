@@ -44,10 +44,10 @@ if [ "$method" = 'copy' ] || [ "$method" = 'move' ]; then
     done
 
 else
-    newName="${firstFile%.*}${sufix}.${method}"
-    echo ${array[@]}
+    newName="${sufix}.${method}"
     7z a "$newName" ${array[@]}
 fi
-kdialog --title "Rename files" --icon "checkbox" --passivepopup "Completed" 3
+
+kdialog --title "Backup files" --icon "checkbox" --passivepopup "Completed" 3
 
 
