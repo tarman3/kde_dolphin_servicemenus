@@ -35,6 +35,7 @@ sudo pacman -S bc cwebp enca jpegoptim ffmpeg imagemagick kdialog meld oxipng pe
 
 |Сценарий|Описание|
 |---|---|
+|**backup**|Резервная копия|
 |**delete_as_root**|Удалить c правами root|
 |**delete_secure**|Удалить средствами Secure delete|
 |**docs2pdf**|Конвертировать документы в PDF|
@@ -64,7 +65,6 @@ sudo pacman -S bc cwebp enca jpegoptim ffmpeg imagemagick kdialog meld oxipng pe
 |**pdf_decrypt**|Снять защиту с PDF|
 |**pdf_export_images**|Извлечь изображения из PDF|
 |**pdf_export_pages**|Извлечь страницы из PDF|
-|**timestamp**|Добавить дату к имени файла|
 |**txt_encoding**|Изменить кодировку текстовых файлов|
 |**wget**|Скачать файл по ссылке из буфера обмена|
 |**ytdlp**|Скачать видео по ссылке из буфера обмена|

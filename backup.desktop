@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Service
+MimeType=inode/directory;application/octet-stream
+Actions=backup;
+
+
+[Desktop Action backup]
+Name=Backup
+Icon=backup
+Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/backup.sh "${args:1}"
