@@ -29,10 +29,15 @@ echo "Changes"
 git --no-pager diff
 echo
 
-echo -e '\E[1;32m'"New files"'\E[0m'
-git ls-files --others --exclude-standard
-echo
+newFiles=`git ls-files --others --exclude-standard`
+if [ "$newFiles" ]; then
+    echo -e '\E[1;32m'"New files"'\E[0m'
+    echo $newFiles
+else
+    echo -e '\E[1;32m'"No new files"'\E[0m'
+fi
 
+echo
 read -p "Press ENTER to start "
 
 echo
