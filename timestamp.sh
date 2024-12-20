@@ -17,22 +17,25 @@ sufix=`date +%Y-%m-%d_%H-%M-%S`
 
 parameters=`yad --width=300 --borders=20 --title="Add Time Stamp to file name" \
     --form --separator="," --item-separator="|" \
-    --field="Sufix" --field="Rewrite original:CHK" \
-        "_$sufix"                  TRUE`
+    --field="Sufix" --field="Method:CB" \
+        "_$sufix"           'copy|move'`
 
 exit_status=$?; if [ $exit_status != 0 ]; then exit; fi
 
 sufix=$( echo $parameters | awk -F ',' '{print $1}')
-rewrite=$( echo $parameters | awk -F ',' '{print $2}')
+method=$( echo $parameters | awk -F ',' '{print $2}')
 
 
 for file in "${array[@]}"; do
 
-    newname="${file%.*}${sufix}.${file##*.}"
+    if [ -f "$file" ] && [[ "$file" == *.* ]]
+        then newname="${file%.*}${sufix}.${file##*.}"
+        else newname="${file}${sufix}"
+    fi
 
-    if [ "$rewrite" = TRUE ]
+    if [ "$method" = 'move' ]
         then mv "$file" "$newname"
-        else cp "$file" "$newname"
+        else cp -r "$file" "$newname"
     fi
 
 done
