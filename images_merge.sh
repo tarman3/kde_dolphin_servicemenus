@@ -30,8 +30,8 @@ fi
 parameters=`yad --borders=10 --width=400 --height=250 --title="Merge Images" \
     --item-separator="|" --separator="," --form  \
     --field="Direction:CB" --field="Space between images (px)" --field="Frame around images:CHK" \
-    --field="Background color:CB" --field="Format:CB" --field="Help:LINK" \
-    "^hor|vert" 5 FALSE "transparent|white|black" "$extForm" "https://imagemagick.org/script/montage.php"`
+    --field="Background color:CB" --field="Format:CB" --field="Lossy compress:CHK" --field="Help:LINK" \
+    "^hor|vert" 5 FALSE "transparent|white|black" "$extForm" TRUE "https://imagemagick.org/script/montage.php"`
 
 exit_status=$?; if [ $exit_status != 0 ]; then exit; fi
 
@@ -40,6 +40,7 @@ space=$(echo $parameters | awk -F ',' '{print $2}')
 frame=$(echo $parameters | awk -F ',' '{print $3}')
 backgroundColor=$(echo $parameters | awk -F ',' '{print $4}')
 ext=$(echo $parameters | awk -F ',' '{print $5}')
+compress=$(echo $parameters | awk -F ',' '{print $6}')
 
 newName="${nameNoExt}_$direction.$ext"
 
@@ -53,6 +54,12 @@ fi
 if [ "$frame" = TRUE ]
     then montage -background $backgroundColor -geometry $opt1 -tile $opt2 `echo "$1"` $ext: | montage - -background $backgroundColor -geometry $opt1 "$newName"
     else montage -background $backgroundColor -geometry $opt1 -tile $opt2 `echo "$1"` $ext: | magick - -shave $space $newName
+fi
+
+if [ "$compress" = TRUE ]; then
+    if [ "${ext,,}" = 'png' ]; then pngquant --strip --force --quality=60-80 "${newName}" --output "${newName}"
+    elif [ "${ext,,}" = 'jpg' ]; then jpegoptim --strip-all --overwrite --max=75 "$newName"
+    fi
 fi
 
 kdialog --title "Combine Images" --icon "checkbox" --passivepopup "Completed" 3
