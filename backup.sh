@@ -1,6 +1,6 @@
 #!/bin/bash
 
-utilities=('yad')
+utilities=('yad' '7z')
 for utility in ${utilities[@]}; do
     if ! command -v "$utility" 2>&1 >/dev/null; then
         kdialog --title "$utility" --icon "error" --passivepopup "Not found" 3
