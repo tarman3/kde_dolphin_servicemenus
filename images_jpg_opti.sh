@@ -17,8 +17,8 @@ firstFile=${array[0]}
 path=${firstFile%/*}
 
 parameters=`yad --borders=20 --width=500 --title="Compress JPG" --item-separator="|" --separator="," --form \
-    --field="Type:CB" --field="Quality:SCL" --field=" :LBL" --field="Dir to save:DIR" \
-    --field="Add sufix to name:CHK" \
+    --field="Type:CB" --field="Quality (only for lossy):SCL" --field=" :LBL" --field="Dir to save:DIR" \
+    --field="Add sufix to name (or overwrite original):CHK" \
     "lossy|lossless" "85"    ""    "$path"    TRUE`
 
 exit_status=$?; if [ $exit_status != 0 ]; then exit; fi
@@ -37,7 +37,7 @@ for file in "${array[@]}"; do
     fileName="${file##*/}"
     if [ "$sufix" = TRUE ]; then
         if [ "$type" = "lossless" ]
-            then file_out="$dir/${fileName%.*}_opti.${file##*.}"
+            then file_out="$dir/${fileName%.*}_${type}.${file##*.}"
             else file_out="$dir/${fileName%.*}_$quality.${file##*.}"
         fi
 

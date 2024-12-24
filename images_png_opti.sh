@@ -13,7 +13,7 @@ path=${firstFile%/*}
 parameters=`yad --borders=20 --width=500 --title="PNG Optimization" \
     --item-separator="|" --separator="," --form \
     --field="Type:CB" --field="Remove metadata:CHK" --field="Dir to save:DIR" \
-    --field="Add sufix to name:CHK" \
+    --field="Add sufix to name (or overwrite original):CHK" \
      "lossy|lossless"               TRUE                        "$path"                       TRUE`
 
 exit_status=$?; if [ $exit_status != 0 ]; then exit; fi
@@ -37,7 +37,7 @@ for file in "${array[@]}"; do
     fileName="${file##*/}"
 
     if [ "$sufix" = TRUE ]
-        then file_out="$dir/${fileName%.*}_opti.${fileName##*.}"
+        then file_out="$dir/${fileName%.*}_${type}.${fileName##*.}"
         else file_out="$dir/$fileName"
     fi
 
