@@ -7,4 +7,4 @@ Actions=test;
 [Desktop Action test]
 Name=Test
 # Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/delete.sh "${args:1}"
-Exec=~/.local/share/kio/servicemenus/test.sh %U
+Exec=~/.local/share/kio/servicemenus/test.sh %d

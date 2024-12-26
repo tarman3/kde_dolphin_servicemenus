@@ -1,12 +1,12 @@
 #!/bin/bash
 
-echo "$@" > /tmp/test1
+# echo "$@" > /tmp/test1
 echo $1 >> /tmp/test1
-echo $2 >> /tmp/test1
+# echo $2 >> /tmp/test1
 
 # oldIFS="$IFS"
-IFS=$';'
-echo "$@" >> /tmp/test1
+# IFS=$';'
+# echo "$@" >> /tmp/test1
 
 # read -r -a array <<< "$1"
 # IFS="$oldIFS"
@@ -26,6 +26,6 @@ echo "$@" >> /tmp/test1
 # echo $1 >> /tmp/test
 # echo --- >> /tmp/test
 
-for file in "$@"; do
-    echo $file >> /tmp/test
-done
+# for file in "$@"; do
+#     echo $file >> /tmp/test
+# done

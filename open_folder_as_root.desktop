@@ -8,4 +8,4 @@ X-KDE-RequiredNumberOfUrls=1
 [Desktop Action open_as_root]
 Name=Open folder in Dolphin as Root
 Icon=user-identity
-Exec=pkexec env WAYLAND_DISPLAY="$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY" XDG_RUNTIME_DIR=/run/user/0 dolphin %d
+Exec=arg1=%f; if [ -f  "$arg1" ]; then dir=${arg1%/*}; elif [ -d  "$arg1" ]; then dir="$arg1"; fi; pkexec env WAYLAND_DISPLAY="$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY" XDG_RUNTIME_DIR=/run/user/0 dolphin "$dir"
