@@ -28,7 +28,7 @@ chmod +x $HOME/.local/share/nemo/actions/*.desktop
 Пример для Archlinux:
 
 ```
-sudo pacman -S bc cwebp enca jpegoptim ffmpeg imagemagick kdialog meld oxipng perl-lwp-protocol-https pngquant qpdf tesseract-ocr tesseract-ocr-deu tesseract-ocr-ita tesseract-ocr-rus unoconv wl-paste yad
+sudo pacman -S bc libwebp enca jpegoptim imagemagick kdialog meld oxipng perl-lwp-protocol-https pngquant qpdf tesseract tesseract-data-deu tesseract-data-ita tesseract-data-rus unoconv wl-clipboard yad
 ```
 
 ## Список сценариев
