@@ -37,16 +37,19 @@ for file in "${array[@]}"; do
     fileName="${file##*/}"
     if [ "$sufix" = TRUE ]; then
         if [ "$type" = "lossless" ]
-            then file_out="$dir/${fileName%.*}_${type}.${file##*.}"
-            else file_out="$dir/${fileName%.*}_$quality.${file##*.}"
+            then
+                file_out="$dir/${fileName%.*}_${type}.${file##*.}"
+                jpegoptim --dest="$dir" --overwrite --force "$file" --stdout > "$file_out"
+            else
+                file_out="$dir/${fileName%.*}_$quality.${file##*.}"
+                jpegoptim --dest="$dir" --overwrite --force --max=$quality "$file" --stdout > "$file_out"
         fi
 
-        else file_out="$dir/$fileName"
-    fi
-
-    if [ "$type" = "lossless" ]
-        then jpegoptim --dest="$dir" --overwrite --force "$file" --stdout > "$file_out"
-        else jpegoptim --dest="$dir" --overwrite --force --max=$quality "$file" --stdout >> "$file_out"
+    else
+        if [ "$type" = "lossless" ]
+            then jpegoptim --dest="$dir" --overwrite --force "$file"
+            else jpegoptim --dest="$dir" --overwrite --force --max=$quality "$file"
+        fi
     fi
 
     counter=$(($counter+1))
