@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Service
+MimeType=application/octet-stream
+Actions=share_files
+X-KDE-Submenu=
+X-KDE-Priority=TopLevel
+
+
+[Desktop Action share_files]
+Name=LocalSend
+Icon=localsend
+Exec=localsend %F
