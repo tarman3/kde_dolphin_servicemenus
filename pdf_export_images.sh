@@ -16,17 +16,15 @@ IFS="$oldIFS"
 firstFile=${array[0]}
 path=${firstFile%/*}
 
-parameters=`yad --borders=10 --width=500 --title="Export images from PDF" \
-    --form --item-separator="|" --separator="," \
-    --field="First page:NUM" --field="Last page:NUM" --field="Amount pages:NUM" --field="All pages:CHK" \
-                "1"                         "1"                     "1"                 FALSE`
+parameters=`kdialog --geometry 300x200 --title="Export images from PDF" \
+    --inputbox "Pages number (1-3) or (5-) or (-3) or ( ) for all pages" ""`
 
 exit_status=$?; if [ $exit_status != 0 ]; then exit; fi
 
-firstPage=$(echo $parameters | awk -F ',' '{print $2}')
-lastPage=$(echo $parameters | awk -F ',' '{print $3}')
-quantity=$(echo $parameters | awk -F ',' '{print $4}')
-all=$(echo $parameters | awk -F ',' '{print $5}')
+firstPage=${parameters%-*}
+lastpage=${parameters##*-}
+if [ -n "$firstPage" ]; then first="-f $firstPage"; fi
+if [ -n "$lastPage" ]; then last="-f $lastPage"; fi
 
 
 numberFiles=${#array[@]}
@@ -37,19 +35,9 @@ for file in "${array[@]}"; do
     dirExport="${file%.*}_images"
     pathExport="${dirExport}/img"
 
-    mkdir "$dirExport"
+    mkdir -p "$dirExport"
 
-    if [ "$all" = TRUE ]
-    then pdfimages -all -p "$file" "$pathExport"
-
-    elif [ $quantity -ge 1 ] && [ $lastPage -le $firstPage ]
-    then pdfimages -all -p -f $firstPage -l $(($firstPage+$quantity-1)) "$file" "$pathExport"
-
-    elif [ $lastPage -gt $firstPage ]
-    then pdfimages -all -p -f $firstPage -l $lastPage "$file" "$pathExport"
-
-    else pdfimages -all -p -f $firstPage -l $firstPage "$file" "$pathExport"
-    fi
+    pdfimages $first $last -print-filenames -all -p "$file" "$pathExport"
 
     counter=$(($counter+1))
     qdbus $dbusRef Set "" value $counter
