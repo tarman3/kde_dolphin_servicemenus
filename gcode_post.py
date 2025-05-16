@@ -44,8 +44,8 @@ parser.add_argument("-p", "--postamble", default="", type=str, action="store",
                     help ="Add line to end of the file. Use '\\n' for line break")
 parser.add_argument("-f", "--removeFirstG0Z", action="store_true",
                     help ="Comment first G0 movement")
-parser.add_argument("-z", "--replaceSecondZ", default=85, action="store",
-                    help ="Replace Z coordinate for second G0 movement")
+parser.add_argument("-z", "--replaceStartZ", default=85, action="store",
+                    help ="Replace Z coordinate for start G0 movements")
 parser.add_argument("--removeG0X0Y0", action="store_true",
                     help ="Remove movements G0 X0 Y0")
 # parser.add_argument("--dialog", action="store_true",
@@ -62,17 +62,17 @@ deltaXY = args.deltaXY
 newFileSuffix = args.suffix
 postamble = args.postamble
 removeFirstG0Z = args.removeFirstG0Z
-replaceSecondG0Z = args.replaceSecondZ
+replaceStartZ = args.replaceStartZ
 removeG0X0Y0 = args.removeG0X0Y0
 # showDialog = args.dialog
 repeats = args.repeats
 skiphead = args.skiphead
 
 if not deltaXY:
-    deltaXY = simpledialog.askfloat("gcode_cleanG0", "deltaXY", initialvalue=deltaXY)
+    deltaXY = simpledialog.askfloat("gcode_cleanG0", "deltaXY", initialvalue=1)
 
 if not repeats:
-    repeats = simpledialog.askinteger("gcode_cleanG0", "repeats", initialvalue=repeats)
+    repeats = simpledialog.askinteger("gcode_cleanG0", "repeats", initialvalue=1)
 
 
 files = []
@@ -101,20 +101,18 @@ for path in files:
     positionNext = {'x':None, 'y':None, 'z':None}
     G123Prev = {'x':None, 'y':None, 'z':None}
     G123Next = {'x':None, 'y':None, 'z':None}
-    firstG0 = True
-    secondG0 = True
+    counterG0 = 0
     lineNum = 0
     lineSkipHead = 0
 
     for line in lines:
 
         if re.search(r'G0\s.*Z', line, re.IGNORECASE):
-            if removeFirstG0Z and firstG0:
+            counterG0 += 1
+            if removeFirstG0Z and (counterG0 == 1):
                 lines2comment.append(lineNum)
-                firstG0 = False
-            elif not firstG0 and secondG0 and replaceSecondG0Z:
-                lines[lineNum] = re.sub(r'Z-?\d+.\d+', f'Z{replaceSecondG0Z}', line, re.IGNORECASE)
-                secondG0 = False
+            if (counterG0 == 1 or counterG0 == 2) and replaceStartZ:
+                lines[lineNum] = re.sub(r'Z-?\d+.\d+', f'Z{replaceStartZ}', line, re.IGNORECASE)
 
         if removeG0X0Y0 and line.strip() == 'G0 X0.000 Y0.000':
             lines2comment.append(lineNum)
