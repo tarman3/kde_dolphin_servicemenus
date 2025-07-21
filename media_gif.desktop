@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Service
+MimeType=video/*
+Actions=convert2gif
+X-KDE-Submenu=Media Actions
+X-KDE-Priority=TopLevel
+
+
+[Desktop Action convert2gif]
+Name=Convert to gif
+Icon=configure
+Exec=for path in %F; do in=$path; name="${in%.*}"; out="${name}.gif"; gifski --quality 50 "$in" --output "$out"; done

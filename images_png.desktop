@@ -2,7 +2,7 @@
 Type=Service
 MimeType=image/png;
 Icon=graphics
-Actions=png_opti
+Actions=png_opti;png2gif
 X-KDE-Submenu=Images Actions
 X-KDE-Priority=TopLevel
 
@@ -11,3 +11,10 @@ X-KDE-Priority=TopLevel
 Name=PNG Optimization
 Icon=image-png
 Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenus/images_png_opti.sh "${args:1}"
+
+[Desktop Action png2gif]
+Name=PNG to gif
+Icon=image-png
+Exec=gifski --quality 50 --output "output.gif" %F
+# Exec=for file in %F; do args=$args';'$file; done; gifski --quality 50 --output "output.gif" "${args:1}"
+# Exec=for file in %F; do args=$args';'$file; done; echo 1 > "${args:1}"

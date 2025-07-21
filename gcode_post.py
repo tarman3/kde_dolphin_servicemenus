@@ -1,19 +1,26 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Remove useless vertical movements between operations
+"""
+Remove useless vertical movements between operations
 
-# This script commenting lines with G0 movements
-# if X and Y coordinates did not changed in G1/G2/G3
+This script commenting lines with G0 movements
+if X and Y coordinates did not changed in G1/G2/G3
 
 
-# 2025-04-13 Fix for gcode with DressupPathBoundary (G1/G2/G3 without X/Y)
-# 2025-04-14 More fix for gcode with DressupPathBoundary (G1/G2/G3 without X/Y)
+2025-04-13 Fix for gcode with DressupPathBoundary (G1/G2/G3 without X/Y)
+2025-04-14 More fix for gcode with DressupPathBoundary (G1/G2/G3 without X/Y)
 
-# 2025-04-15 Added argparse
-#    python gcode_cleanG0.py --help
-#    python gcode_cleanG0.py -d 1.5 'mill1.nc' 'mill2.nc'
+2025-04-15 Added argparse
+   python gcode_cleanG0.py --help
+   python gcode_cleanG0.py -d 1.5 'mill1.nc' 'mill2.nc'
 
+2025-05-15  Remove G0 X0 Y0
+            Gui for enter threshold, repeat
+            --replaceStartZ
+            --repeats
+            -skiphead
+"""
 
 import os
 import re
@@ -36,10 +43,10 @@ def getPosition(line):
 parser = argparse.ArgumentParser()
 parser.add_argument("files", type=argparse.FileType("r"), nargs="*",
                     help ="Path to gcode files")
-parser.add_argument("-d", "--deltaXY", default=0, type=float, action="store",
-                    help ="Max distance between operations to comment G0 movements")
+parser.add_argument("-t", "--threshold", default=0, type=float, action="store",
+                    help ="Retract threshold to keep tool down")
 parser.add_argument("-s", "--suffix", default="_post", type=str, action="store",
-                    help ="Suffix for new anme to save result Gcode")
+                    help ="Suffix for new name to save result Gcode")
 parser.add_argument("-p", "--postamble", default="", type=str, action="store",
                     help ="Add line to end of the file. Use '\\n' for line break")
 parser.add_argument("-f", "--removeFirstG0Z", action="store_true",
@@ -48,8 +55,6 @@ parser.add_argument("-z", "--replaceStartZ", default=85, action="store",
                     help ="Replace Z coordinate for start G0 movements")
 parser.add_argument("--removeG0X0Y0", action="store_true",
                     help ="Remove movements G0 X0 Y0")
-# parser.add_argument("--dialog", action="store_true",
-                    # help ="Show dialog to enter value deltaXY")
 parser.add_argument("--repeats", default=0, type=int, action="store",
                     help ="Set repeats for continous working")
 parser.add_argument("--skiphead", action="store_true",
@@ -58,18 +63,17 @@ parser.add_argument("--skiphead", action="store_true",
 
 args = parser.parse_args()
 
-deltaXY = args.deltaXY
+threshold = args.threshold
 newFileSuffix = args.suffix
 postamble = args.postamble
 removeFirstG0Z = args.removeFirstG0Z
 replaceStartZ = args.replaceStartZ
 removeG0X0Y0 = args.removeG0X0Y0
-# showDialog = args.dialog
 repeats = args.repeats
 skiphead = args.skiphead
 
-if not deltaXY:
-    deltaXY = simpledialog.askfloat("gcode_cleanG0", "deltaXY", initialvalue=1)
+if not threshold:
+    threshold = simpledialog.askfloat("gcode_cleanG0", "threshold", initialvalue=1)
 
 if not repeats:
     repeats = simpledialog.askinteger("gcode_cleanG0", "repeats", initialvalue=1)
@@ -89,7 +93,6 @@ else:
         except: Exception
 
 
-print(f'\nDeltaY = {deltaXY}\n')
 for path in files:
 
     with open(path, "r") as file:
@@ -134,7 +137,7 @@ for path in files:
             and G123Prev['x'] is not None \
             and G123Prev['y'] is not None \
             and tempG0LinesNum \
-            and ((positionNext['x']-G123Prev['x'])**2 + (positionNext['y']-G123Prev['y'])**2)**0.5 <= deltaXY:
+            and ((positionNext['x']-G123Prev['x'])**2 + (positionNext['y']-G123Prev['y'])**2)**0.5 <= threshold:
                 lines2comment.extend(tempG0LinesNum)
 
             tempG0LinesNum.clear()
@@ -148,7 +151,7 @@ for path in files:
         lines[i] = f'({lines[i].strip()})\n'
 
     if lines2comment:
-        text = f'(PostProcess {newFileSuffix})\n(Amount lines commented by cleanG0: {len(lines2comment)})\n(deltaXY = {deltaXY})\n'
+        text = f'(PostProcess {newFileSuffix})\n(Amount lines commented by cleanG0: {len(lines2comment)})\n(threshold = {threshold})\n'
         lines.insert(2, text)
 
     if postamble: lines.append(postamble.replace('\\n', '\n'))
