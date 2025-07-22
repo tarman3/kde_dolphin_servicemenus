@@ -15,6 +15,5 @@ Exec=for file in %F; do args=$args';'$file; done; ~/.local/share/kio/servicemenu
 [Desktop Action png2gif]
 Name=PNG to gif
 Icon=image-png
-Exec=gifski --quality 50 --output "output.gif" %F
-# Exec=for file in %F; do args=$args';'$file; done; gifski --quality 50 --output "output.gif" "${args:1}"
-# Exec=for file in %F; do args=$args';'$file; done; echo 1 > "${args:1}"
+# Exec=gifski --width 1600 --quality 50 --fps 0.5 --output "output.gif" %F
+Exec=~/.local/share/kio/servicemenus/images_gifski.sh %F
